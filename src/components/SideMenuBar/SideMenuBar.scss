@@ -1,0 +1,127 @@
+.sidebar ol, ul {
+    list-style: none;
+}
+.sidebar {
+    width: 250px;
+    height: calc(100% - 57px);
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    overflow: hidden;
+    -webkit-box-shadow: 0 0 60px rgba(23,93,157,.5);
+    box-shadow: 0 0 60px rgba(23,93,157,.5);
+    background-color: #f4f7fa;
+}
+.sidebar-item--active {
+    border-left-color: #175d9d;
+}
+.sidebar-item--active, .sidebar-item:hover {
+    opacity: 1;
+}
+.sidebar-item {
+    display: block;
+    max-width: 250px;
+    height: 39px;
+    padding-left: 25px;
+    padding-right: 10px;
+    line-height: 39px;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 600;
+    border-left: 5px solid transparent;
+    border-bottom: 1px solid #d6e2ee;
+    opacity: .5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: #175d9d;
+}
+.sidebar-toggler {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    background-color: rgba(205,223,238,.59);
+    cursor: pointer;
+    -webkit-box-shadow: 11px 17px 20px 17px rgba(23,93,157,.5);
+    box-shadow: 11px 17px 20px 17px rgba(23,93,157,.5);
+}
+
+.sidebar-item-icon {
+    width: 20px;
+    height: 20px;
+    margin-top: -3px;
+    margin-right: 10px;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: middle;
+}
+.sidebar-icon-home {
+    background-image: url(/assets/images/sidebar/sidebar-ico-home.svg);
+}
+.sidebar-icon-my-team {
+    background-image: url(/assets/images/sidebar/sidebar-ico-my-team.svg);
+}
+.sidebar-icon-personal-information {
+    background-image: url(/assets/images/sidebar/sidebar-ico-personal-information.svg);
+}
+.sidebar-icon-job-info {
+    background-image: url(/assets/images/sidebar/sidebar-ico-job-info.svg);
+}
+.sidebar-icon-compensation {
+    background-image: url(/assets/images/sidebar/sidebar-ico-compensation.svg);
+}
+.sidebar-icon-benefits {
+    background-image: url(/assets/images/sidebar/sidebar-ico-benefits.svg);
+}
+.sidebar-icon-time-off {
+    background-image: url(/assets/images/sidebar/sidebar-ico-time-off.svg);
+}
+.sidebar-icon-org-chart {
+    background-image: url(/assets/images/sidebar/sidebar-ico-org-chart.svg);
+}
+.sidebar-icon-comparison {
+    background-image: url(/assets/images/sidebar/sidebar-ico-comparison.svg);
+}
+.sidebar-icon-development {
+    background-image: url(/assets/images/sidebar/sidebar-ico-development.svg);
+}
+.sidebar-icon-expenses {
+    background-image: url(/assets/images/sidebar/sidebar-ico-expenses.svg);
+}
+.sidebar-icon-documentation {
+    background-image: url(/assets/images/sidebar/sidebar-ico-documentation.svg);
+}
+.sidebar-icon-audit {
+    background-image: url(/assets/images/sidebar/sidebar-ico-audit.svg);
+}
+.sidebar-icon-comapny {
+    background-image: url(/assets/images/sidebar/sidebar-logo-company.svg);
+    background-size: 100%;
+}
+.sidebar-toggler svg {
+	width: 20px;
+	height: 20px;
+	position: absolute;
+	right: 10px;
+	top: 15px;
+	-webkit-transform: rotate(180deg);
+	transform: rotate(180deg);
+	opacity: .8
+}
+.sidebar-toggler:hover svg {
+	right: 15px
+}
+.sidebar-toggler.active svg {
+	-webkit-transform: rotate(0);
+	transform: rotate(0);
+	right: 30px
+}
+.sidebar-hidden .sidebar {
+	width: 75px
+}
+.sidebar-hidden .app {
+	margin-left: 75px
+}

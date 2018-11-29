@@ -1,0 +1,72 @@
+.landing-page-wrapper {
+  width: 60%;
+  margin: 0 auto 0px;
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  height: 100%;
+  padding-top: 70px;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  // -webkit-flex-flow: row wrap;
+  // justify-content: space-around;
+}
+.tile-flext-wrap {
+  // flex-wrap: wrap;
+  // align-self: center;
+  width: 25%;
+  padding: 0 10px;
+}
+.landing-panel {
+  // padding: 10px;
+  border-radius: 3px;
+  text-align: center;
+  margin-bottom: 3px;
+  min-height: 24vh;
+  box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+  margin-bottom: 15px;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#2b6927+0,5bbc2e+100 */
+  background: #2b6927; /* Old browsers */
+  background: -moz-linear-gradient(
+    -45deg,
+    #2b6927 0%,
+    #5bbc2e 100%
+  ); /* FF3.6-15 */
+  background: -webkit-linear-gradient(
+    -45deg,
+    #2b6927 0%,
+    #5bbc2e 100%
+  ); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(
+    135deg,
+    #2b6927 0%,
+    #5bbc2e 100%
+  ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#2b6927', endColorstr='#5bbc2e',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
+
+// commented the below lines for hover effect - start
+// .landing-panel p img {
+//   height: 10vh;
+// }
+// .landing-panel a {
+//   text-decoration: none;
+//   color: #ffffff;
+// }
+// .landing-panel p {
+//   font-size: 15px;
+//   font-weight: bold;
+//   margin-top: 15px;
+//   // white-space: nowrap;
+//   // overflow: hidden;
+//   // text-overflow: ellipsis;
+// }
+// commented the below lines for hover effect - end

@@ -1,0 +1,18 @@
+.loader .loader-style {
+  position: fixed;
+  // width: 100%;
+  // height: 100%;
+  left: 45%;
+  top: 45%;
+  z-index: 13;
+}
+.loader-overlay {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background: #000000;
+  opacity: 0.5;
+  z-index: 12;
+  left: 0px;
+  top: 0px;
+}

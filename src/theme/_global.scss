@@ -1,0 +1,422 @@
+$primary: #0073a8;
+$white: #ffffff;
+a {
+  cursor: pointer;
+}
+.margin {
+  margin: 15px;
+}
+.padding {
+  padding: 15px;
+}
+.no-margin,
+#no-margin {
+  margin: 0px;
+}
+.margin-right {
+  margin-right: 15px;
+}
+
+.margin-left {
+  margin-left: 15px;
+}
+
+.margin-top {
+  margin-top: 15px;
+}
+
+.margin-bottom {
+  margin-bottom: 15px;
+}
+.margin-bottom10 {
+  margin-bottom: 10px !important;
+}
+.margin-top10 {
+  margin-top: 10px;
+}
+.margin-horizontal {
+  margin: 0px 15px;
+}
+.margin-vertical {
+  margin: 15px 0px;
+}
+.no-padding {
+  padding: 0px !important;
+}
+
+.padding-right {
+  padding-right: 15px;
+}
+
+.padding-left {
+  padding-left: 15px;
+}
+
+.padding-top {
+  padding-top: 15px;
+}
+
+.padding-bottom {
+  padding-bottom: 15px;
+}
+.padding-vertical {
+  padding: 15px 0;
+}
+.padding-horizontal {
+  padding: 0 15px;
+}
+.padding-right30 {
+  padding-right: 30px;
+}
+.padding-left30 {
+  padding-left: 30px;
+}
+.np-left {
+  padding-left: 0px;
+}
+.np-right {
+  padding-right: 0px;
+}
+.np-top {
+  padding-top: 0px !important;
+}
+.np-bottom {
+  padding-bottom: 0px;
+}
+.full-width {
+  width: 100%;
+}
+.row {
+  margin-left: auto;
+  margin-right: auto;
+}
+.custom-select {
+  width: 100%;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  min-height: 5vh;
+  height: 5vh;
+  padding: 5px 30px 5px 5px;
+  border: 1px solid #e0e0e0;
+  border-radius: 2px;
+  color: #222;
+  background-color: #fff;
+  background-image: none;
+  background-clip: padding-box;
+  font-size: 13px;
+  line-height: 18px;
+  -webkit-transition: border-color ease-in-out 0.15s,
+    -webkit-box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s,
+    -webkit-box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+  transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s,
+    -webkit-box-shadow ease-in-out 0.15s;
+}
+input.form-control:hover,
+textarea.form-control:hover,
+.select2-search input:hover,
+input.form-control:focus,
+textarea.form-control:focus,
+.select2-search input:focus {
+  -webkit-box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  border-color: #008329;
+}
+label {
+  font-weight: normal;
+}
+.border {
+  border: 1px solid #e0e0e0;
+}
+
+.border-top {
+  border-top: 1px solid #e0e0e0;
+}
+
+.border-bottom {
+  border-bottom: 1px solid #e0e0e0;
+}
+.cyan {
+  color: #14bff4;
+}
+.gray {
+  color: gray;
+}
+.green-text {
+  color: #008329;
+}
+.back-button {
+  line-height: 40px;
+  font-size: 15px;
+  cursor: pointer;
+  color: #008329;
+}
+.back-button:hover span {
+  text-decoration: underline;
+}
+.MuiPaper-rounded-17 {
+  border-radius: 0px !important;
+}
+.ReactTable .rt-thead .rt-th,
+.table tr th {
+  background: $primary;
+  color: #ffffff;
+  border-right: 1px solid #ffffff;
+}
+.ReactTable .rt-thead .rt-th:last-child {
+  border-right: none;
+}
+.ReactTable {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+hr {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+.border-left {
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+}
+.css-1aya2g8 {
+  background: #ffffff !important;
+}
+@media only screen and (max-width: 893px) {
+  .header-logo img {
+    height: 4vh;
+  }
+  .col-lg-1,
+  .col-lg-10,
+  .col-lg-11,
+  .col-lg-12,
+  .col-lg-2,
+  .col-lg-3,
+  .col-lg-4,
+  .col-lg-5,
+  .col-lg-6,
+  .col-lg-7,
+  .col-lg-8,
+  .col-lg-9,
+  .col-md-1,
+  .col-md-10,
+  .col-md-11,
+  .col-md-12,
+  .col-md-2,
+  .col-md-3,
+  .col-md-4,
+  .col-md-5,
+  .col-md-6,
+  .col-md-7,
+  .col-md-8,
+  .col-md-9,
+  .col-sm-1,
+  .col-sm-10,
+  .col-sm-11,
+  .col-sm-12,
+  .col-sm-2,
+  .col-sm-3,
+  .col-sm-4,
+  .col-sm-5,
+  .col-sm-6,
+  .col-sm-7,
+  .col-sm-8,
+  .col-sm-9,
+  .col-xs-1,
+  .col-xs-10,
+  .col-xs-11,
+  .col-xs-12,
+  .col-xs-2,
+  .col-xs-3,
+  .col-xs-4,
+  .col-xs-5,
+  .col-xs-6,
+  .col-xs-7,
+  .col-xs-8,
+  .col-xs-9 {
+    float: left;
+  }
+}
+input::-webkit-input-placeholder {
+  color: gray;
+  opacity: 0.5;
+  font-size: 11px;
+}
+
+input::-moz-placeholder {
+  color: gray;
+  opacity: 0.5;
+  font-size: 11px;
+}
+
+input::-ms-placeholder {
+  color: gray;
+  opacity: 0.5;
+  font-size: 11px;
+}
+
+input::placeholder,
+.css-1492t68 {
+  color: gray;
+  opacity: 0.5;
+  font-size: 11px;
+}
+.action-wrap ul.view-toggles,
+.action-buttons {
+  width: auto;
+  display: inline-block;
+  border: 1px solid #ededed;
+  border-radius: 30px;
+  background: #dbdbdb;
+}
+.custom-modal {
+  width: 85%;
+}
+.pagination > li > .selected-a {
+  background: #37a000 !important;
+  color: #ffffff;
+}
+.pagination > li > a:focus,
+.pagination > li > a:hover {
+  background: #5cb85c !important;
+  color: #ffffff;
+}
+.default-li {
+  border: none !important;
+}
+// .recharts-wrapper svg {
+//   width: 50%;
+//   height: 50%;
+//   margin: 0px;
+// }
+#barChart-Container {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 10px;
+  width: 100%;
+  height: 80%;
+  background-color: #fff;
+}
+.ReactTable .rt-thead.-filters input,
+.ReactTable .rt-thead.-filters select {
+  color: #000000;
+}
+.ReactTable .rt-thead .rt-th,
+.ReactTable .rt-thead .rt-td,
+.ReactTable .rt-th,
+.ReactTable .rt-td,
+.table tr td,
+.table tr th {
+  font-size: 13px;
+}
+// input[type='text'],
+// input[type='number'],
+// select,
+.css-1aya2g8,
+.css-2o5izw {
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  font-size: 12px;
+  height: calc(35px - 0.375rem);
+  min-height: auto !important;
+  background-color: #ffffff !important;
+}
+.css-162g8z5 {
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  font-size: 12px;
+  height: calc(35px - 0.375rem);
+  min-height: auto !important;
+}
+input[type='number'],
+input[type='text'],
+select {
+  font-size: 12px;
+}
+.snackbar-wrap > div > div {
+  font-size: 13px;
+}
+#paper-card {
+  padding: 10px !important;
+}
+#paper-card h3 {
+  margin: 0 0 15px;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #ededed;
+  font-weight: normal;
+}
+.label {
+  color: #000000;
+}
+.text-input,
+.DayPickerInput input {
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  font-size: 13px;
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #ffffff;
+  height: calc(35px - 0.375rem);
+}
+.input-group {
+  margin-bottom: 1rem;
+  display: block;
+}
+.grid-more-btn-bg {
+  width: 0;
+  height: 0;
+  border-top: 45px solid #37a000;
+  border-left: 45px solid transparent;
+}
+.more-bttn {
+  /* border-radius: 100%; */
+  width: 30px;
+  height: 30px;
+  line-height: 30px;
+  padding: 0px;
+  outline: none;
+  position: absolute;
+  top: 0px;
+  background: none;
+  border: none;
+  right: 0px;
+  color: #fff;
+  background: none;
+  border: none;
+  box-shadow: none;
+  margin-top: 0px;
+}
+.more-bttn:hover,
+.more-bttn:focus {
+  background: none !important;
+  border: none !important;
+  outline: none !important;
+  box-shadow: none;
+}
+.more-button-wrap {
+  position: absolute;
+  right: 0px;
+  top: -11px;
+  display: none;
+}
+.grid-panel:hover .more-button-wrap {
+  display: block;
+}
+.react-datepicker-wrapper,
+.react-datepicker__input-container {
+  width: 100%;
+}
+
+.text-area {
+  padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+  font-size: 13px;
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  background: #ffffff;
+  height: calc(75px - 0.375rem);
+}

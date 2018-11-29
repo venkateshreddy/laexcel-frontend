@@ -1,0 +1,89 @@
+.tree-select .toggle {
+  font-family: FontAwesome;
+  content: '\f077';
+  color: #555;
+  white-space: pre;
+  margin-right: 4px;
+}
+
+.tree-select .toggle.collapsed::after {
+  cursor: pointer;
+  content: '\f078';
+  vertical-align: middle;
+}
+
+.tree-select.toggle.expanded::after {
+  cursor: pointer;
+  content: '\f077';
+  vertical-align: middle;
+}
+
+/* checkbox styles */
+.tree-select .checkbox-item {
+  position: relative;
+  width: 1rem;
+  height: 1rem;
+  margin-right: 0.75rem;
+  cursor: pointer;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  outline: 0;
+  vertical-align: middle;
+}
+
+.tree-select .checkbox-item:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 1;
+  width: 100%;
+  height: 100%;
+  border: 2px solid #aaa;
+  transition: all 0.3s ease-in-out;
+}
+
+.tree-select .checkbox-item:checked:before {
+  height: 50%;
+  -webkit-transform: rotate(-45deg);
+  transform: rotate(-45deg);
+  border-top-style: none;
+  border-right-style: none;
+  border-color: #2196f3;
+}
+
+.tree-select .dropdown {
+  visibility: hidden;
+  width: 100%;
+}
+.tree-select .dropdown-content {
+  visibility: visible;
+}
+.tree-select .dropdown-trigger {
+  display: none;
+}
+.tree-select .react-dropdown-tree-select .dropdown .dropdown-content {
+  position: relative;
+}
+.tree-select .react-dropdown-tree-select .dropdown .dropdown-trigger {
+  display: none;
+}
+// .toggle {
+//   font-family: FontAwesome;
+// }
+// .toggle.expanded:after {
+//   content: '\f078';
+//   font-style: normal;
+//   font-weight: normal;
+//   text-decoration: inherit;
+// }
+.node {
+  color: #3f51b5;
+}
+// .tree-view {
+//   margin: 10px;
+// }
+.selected-child {
+  color: red;
+}

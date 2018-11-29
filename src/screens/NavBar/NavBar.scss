@@ -1,0 +1,103 @@
+.navbar {
+  padding: 0px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  z-index: 11;
+  background-color: #ffffff;
+  // z-index: 100;
+  min-height: 8vh;
+}
+.header-top-wrap {
+  height: 1px;
+  width: 85%;
+  margin: 0 auto;
+}
+// header {
+//   min-height: 70px;
+// }
+.header-logo {
+  line-height: 50px;
+  flex: 3;
+}
+.header-logo img {
+  height: 5vh;
+}
+.navigation {
+  background-color: #fff;
+  min-height: 55px;
+  -webkit-box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+  box-shadow: 0 1px 6px rgba(57, 73, 76, 0.35);
+  min-height: 40px;
+  padding-left: 0;
+  -webkit-transition: -webkit-transform 0.35s ease-out;
+  transition: -webkit-transform 0.35s ease-out;
+  transition: transform 0.35s ease-out;
+  transition: transform 0.35s ease-out, -webkit-transform 0.35s ease-out;
+}
+.navigation ul {
+  padding: 0px;
+  margin: 0px auto;
+  line-height: normal;
+  text-align: center;
+  width: 85%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  /*resize: horizontal;*/
+  overflow: hidden;
+  -webkit-box-flex: 0;
+  -ms-flex: 0 0 100%;
+  flex: 0 0 100%;
+  -webkit-box-pack: justify;
+  -ms-flex-pack: justify;
+  justify-content: space-between;
+}
+.navigation ul li {
+  flex: auto;
+}
+.navigation ul li a {
+  padding: 5px 10px;
+  text-decoration: none;
+  line-height: 30px;
+  cursor: pointer;
+  display: block;
+  color: #333333;
+}
+.navigation ul li a:hover {
+  color: #008329;
+}
+.search-wrap {
+  position: relative;
+}
+.search-wrap i {
+  position: absolute;
+  left: 10px;
+  top: 13px;
+  color: #008329;
+}
+.search-wrap input[type='text'] {
+  padding-left: 30px;
+}
+.help-wrap i {
+  // padding-top: 16px;
+  display: inline-block;
+  font-size: 22px;
+  color: #37a000;
+  line-height: 50px;
+}
+.search-down .text-input {
+  background: url(/assets/images/icons/search.svg) no-repeat 4px;
+  background-size: 22px;
+  padding-left: 33px;
+}
+.home-logout ul {
+  width: auto;
+  margin: 0px;
+  display: inline-block;
+}
+.home-logout ul li {
+  display: inline-block;
+}

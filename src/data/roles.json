@@ -1,0 +1,7 @@
+{
+  "roles": [
+    { "value": "Management", "label": "Management" },
+    { "value": "Execution", "label": "Execution" },
+    { "value": "Admin", "label": "Admin" }
+  ]
+}

@@ -1,0 +1,31 @@
+.default-li {
+  height: 30px;
+  width: 30px;
+  border: 1px solid #eef0da;
+  background: white;
+}
+.selected-li {
+  background: #0078c9;
+}
+.selected-a {
+  color: white !important;
+}
+.default-a {
+  color: #0078c9;
+  position: relative;
+  left: 8px;
+  top: 5px;
+}
+.pagination {
+  padding-left: 0;
+  margin: 20px 0;
+  border-radius: 4px;
+}
+.pagination > li:first-child {
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
+}
+.pagination > li:last-child {
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
+}

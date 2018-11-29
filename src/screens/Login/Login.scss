@@ -1,0 +1,167 @@
+.login-wrap {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  background: url(/assets/images/login-bg.jpg) no-repeat center center;
+  background-size: cover;
+}
+.login-wrapBG {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  width: 100%;
+  height: 100%;
+  background: url(/assets/images/login/login-background.jpg) no-repeat center
+    center;
+  background-size: cover;
+}
+.login-box-wrap {
+  // background: url(/assets/images/login/loginbox-bg.png) repeat;
+  width: 400px;
+  height: 360px;
+  border: 1px solid #ffffff;
+  position: absolute;
+  top: 20%;
+  left: 35%;
+  background: rgba(255, 221, 0, 1);
+  background: -moz-linear-gradient(
+    top,
+    rgba(255, 221, 0, 1) 0%,
+    rgba(255, 123, 0, 1) 100%
+  );
+  background: -webkit-gradient(
+    left top,
+    left bottom,
+    color-stop(0%, rgba(255, 221, 0, 1)),
+    color-stop(100%, rgba(255, 123, 0, 1))
+  );
+  background: -webkit-linear-gradient(
+    top,
+    rgba(255, 221, 0, 1) 0%,
+    rgba(255, 123, 0, 1) 100%
+  );
+  background: -o-linear-gradient(
+    top,
+    rgba(255, 221, 0, 1) 0%,
+    rgba(255, 123, 0, 1) 100%
+  );
+  background: -ms-linear-gradient(
+    top,
+    rgba(255, 221, 0, 1) 0%,
+    rgba(255, 123, 0, 1) 100%
+  );
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 221, 0, 1) 0%,
+    rgba(255, 123, 0, 1) 100%
+  );
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffdd00', endColorstr='#ff7b00', GradientType=0 );
+}
+.login-box-wrap .shadow-img {
+  position: absolute;
+  bottom: -32px;
+  left: 0px;
+  width: 400px;
+}
+.clarient-logo img {
+  width: 185px;
+}
+.login-fields {
+  padding: 40px;
+}
+.login-fields .login-textbox {
+  background: none;
+  background-color: transparent !important;
+  border: none;
+  border-bottom: 1px solid #ffffff;
+  border-radius: 0px;
+  color: #ffffff;
+  padding: 10px;
+  padding-right: 30px;
+  width: 100%;
+}
+.login-fields .login-textbox:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: #000 !important;
+}
+.position {
+  position: relative;
+}
+.position img {
+  position: absolute;
+  right: 0px;
+  width: 25px;
+}
+.register-forgot-sec p a {
+  color: #000000;
+}
+.login-bottom img {
+  width: 35px;
+}
+.login-button {
+  background: none;
+  box-shadow: none;
+  margin: 0px;
+  padding: 0px;
+}
+.clariant-logo img {
+  width: 180px;
+}
+.gbs-logo-wrap img {
+  width: 60px;
+}
+.gbs-logo-wrap h1 {
+  font-size: 20px;
+  font-weight: bold;
+}
+.login-textbox::-webkit-input-placeholder {
+  /* Chrome/Opera/Safari */
+  color: #ffffff;
+}
+.login-textbox::-moz-placeholder {
+  /* Firefox 19+ */
+  color: #ffffff;
+}
+.login-textbox:-ms-input-placeholder {
+  /* IE 10+ */
+  color: #ffffff;
+}
+.login-textbox:-moz-placeholder {
+  /* Firefox 18- */
+  color: #ffffff;
+}
+.login-textbox::placeholder {
+  color: #ffffff;
+}
+
+.login-textboxinput:-webkit-autofill {
+  background-color: red !important;
+  background-image: none !important;
+  color: rgb(0, 0, 0) !important;
+}
+.privacyPolicy a {
+  color: #ffffff;
+  font-size: 13px;
+  text-decoration: underline;
+}
+.contactCards-logo h1 {
+  font-size: 25px;
+  margin: 0px;
+  text-shadow: 1px 1px 1px #333;
+}
+.loginButton {
+  width: 50%;
+  height: 40px;
+  background-color: black;
+  color: white;
+  cursor: pointer;
+}
+.loginButton:enabled {
+  background-color: #31cc15;
+  color: black;
+}
