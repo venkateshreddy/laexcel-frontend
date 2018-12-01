@@ -23,6 +23,8 @@ class SideNavBar extends Component {
     this.props.dispatch(logOutClicked());
   };
 
+  hideNave = () => this.setState({ showNav: false });
+
   render() {
     return (
       <div className="navbar HeaderBar" style={{ backgroundColor: '#0073a8' }}>
@@ -137,32 +139,26 @@ class SideNavBar extends Component {
           <div>
             <SideNav
               showNav={this.state.showNav}
-              onHideNav={() => this.setState({ showNav: false })}
+              onHideNav={this.hideNave}
               title="Student Portal"
               items={[
-                <Link
-                  to={'student'}
-                  onClick={() => this.setState({ showNav: false })}
-                >
+                <Link to={'student'} onClick={this.hideNave}>
                   Student
                 </Link>,
-                <Link
-                  to={'organisation'}
-                  onClick={() => this.setState({ showNav: false })}
-                >
+                <Link to={'organisation'} onClick={this.hideNave}>
                   Organisation
                 </Link>,
-                <Link
-                  to={'stateandcity'}
-                  onClick={() => this.setState({ showNav: false })}
-                >
+                <Link to={'stateandcity'} onClick={this.hideNave}>
                   State & City
                 </Link>,
-                <Link
-                  to={'configuration'}
-                  onClick={() => this.setState({ showNav: false })}
-                >
+                <Link to={'configuration'} onClick={this.hideNave}>
                   Admin Configuration
+                </Link>,
+                <Link to="branch" onClick={this.hideNave}>
+                  Branch
+                </Link>,
+                <Link to="campus" onClick={this.hideNave}>
+                  Campus
                 </Link>
               ]}
               titleStyle={{ backgroundColor: '#0073a8' }}

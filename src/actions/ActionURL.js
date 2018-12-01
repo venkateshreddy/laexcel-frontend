@@ -230,3 +230,8 @@ export const CitiesURL = {
 export const StatesURL = {
   FETCH_STATES: `${AppConfig.API_BASE_URL}states`
 };
+
+export const CampusURL = {
+  CREATE_CAMPUS: `${AppConfig.API_BASE_URL}campuses`,
+  FETCH_CAMPUSES: `${AppConfig.API_BASE_URL}campuses`
+};

@@ -4,12 +4,13 @@ import { connect } from 'react-redux';
 
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
-import './Branch.scss';
-import { createBranch } from '../../actions/BranchActions';
+import './Campus.scss';
+import { createCampus } from '../../actions/CampusActions';
 
 const initialForm = {
-  name: '',
-  code: '',
+  campusName: '',
+  campusCode: '',
+  parentBranch: '',
   // parentOrg: null,
   line1: '',
   line2: '',
@@ -22,7 +23,7 @@ const initialForm = {
 const ADD = 'add';
 // const EDIT = 'edit';
 
-class BranchForm extends Component {
+class CampusForm extends Component {
   state = {
     type: '',
     form: initialForm,
@@ -57,10 +58,10 @@ class BranchForm extends Component {
     this.setState({ form, errors });
   };
 
-  getCities = cities =>
-    cities.map(city => (
-      <option key={city.id} value={city.id}>
-        {city.cityName}
+  getOptions = (array, label, value) =>
+    array.map(data => (
+      <option key={data.id} value={data[value]}>
+        {data[label]}
       </option>
     ));
 
@@ -73,8 +74,9 @@ class BranchForm extends Component {
   formatDataAndSave = form => {
     const { type } = this.state;
     const data = {
-      name: form.name,
-      code: form.code,
+      campusName: form.campusName,
+      campusCode: form.campusCode,
+      parentBranch: form.parentBranch,
       parentOrg: null,
       state: this.getState(form.city),
       address: {
@@ -87,7 +89,7 @@ class BranchForm extends Component {
       createdBy: null
     };
     if (type === ADD) {
-      this.props.dispatch(createBranch(data));
+      this.props.dispatch(createCampus(data));
       this.closeModal();
       this.resetForm();
     }
@@ -104,8 +106,11 @@ class BranchForm extends Component {
         const splCharsAllowed = ['line1', 'line2', 'line3'];
         // eslint-disable-next-line
         const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-        if (name === 'code' && !(value.length >= 3 && value.length <= 4)) {
-          errors[name] = 'Branch code must be 3-4 digits!';
+        if (
+          name === 'campusCode' &&
+          !(value.length >= 3 && value.length <= 4)
+        ) {
+          errors[name] = 'Campus code must be 3-4 digits!';
         } else if (!splCharsAllowed.includes(name) && format.test(value)) {
           errors[name] = 'Special characters are not allowed!';
         } else if (name === 'pincode' && value.length !== 6) {
@@ -123,7 +128,7 @@ class BranchForm extends Component {
 
   render() {
     const { showModal, type, form, errors } = this.state;
-    const { cities } = this.props;
+    const { cities, branches } = this.props;
     return (
       <div>
         <div className="action-icons">
@@ -133,7 +138,7 @@ class BranchForm extends Component {
         {showModal && (
           <LargeModal
             show={showModal}
-            header={`${startCase(type)} Branch`}
+            header={`${startCase(type)} Campus`}
             onHide={this.closeModal}
             onSave={this.onSubmit}
             saveText="Submit"
@@ -142,28 +147,38 @@ class BranchForm extends Component {
           >
             <form>
               <FieldGroup
-                id="branchName"
+                id="campusName"
                 type="text"
-                label="Branch Name"
-                placeholder="Enter branch name"
-                onChange={this.onChangeText('name')}
-                value={form.name}
-                validationState={errors.name !== '' ? 'error' : null}
-                help={errors.name !== '' ? errors.name : null}
+                label="Campus Name"
+                placeholder="Enter campus name"
+                onChange={this.onChangeText('campusName')}
+                value={form.campusName}
+                validationState={errors.campusName !== '' ? 'error' : null}
+                help={errors.campusName !== '' ? errors.campusName : null}
               />
               <FieldGroup
-                id="branchCode"
+                id="campusCode"
                 type="text"
-                label="Branch Code"
+                label="Campus Code"
                 minLength="3"
                 maxLength="4"
-                placeholder="Enter branch Code"
-                onChange={this.onChangeText('code')}
-                value={form.code}
-                validationState={errors.code !== '' ? 'error' : null}
-                help={errors.code !== '' ? errors.code : null}
+                placeholder="Enter campus Code"
+                onChange={this.onChangeText('campusCode')}
+                value={form.campusCode}
+                validationState={errors.campusCode !== '' ? 'error' : null}
+                help={errors.campusCode !== '' ? errors.campusCode : null}
               />
-              <label>Branch Address</label>
+              <FieldSelect
+                id="parentBranch"
+                label="Branch"
+                placeholder="Enter branch"
+                onChange={this.onChangeText('parentBranch')}
+                value={form.parentBranch}
+                validationState={errors.parentBranch !== '' ? 'error' : null}
+                help={errors.parentBranch !== '' ? errors.parentBranch : null}
+                options={this.getOptions(branches, 'name', 'id')}
+              />
+              <label>Campus Address</label>
               <FieldGroup
                 id="line1"
                 type="text"
@@ -196,14 +211,13 @@ class BranchForm extends Component {
               />
               <FieldSelect
                 id="city"
-                type="text"
                 label="City"
                 placeholder="Enter city"
                 onChange={this.onChangeText('city')}
                 value={form.city}
                 validationState={errors.city !== '' ? 'error' : null}
                 help={errors.city !== '' ? errors.city : null}
-                options={this.getCities(cities)}
+                options={this.getOptions(cities, 'cityName', 'id')}
               />
               <FieldGroup
                 id="pincode"
@@ -224,7 +238,8 @@ class BranchForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  cities: state.cities.cities
+  cities: state.cities.cities,
+  branches: state.branch.branches
 });
 
-export default connect(mapStateToProps)(BranchForm);
+export default connect(mapStateToProps)(CampusForm);
