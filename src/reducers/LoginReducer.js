@@ -6,7 +6,7 @@ import { routesOptions } from '../screens/Routes/RoutesOptions';
 const initialState = {
   userInfo: null,
   message: null,
-  loggedInUser: { email: 'demoUser@gmail.com' },
+  loggedInUser: null,
   menu: [{ id: 0, routing: 'student', icon: '', name: 'Student' }],
   routesMenu: []
 };
@@ -39,21 +39,21 @@ const setRouteOptions = user => {
   return filtered;
 };
 
-// const getInitialState = () => {
-//   const data = { ...initialState };
-//   const loggedInUser = sessionStorage.getItem('userdata');
-//   const parsedLoggedInUser = JSON.parse(loggedInUser);
-//   if (loggedInUser !== null) {
-//     data.loggedInUser = JSON.parse(loggedInUser);
-//     data.menu = setMenu(parsedLoggedInUser);
-//     data.routesMenu = setRouteOptions(parsedLoggedInUser);
-//   } else {
-//     return initialState;
-//   }
-//   return data;
-// };
+const getInitialState = () => {
+  const data = { ...initialState };
+  const loggedInUser = sessionStorage.getItem('userdata');
+  // const parsedLoggedInUser = JSON.parse(loggedInUser);
+  if (loggedInUser !== null) {
+    data.loggedInUser = JSON.parse(loggedInUser);
+    // data.menu = setMenu(parsedLoggedInUser);
+    // data.routesMenu = setRouteOptions(parsedLoggedInUser);
+  } else {
+    return initialState;
+  }
+  return data;
+};
 
-export default function reducer(state = initialState, action) {
+export default function reducer(state = getInitialState(), action) {
   let st = state;
   switch (action.type) {
     case LoginType.AUTHENTICATE: {

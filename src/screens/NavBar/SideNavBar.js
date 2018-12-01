@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Row, Col, SplitButton, MenuItem } from 'react-bootstrap';
 import SideNav from 'react-simple-sidenav';
 import Menu from '@material-ui/icons/Menu';
 import { Link } from 'react-router';
 import './NavBar.scss';
 import './sideNavBar.css';
+import { logOutClicked } from '../../actions/LoginAction';
 
 class SideNavBar extends Component {
   constructor() {
@@ -13,6 +15,14 @@ class SideNavBar extends Component {
       showNav: false
     };
   }
+
+  getOrganisation = e => {
+    console.log('e.target', e.target.value);
+  };
+  logOut = () => {
+    this.props.dispatch(logOutClicked());
+  };
+
   render() {
     return (
       <div className="navbar HeaderBar" style={{ backgroundColor: '#0073a8' }}>
@@ -33,7 +43,7 @@ class SideNavBar extends Component {
                 title="Open Menu"
               />
             </Col>
-            <Col lg={8} md={8} sm={8} className="header-logo np-left">
+            <Col lg={2} md={2} sm={2} className="header-logo np-left">
               <Link className="sidebar-logo" to="/">
                 <img
                   className="sidebar-logo-image"
@@ -43,13 +53,83 @@ class SideNavBar extends Component {
                 />
               </Link>
             </Col>
-            <Col lg={3} md={3} sm={3} style={{ float: 'right' }}>
+            <Col
+              lg={4}
+              md={4}
+              sm={4}
+              style={{
+                marginTop: '15px',
+                padding: '0px',
+                color: 'white',
+                textAlign: 'right'
+              }}
+            >
+              {`Welcome ${this.props.loggedInUser.email}`}
+            </Col>
+            <Col
+              lg={2}
+              md={2}
+              sm={2}
+              style={{
+                marginTop: '15px',
+                padding: '0px',
+                textAlign: 'right'
+              }}
+            >
+              <select onChange={this.getOrganisation}>
+                <option value="">Organisation</option>
+                <option value="ABC University">ABC University</option>
+                <option value="XYZ Organisation">XYZ Organisation</option>
+              </select>
+            </Col>
+            <Col
+              lg={2}
+              md={2}
+              sm={2}
+              style={{
+                marginTop: '15px',
+                padding: '0px',
+                textAlign: 'center'
+              }}
+            >
+              <select onChange={this.academicyear}>
+                <option value="">Academic Year</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+              </select>
+            </Col>
+            <Col
+              lg={1}
+              md={1}
+              sm={1}
+              style={{
+                marginTop: '8px',
+                padding: '0px'
+              }}
+            >
               <Link to="/" className="help-wrap">
-                <i
-                  className="fas fa-home"
-                  title="Home"
-                  style={{ color: 'white', float: 'right' }}
-                />
+                <SplitButton
+                  bsStyle="default"
+                  title={'Home'}
+                  // key={i}
+                  // id={`dropdown-basic-${i}`}
+                  style={{
+                    backgroundColor: 'white'
+                  }}
+                >
+                  {/* <MenuItem eventKey="1"></MenuItem>
+                  <MenuItem eventKey="2">Another action</MenuItem>
+                  <MenuItem eventKey="3" active>
+                    Active Item
+                  </MenuItem> */}
+                  <MenuItem divider />
+                  <MenuItem eventKey="1">
+                    <Link to="/login" onClick={this.logOut}>
+                      Logout
+                    </Link>
+                  </MenuItem>
+                </SplitButton>
               </Link>
             </Col>
           </Row>
@@ -98,4 +178,8 @@ class SideNavBar extends Component {
   }
 }
 
-export default SideNavBar;
+const mapStateToProps = state => ({
+  loggedInUser: state.login.loggedInUser
+});
+
+export default connect(mapStateToProps)(SideNavBar);

@@ -33,7 +33,6 @@ import AppConfig from '../config';
 
 export const submitLogin = ({ email, password }, callBack) => {
   const url = `${LoginUrl.AUTHENTICATE}`;
-  // alert(`url:${url}:: testing-Pls click OK`);
   const accessToken = { access_token: AppConfig.MASTER_TOKEN };
   const LOGINCONFIG = Configs.GLOBALCONFIG;
   LOGINCONFIG.auth = {
