@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 // import { Link } from 'react-router';
 // import TextField from '../../components/TextField/TextField';
 // import Button from '../../components/Button/Button';
 import { submitLogin } from '../../actions/LoginAction';
 import './Login.scss';
+import './login.css';
 
 class Login extends React.Component {
   constructor() {
@@ -34,7 +35,6 @@ class Login extends React.Component {
     this.props.dispatch(submitLogin(loginObj, this.loginFailed));
   };
   loginFailed = result => {
-    // alert(`in callback: ${result}:: testing-Pls click OK`);
     this.setState({
       // open: true,
       // snackbarMsg: 'Oops.. verification failed, Pls contact your admin'
@@ -50,76 +50,49 @@ class Login extends React.Component {
     if (props.loggedInUser !== null) {
       this.props.router.push('/');
     }
+
     return (
       <div className="login-wrapBG">
-        <div className="login-header margin-top">
-          <Row>
-            <Col lg={4} md={4} sm={4} className="gbs-logo-wrap">
-              <Row>
-                <Col lg={2} md={2} sm={2} className="no-padding">
-                  {/* <img
-                    src="./assets/images/navbar/global-business-service-logo.png"
-                    className="logo"
-                    alt=""
-                  /> */}
-                </Col>
-                <Col lg={10} md={10} sm={10}>
-                  <h1>Animal Ware House</h1>
-                </Col>
-              </Row>
-            </Col>
-            <Col lg={8} md={8} sm={8} className="text-right clariant-logo">
-              {/* <img
-                src="./assets/images/Clariant Logo.png"
-                className="logo"
-                alt=""
-              /> */}
-            </Col>
-          </Row>
-          <div className="login-box-wrap">
-            <div className="login-form">
-              <div className="text-center margin-top clarient-logo contactCards-logo padding-top">
-                <h1>PRE-CLINICAL TRIAL</h1>
-              </div>
-              <div className="login-fields">
-                <div className="username position margin-vertical">
-                  <input
-                    type="text"
-                    placeholder="E-mail"
-                    className="login-textbox"
-                    onChange={this.checkDisabled('email')}
-                  />
-                </div>
-                <div className="password position padding-vertical">
-                  <input
-                    placeholder="Password"
-                    type="Password"
-                    className="login-textbox"
-                    onChange={this.checkDisabled('password')}
-                  />
-                </div>
-                <div className="margin-top padding-top text-center login-bottom">
-                  <input
-                    type="button"
-                    value="Login"
-                    className="loginButton"
-                    disabled={state.disabled}
-                    onClick={this.submitLogin}
-                  />
-                  <br />
-                  <br />
-                  <div>{this.state.diplayMsg}</div>
-                </div>
-                {/* <form>
-                  <span>new here?</span>
-                  &nbsp;
-                  <Link to={'registration'}>
-                    <Button value="Sign up" disabled={false} />
-                  </Link>
-                </form> */}
-              </div>
-            </div>
+        <div className="body" />
+        <div className="grad" />
+        <div className="header">
+          <div>
+            La Excel
+            <span>Application</span>
           </div>
+        </div>
+        <br />
+        <div className="login">
+          <input
+            type="text"
+            placeholder="email"
+            onChange={e => this.setState({ email: e.target.value })}
+          />
+          <br />
+          <input
+            type="password"
+            placeholder="password"
+            onChange={e => this.setState({ password: e.target.value })}
+          />
+          <br />
+          <input
+            type="button"
+            value="Login"
+            disabled={state.disabled}
+            onClick={this.submitLogin}
+          />
+          <br />
+          {this.state.diplayMsg !== '' ? (
+            <Button
+              bsStyle="warning"
+              disabled
+              style={{ marginTop: '2vh', marginLeft: '-1vh' }}
+            >
+              <i className="fas fa-exclamation-circle" /> {this.state.diplayMsg}
+            </Button>
+          ) : (
+            <div />
+          )}
         </div>
       </div>
     );

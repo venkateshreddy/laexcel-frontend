@@ -11,8 +11,16 @@ class Layout extends React.Component {
         <div>
           <main className="app">
             <div className="app-wrapper">
-              <SideNavBar />
-              <div className="app-container">{this.props.children}</div>
+              <SideNavBar router={this.props.router} />
+              <div
+                className="app-container"
+                style={{
+                  width: '85%',
+                  marginLeft: '15vh'
+                }}
+              >
+                {this.props.children}
+              </div>
             </div>
           </main>
         </div>

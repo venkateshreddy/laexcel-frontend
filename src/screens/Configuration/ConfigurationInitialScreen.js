@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
 import { SnackBar } from '../../components/SnackBar';
 import { handleSnackBar } from '../../actions/DashboardAction';
-import StateAndCity from './State&City';
+// import StateAndCity from './State&City';
 
 class ConfigurationInitialScreen extends Component {
   constructor(props) {
@@ -26,8 +26,8 @@ class ConfigurationInitialScreen extends Component {
             onSelect={this.handleSelect}
             id="controlled-tab-example"
           >
-            <Tab eventKey={1} title="State &amp; City">
-              <StateAndCity />
+            <Tab eventKey={1} title="Upload Logo">
+              <div>Logo upload will be available - under development</div>
             </Tab>
             {/* <Tab eventKey={2} title="Devices">
               <div className="browse-wrap padding">
