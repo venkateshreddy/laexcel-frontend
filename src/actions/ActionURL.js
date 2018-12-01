@@ -217,3 +217,16 @@ export const studyUrl = {
 export const AuditsUrl = {
   FETCH_AUDITS: `${AppConfig.API_BASE_URL}audits`
 };
+
+export const BranchURL = {
+  CREATE_BRANCH: `${AppConfig.API_BASE_URL}branches`,
+  FETCH_BRANCHES: `${AppConfig.API_BASE_URL}branches`
+};
+
+export const CitiesURL = {
+  FETCH_CITIES: `${AppConfig.API_BASE_URL}cities`
+};
+
+export const StatesURL = {
+  FETCH_STATES: `${AppConfig.API_BASE_URL}states`
+};
