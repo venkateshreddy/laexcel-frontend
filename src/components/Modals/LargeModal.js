@@ -2,35 +2,70 @@ import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const MyLargeModal = ({
-  header,
-  children,
-  onSave,
-  onHide,
-  saveText,
-  closeText,
-  ...rest
-}) => (
-  <Modal
-    {...rest}
-    bsSize="large"
-    dialogClassName="custom-modal"
-    aria-labelledby="contained-modal-title-lg"
-  >
-    <Modal.Header closeButton>
-      <Modal.Title id="contained-modal-title-lg">{header}</Modal.Title>
-    </Modal.Header>
-    <Modal.Body>{children}</Modal.Body>
-    <Modal.Footer>
-      <div className="text-right">
-        <Button onClick={onHide}>{closeText}</Button>
-        <Button onClick={onSave} bsStyle="primary">
-          {saveText}
-        </Button>
-      </div>
-    </Modal.Footer>
-  </Modal>
-);
+class MyLargeModal extends React.Component {
+  onHide = () => this.props.onHide();
+  render() {
+    const {
+      header,
+      children,
+      onSave,
+      saveText,
+      closeText,
+      ...rest
+    } = this.props;
+    return (
+      <Modal
+        {...rest}
+        bsSize="large"
+        dialogClassName="custom-modal"
+        aria-labelledby="contained-modal-title-lg"
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-lg">{header}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>{children}</Modal.Body>
+        <Modal.Footer>
+          <div className="text-right">
+            <Button onClick={this.onHide}>{closeText}</Button>
+            <Button onClick={onSave} bsStyle="primary">
+              {saveText}
+            </Button>
+          </div>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+}
+
+// const MyLargeModal = ({
+//   header,
+//   children,
+//   onSave,
+//   onHide,
+//   saveText,
+//   closeText,
+//   ...rest
+// }) => (
+//   <Modal
+//     {...rest}
+//     bsSize="large"
+//     dialogClassName="custom-modal"
+//     aria-labelledby="contained-modal-title-lg"
+//   >
+//     <Modal.Header closeButton>
+//       <Modal.Title id="contained-modal-title-lg">{header}</Modal.Title>
+//     </Modal.Header>
+//     <Modal.Body>{children}</Modal.Body>
+//     <Modal.Footer>
+//       <div className="text-right">
+//         <Button onClick={onHide}>{closeText}</Button>
+//         <Button onClick={onSave} bsStyle="primary">
+//           {saveText}
+//         </Button>
+//       </div>
+//     </Modal.Footer>
+//   </Modal>
+// );
 
 MyLargeModal.defaultProps = {
   saveText: 'Save Changes',

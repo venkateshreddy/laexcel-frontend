@@ -54,7 +54,8 @@ class SideNavBar extends Component {
                 <Link to={'student'}>Student</Link>,
                 <Link to={'organisation'}>Organisation</Link>,
                 <Link to={'configuration'}>Admin Configuration</Link>,
-                <Link to="branch">Branch</Link>
+                <Link to="branch">Branch</Link>,
+                <Link to="campus">Campus</Link>
               ]}
               titleStyle={{ backgroundColor: '#0073a8' }}
               itemStyle={{
