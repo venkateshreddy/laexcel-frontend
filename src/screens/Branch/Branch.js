@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { CheckBoxTable } from '../../components/Table';
 import BranchForm from './BrachForm';
 import { fetchBranches } from '../../actions/BranchActions';
+import { fetchCities } from '../../actions/CityActions';
 
 const columns = [
   { Header: 'Branch Name', accessor: 'name' },
@@ -33,6 +34,7 @@ class Branch extends Component {
 
   componentDidMount() {
     this.props.dispatch(fetchBranches());
+    this.props.dispatch(fetchCities());
   }
 
   toggleAll = (selectAll, selection) => this.setState({ selectAll, selection });
@@ -62,7 +64,8 @@ class Branch extends Component {
 }
 
 const mapStateToProps = state => ({
-  branches: state.branch.branches
+  branches: state.branch.branches,
+  cities: state.cities.cities
 });
 
 export default connect(mapStateToProps)(Branch);

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { startCase } from 'lodash';
+import { startCase, findIndex } from 'lodash';
 import { connect } from 'react-redux';
 
 import { FieldGroup, FieldSelect } from '../../components/Form';
@@ -57,13 +57,18 @@ class BranchForm extends Component {
     this.setState({ form, errors });
   };
 
-  getCities = () => [
-    <option value="select">--select--</option>,
-    <option value="chennai">Chennai</option>,
-    <option value="delhi">Delhi</option>,
-    <option value="hyderabad">Hyderabad</option>,
-    <option value="mumbai">Mumbai</option>
-  ];
+  getCities = cities =>
+    cities.map(city => (
+      <option key={city.id} value={city.id}>
+        {city.cityName}
+      </option>
+    ));
+
+  getState = city => {
+    const { cities } = this.props;
+    const index = findIndex(cities, { id: city });
+    return index >= 0 ? cities[index].state : null;
+  };
 
   formatDataAndSave = form => {
     const { type } = this.state;
@@ -71,13 +76,13 @@ class BranchForm extends Component {
       name: form.name,
       code: form.code,
       parentOrg: null,
-      state: null,
+      state: this.getState(form.city),
       address: {
         line1: form.line1,
         line2: form.line2,
         line3: form.line3
       },
-      cityName: form.city,
+      city: form.city,
       pincode: form.pincode,
       createdBy: null
     };
@@ -118,6 +123,7 @@ class BranchForm extends Component {
 
   render() {
     const { showModal, type, form, errors } = this.state;
+    const { cities } = this.props;
     return (
       <div>
         <div className="action-icons">
@@ -197,7 +203,7 @@ class BranchForm extends Component {
                 value={form.city}
                 validationState={errors.city !== '' ? 'error' : null}
                 help={errors.city !== '' ? errors.city : null}
-                options={this.getCities()}
+                options={this.getCities(cities)}
               />
               <FieldGroup
                 id="pincode"
@@ -217,4 +223,8 @@ class BranchForm extends Component {
   }
 }
 
-export default connect()(BranchForm);
+const mapStateToProps = state => ({
+  cities: state.cities.cities
+});
+
+export default connect(mapStateToProps)(BranchForm);

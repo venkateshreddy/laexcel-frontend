@@ -195,3 +195,11 @@ export const Branch = {
   CREATE_BRANCH: 'CREATE_BRANCH',
   FETCH_BRANCHES: 'FETCH_BRANCHES'
 };
+
+export const Cities = {
+  FETCH_CITIES: 'FETCH_CITIES'
+};
+
+export const States = {
+  FETCH_STATES: 'FETCH_STATES'
+};

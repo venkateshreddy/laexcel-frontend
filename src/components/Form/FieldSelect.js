@@ -18,7 +18,7 @@ const FieldSelect = ({
   <FormGroup controlId={id} validationState={validationState}>
     <ControlLabel>{label}</ControlLabel>
     <FormControl componentClass="select" {...props}>
-      {options}
+      <option value="select">--select--</option>,{options}
     </FormControl>
     <FormControl.Feedback />
     {help && <HelpBlock>{help}</HelpBlock>}
