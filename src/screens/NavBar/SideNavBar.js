@@ -64,7 +64,9 @@ class SideNavBar extends Component {
                 textAlign: 'right'
               }}
             >
-              {`Welcome ${this.props.loggedInUser.email}`}
+              {this.props.loggedInUser
+                ? `Welcome ${this.props.loggedInUser.email}`
+                : ''}
             </Col>
             <Col
               lg={2}
@@ -108,29 +110,28 @@ class SideNavBar extends Component {
                 padding: '0px'
               }}
             >
-              <Link to="/" className="help-wrap">
-                <SplitButton
-                  bsStyle="default"
-                  title={'Home'}
-                  // key={i}
-                  // id={`dropdown-basic-${i}`}
-                  style={{
-                    backgroundColor: 'white'
-                  }}
-                >
-                  {/* <MenuItem eventKey="1"></MenuItem>
+              <SplitButton
+                bsStyle="default"
+                title={'Home'}
+                // key={i}
+                // id={`dropdown-basic-${i}`}
+                style={{
+                  backgroundColor: 'white'
+                }}
+                onClick={() => this.props.router.push('/')}
+              >
+                {/* <MenuItem eventKey="1"></MenuItem>
                   <MenuItem eventKey="2">Another action</MenuItem>
                   <MenuItem eventKey="3" active>
                     Active Item
                   </MenuItem> */}
-                  <MenuItem divider />
-                  <MenuItem eventKey="1">
-                    <Link to="/login" onClick={this.logOut}>
-                      Logout
-                    </Link>
-                  </MenuItem>
-                </SplitButton>
-              </Link>
+                <MenuItem divider />
+                <MenuItem eventKey="1">
+                  <Link to="/login" onClick={this.logOut}>
+                    Logout
+                  </Link>
+                </MenuItem>
+              </SplitButton>
             </Col>
           </Row>
           <div>
