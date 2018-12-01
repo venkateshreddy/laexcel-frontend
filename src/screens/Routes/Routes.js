@@ -11,6 +11,7 @@ import Registration from '../Registration/Registration';
 import Student from '../Student/Student';
 import Organisation from '../Organisation/Organisation';
 import ConfigurationInitialScreen from '../Configuration/ConfigurationInitialScreen';
+import Branch from '../Branch/Branch';
 
 class Routes extends React.Component {
   render() {
@@ -42,6 +43,7 @@ class Routes extends React.Component {
             name="usermanagement"
             component={UserRoleManager}
           />
+          <Route path="/branch" name="Branch" component={Branch} />
         </Route>
       </Router>
     );
