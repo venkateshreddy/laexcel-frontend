@@ -33,7 +33,6 @@ import AppConfig from '../config';
 
 export const submitLogin = ({ email, password }, callBack) => {
   const url = `${LoginUrl.AUTHENTICATE}`;
-  // alert(`url:${url}:: testing-Pls click OK`);
   const accessToken = { access_token: AppConfig.MASTER_TOKEN };
   const LOGINCONFIG = Configs.GLOBALCONFIG;
   LOGINCONFIG.auth = {
@@ -45,12 +44,15 @@ export const submitLogin = ({ email, password }, callBack) => {
       const result = await axios.post(url, accessToken, LOGINCONFIG);
       // alert(`url result error: ${result.data.error}:: testing-Pls click OK`);
       if (result.data.error !== undefined && !result.data.error) {
-        sessionStorage.setItem('token', result.data.token);
-        sessionStorage.setItem('userdata', JSON.stringify(result.data.user));
-        setAuthorizationToken(result.data.token);
+        sessionStorage.setItem('token', result.data.payload.token);
+        sessionStorage.setItem(
+          'userdata',
+          JSON.stringify(result.data.payload.user)
+        );
+        setAuthorizationToken(result.data.payload.token);
         dispatch({
           type: LoginType.LOGIN_SUCCESSFUL,
-          payload: result.data.user
+          payload: result.data.payload.user
         });
       }
       return result;

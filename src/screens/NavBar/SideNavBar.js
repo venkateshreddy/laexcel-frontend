@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Row, Col, SplitButton, MenuItem } from 'react-bootstrap';
 import SideNav from 'react-simple-sidenav';
 import Menu from '@material-ui/icons/Menu';
 import { Link } from 'react-router';
 import './NavBar.scss';
 import './sideNavBar.css';
+import { logOutClicked } from '../../actions/LoginAction';
 
 class SideNavBar extends Component {
   constructor() {
@@ -13,19 +15,37 @@ class SideNavBar extends Component {
       showNav: false
     };
   }
+
+  getOrganisation = e => {
+    console.log('e.target', e.target.value);
+  };
+  logOut = () => {
+    this.props.dispatch(logOutClicked());
+  };
+
+  hideNave = () => this.setState({ showNav: false });
+
   render() {
-    console.log('this.state', this.state);
     return (
-      <div className="navbar HeaderBar">
+      <div className="navbar HeaderBar" style={{ backgroundColor: '#0073a8' }}>
         <div className="header-top-wrap row">
           <Row className="full-width">
-            <Col lg={1} md={1} sm={1} className="header-logo np-left">
+            <Col
+              lg={1}
+              md={1}
+              sm={1}
+              style={{
+                marginTop: '14px',
+                padding: '0px',
+                color: 'white'
+              }}
+            >
               <Menu
                 onClick={() => this.setState({ showNav: true })}
                 title="Open Menu"
               />
             </Col>
-            <Col lg={3} md={3} sm={3} className="header-logo np-left">
+            <Col lg={2} md={2} sm={2} className="header-logo np-left">
               <Link className="sidebar-logo" to="/">
                 <img
                   className="sidebar-logo-image"
@@ -35,27 +55,111 @@ class SideNavBar extends Component {
                 />
               </Link>
             </Col>
-            <Col lg={3} md={3} sm={3} style={{ float: 'right' }}>
-              <Link to="/" className="help-wrap">
-                <i
-                  className="fas fa-home"
-                  title="Home"
-                  style={{ color: '#0073a8' }}
-                />
-              </Link>
+            <Col
+              lg={4}
+              md={4}
+              sm={4}
+              style={{
+                marginTop: '15px',
+                padding: '0px',
+                color: 'white',
+                textAlign: 'right'
+              }}
+            >
+              {this.props.loggedInUser
+                ? `Welcome ${this.props.loggedInUser.email}`
+                : ''}
+            </Col>
+            <Col
+              lg={2}
+              md={2}
+              sm={2}
+              style={{
+                marginTop: '15px',
+                padding: '0px',
+                textAlign: 'right'
+              }}
+            >
+              <select onChange={this.getOrganisation}>
+                <option value="">Organisation</option>
+                <option value="ABC University">ABC University</option>
+                <option value="XYZ Organisation">XYZ Organisation</option>
+              </select>
+            </Col>
+            <Col
+              lg={2}
+              md={2}
+              sm={2}
+              style={{
+                marginTop: '15px',
+                padding: '0px',
+                textAlign: 'center'
+              }}
+            >
+              <select onChange={this.academicyear}>
+                <option value="">Academic Year</option>
+                <option value="2017">2017</option>
+                <option value="2018">2018</option>
+                <option value="2019">2019</option>
+              </select>
+            </Col>
+            <Col
+              lg={1}
+              md={1}
+              sm={1}
+              style={{
+                marginTop: '8px',
+                padding: '0px'
+              }}
+            >
+              <SplitButton
+                bsStyle="default"
+                title={'Home'}
+                // key={i}
+                // id={`dropdown-basic-${i}`}
+                style={{
+                  backgroundColor: 'white'
+                }}
+                onClick={() => this.props.router.push('/')}
+              >
+                {/* <MenuItem eventKey="1"></MenuItem>
+                  <MenuItem eventKey="2">Another action</MenuItem>
+                  <MenuItem eventKey="3" active>
+                    Active Item
+                  </MenuItem> */}
+                <MenuItem divider />
+                <MenuItem eventKey="1">
+                  <Link to="/login" onClick={this.logOut}>
+                    Logout
+                  </Link>
+                </MenuItem>
+              </SplitButton>
             </Col>
           </Row>
           <div>
             <SideNav
               showNav={this.state.showNav}
-              onHideNav={() => this.setState({ showNav: false })}
+              onHideNav={this.hideNave}
               title="Student Portal"
               items={[
-                <Link to={'student'}>Student</Link>,
-                <Link to={'organisation'}>Organisation</Link>,
-                <Link to={'configuration'}>Admin Configuration</Link>,
-                <Link to="branch">Branch</Link>,
-                <Link to="campus">Campus</Link>
+                <Link to={'student'} onClick={this.hideNave}>
+                  Student
+                </Link>,
+                <Link to={'organisation'} onClick={this.hideNave}>
+                  Organisation
+                </Link>,
+                <Link to={'stateandcity'} onClick={this.hideNave}>
+                  State & City
+                </Link>,
+                <Link to={'configuration'} onClick={this.hideNave}>
+                  Admin Configuration
+                </Link>,
+                <Link to="branch" onClick={this.hideNave}>
+                  Branch
+                </Link>,
+                <Link to="campus" onClick={this.hideNave}>
+                  Campus
+                </Link>
               ]}
               titleStyle={{ backgroundColor: '#0073a8' }}
               itemStyle={{
@@ -63,21 +167,6 @@ class SideNavBar extends Component {
                 marginLeft: '-40px'
               }}
               itemHoverStyle={{ backgroundColor: '#ccd9ff' }}
-              // navStyle={{
-              //   padding: '0px',
-              //   margin: '0px auto',
-              //   lineHeight: 'normal',
-              //   textAlign: 'center',
-              //   width: '85%',
-              //   display: '-ms-flexbox',
-              //   overflow: 'hidden',
-              //   WebkitBoxFlex: '0',
-              //   MsFlex: '0 0 100%',
-              //   flex: '0 0 100%',
-              //   WebkitBoxPack: 'justify',
-              //   MsFlexPack: 'justify',
-              //   justifyContent: 'space-between'
-              // }}
             />
           </div>
         </div>
@@ -86,4 +175,8 @@ class SideNavBar extends Component {
   }
 }
 
-export default SideNavBar;
+const mapStateToProps = state => ({
+  loggedInUser: state.login.loggedInUser
+});
+
+export default connect(mapStateToProps)(SideNavBar);
