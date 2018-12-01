@@ -1,6 +1,7 @@
 import React from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import PropTypes from 'prop-types';
+import './Modal.css';
 
 const MyLargeModal = ({
   header,
@@ -19,7 +20,8 @@ const MyLargeModal = ({
     dialogClassName="custom-modal"
     aria-labelledby="contained-modal-title-lg"
   >
-    <Modal.Header closeButton>
+    <Modal.Header>
+      <i className="fa fa-times closeIcon" title="close" onClick={onHide} />
       <Modal.Title id="contained-modal-title-lg">{header}</Modal.Title>
     </Modal.Header>
     <Modal.Body>{children}</Modal.Body>

@@ -125,8 +125,8 @@ class StateAndCity extends Component {
               data={citiesTableData}
               columns={[
                 { Header: 'City Name', accessor: 'cityName' },
-                { Header: 'City Code', accessor: 'cityCode' },
-                { Header: 'State Name', accessor: 'state.stateName' }
+                { Header: 'City Code', accessor: 'cityShortCode' },
+                { Header: 'State Name', accessor: 'stateName' }
               ]}
               filterable={this.state.enableFilter_citiesTable}
             />
