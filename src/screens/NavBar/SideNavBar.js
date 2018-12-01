@@ -72,6 +72,12 @@ class SideNavBar extends Component {
                   Organisation
                 </Link>,
                 <Link
+                  to={'stateandcity'}
+                  onClick={() => this.setState({ showNav: false })}
+                >
+                  State & City
+                </Link>,
+                <Link
                   to={'configuration'}
                   onClick={() => this.setState({ showNav: false })}
                 >

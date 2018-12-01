@@ -11,7 +11,8 @@ export default props => (
       <Modal.Body>{props.body}</Modal.Body>
 
       <Modal.Footer>
-        <Button onClick={props.onHide}>Close</Button>
+        {props.resetButton}
+        <Button onClick={props.onHide}>{props.cancelText}</Button>
         <Button bsStyle="primary">{props.submitText}</Button>
       </Modal.Footer>
     </Modal>

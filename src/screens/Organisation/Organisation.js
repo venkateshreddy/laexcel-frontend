@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import CheckBoxTable from '../../components/Table/CheckboxTable';
 import ReactBootstrapModal from '../../components/Modals/ReactBootstrapModal';
 import CreateOrganisation from './CreateOrganisation';
@@ -174,6 +174,25 @@ class Organisation extends Component {
                 handleChange={e => this.handleChange(e)}
               />
             }
+            resetButton={
+              <Button
+                onClick={() =>
+                  this.setState({
+                    organisationName: '',
+                    shortName: '',
+                    line1: '',
+                    line2: '',
+                    line3: '',
+                    city: '',
+                    pinCode: '',
+                    pan: ''
+                  })
+                }
+              >
+                Reset
+              </Button>
+            }
+            cancelText={'Cancel'}
             submitText={'Create Organisation'}
           />
         </div>
