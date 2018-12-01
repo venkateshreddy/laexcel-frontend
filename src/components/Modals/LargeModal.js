@@ -9,6 +9,8 @@ const MyLargeModal = ({
   onHide,
   saveText,
   closeText,
+  resetText,
+  onReset,
   ...rest
 }) => (
   <Modal
@@ -23,6 +25,7 @@ const MyLargeModal = ({
     <Modal.Body>{children}</Modal.Body>
     <Modal.Footer>
       <div className="text-right">
+        <Button onClick={onReset}>{resetText}</Button>
         <Button onClick={onHide}>{closeText}</Button>
         <Button onClick={onSave} bsStyle="primary">
           {saveText}

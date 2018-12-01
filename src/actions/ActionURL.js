@@ -224,9 +224,11 @@ export const BranchURL = {
 };
 
 export const CitiesURL = {
-  FETCH_CITIES: `${AppConfig.API_BASE_URL}cities`
+  FETCH_CITIES: `${AppConfig.API_BASE_URL}cities`,
+  CREATE_CITIES: `${AppConfig.API_BASE_URL}cities`
 };
 
 export const StatesURL = {
-  FETCH_STATES: `${AppConfig.API_BASE_URL}states`
+  FETCH_STATES: `${AppConfig.API_BASE_URL}states`,
+  CREATE_STATE: `${AppConfig.API_BASE_URL}states`
 };

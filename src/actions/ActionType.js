@@ -197,9 +197,11 @@ export const Branch = {
 };
 
 export const Cities = {
-  FETCH_CITIES: 'FETCH_CITIES'
+  FETCH_CITIES: 'FETCH_CITIES',
+  CREATE_CITIES: 'CREATE_CITIES'
 };
 
 export const States = {
-  FETCH_STATES: 'FETCH_STATES'
+  FETCH_STATES: 'FETCH_STATES',
+  CREATE_STATE: 'CREATE_STATE'
 };

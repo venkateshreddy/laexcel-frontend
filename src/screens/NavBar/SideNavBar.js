@@ -141,25 +141,31 @@ class SideNavBar extends Component {
               title="Student Portal"
               items={[
                 <Link
-                  to={'student'}
+                  to="student"
                   onClick={() => this.setState({ showNav: false })}
                 >
                   Student
                 </Link>,
                 <Link
-                  to={'organisation'}
+                  to="organisation"
                   onClick={() => this.setState({ showNav: false })}
                 >
                   Organisation
                 </Link>,
                 <Link
-                  to={'stateandcity'}
+                  to="branch"
+                  onClick={() => this.setState({ showNav: false })}
+                >
+                  Branch
+                </Link>,
+                <Link
+                  to="stateandcity"
                   onClick={() => this.setState({ showNav: false })}
                 >
                   State & City
                 </Link>,
                 <Link
-                  to={'configuration'}
+                  to="configuration"
                   onClick={() => this.setState({ showNav: false })}
                 >
                   Admin Configuration
