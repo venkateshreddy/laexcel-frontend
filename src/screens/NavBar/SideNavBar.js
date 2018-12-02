@@ -159,6 +159,9 @@ class SideNavBar extends Component {
                 </Link>,
                 <Link to={'configuration'} onClick={this.hideNave}>
                   Admin Configuration
+                </Link>,
+                <Link to="room" onClick={this.hideNave}>
+                  Room
                 </Link>
               ]}
               titleStyle={{ backgroundColor: '#0073a8' }}

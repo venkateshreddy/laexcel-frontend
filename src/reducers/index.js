@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import { localeReducer as locale } from 'react-localize-redux';
 import login from './LoginReducer';
-import branch from './Branch';
-import cities from './Cities';
-import states from './States';
+import branch from './BranchReducer';
+import cities from './CitiesReducer';
+import states from './StatesReducer';
 import organisations from './Organisations';
-import campus from './Campus';
+import campus from './CampusReducer';
+import room from './RoomReducer';
 
 export default combineReducers({
   locale,
@@ -14,5 +15,6 @@ export default combineReducers({
   cities,
   states,
   organisations,
-  campus
+  campus,
+  room
 });

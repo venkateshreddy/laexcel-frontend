@@ -38,3 +38,8 @@ export const Campus = {
   CREATE_CAMPUS: 'CREATE_CAMPUS',
   FETCH_CAMPUSES: 'FETCH_CAMPUSES'
 };
+
+export const Room = {
+  CREATE_ROOM: 'CREATE_ROOM',
+  FETCH_ROOMS: 'FETCH_ROOMS'
+};

@@ -242,3 +242,8 @@ export const CampusURL = {
   CREATE_CAMPUS: `${AppConfig.API_BASE_URL}campuses`,
   FETCH_CAMPUSES: `${AppConfig.API_BASE_URL}campuses`
 };
+
+export const RoomURL = {
+  CREATE_ROOM: `${AppConfig.API_BASE_URL}room`,
+  FETCH_ROOMS: `${AppConfig.API_BASE_URL}room`
+};
