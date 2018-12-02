@@ -141,6 +141,7 @@ class CampusForm extends Component {
             header={`${startCase(type)} Campus`}
             onHide={this.closeModal}
             onSave={this.onSubmit}
+            onReset={this.resetForm}
             saveText="Submit"
             closeText="Close"
             style={{ width: '450px', margin: '0 auto' }}

@@ -219,6 +219,9 @@ class SideNavBar extends Component {
                   }}
                 >
                   Admin Configuration
+                </Link>,
+                <Link to="room" onClick={this.hideNave}>
+                  Room
                 </Link>
               ]}
               navStyle={{
