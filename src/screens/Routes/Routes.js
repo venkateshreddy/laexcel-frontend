@@ -14,6 +14,7 @@ import ConfigurationInitialScreen from '../Configuration/ConfigurationInitialScr
 import StateAndCity from '../StateAndCity/State&City';
 import Branch from '../Branch/Branch';
 import Campus from '../Campus/Campus';
+import Room from '../Room/Room';
 
 class Routes extends React.Component {
   render() {
@@ -52,6 +53,7 @@ class Routes extends React.Component {
           />
           <Route path="/branch" name="Branch" component={Branch} />
           <Route path="/campus" name="Campus" component={Campus} />
+          <Route path="/room" name="Room" component={Room} />
         </Route>
       </Router>
     );
