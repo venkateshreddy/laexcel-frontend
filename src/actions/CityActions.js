@@ -1,4 +1,4 @@
-import { API_GET } from './APIMethods';
+import { API_GET, API_POST } from './APIMethods';
 import { Cities, ErrorType } from './ActionType';
 import { CitiesURL } from './ActionURL';
 
@@ -13,6 +13,24 @@ export const fetchCities = () => {
           payload: result.payload
         });
       }
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};
+
+export const createCity = (data, callBack) => {
+  const url = `${CitiesURL.CREATE_CITIES}`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: Cities.CREATE_CITIES,
+          payload: result.payload
+        });
+      }
+      callBack({ error: result.error, message: result.message });
     } catch (error) {
       dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
     }

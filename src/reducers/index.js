@@ -4,6 +4,7 @@ import login from './LoginReducer';
 import branch from './Branch';
 import cities from './Cities';
 import states from './States';
+import organisations from './Organisations';
 import campus from './Campus';
 
 export default combineReducers({
@@ -12,5 +13,6 @@ export default combineReducers({
   branch,
   cities,
   states,
+  organisations,
   campus
 });

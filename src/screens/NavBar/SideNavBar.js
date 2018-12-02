@@ -81,7 +81,7 @@ class SideNavBar extends Component {
               }}
             >
               <select onChange={this.getOrganisation}>
-                <option value="">Organisation</option>
+                <option value="">Select Organisation</option>
                 <option value="ABC University">ABC University</option>
                 <option value="XYZ Organisation">XYZ Organisation</option>
               </select>
@@ -151,14 +151,14 @@ class SideNavBar extends Component {
                 <Link to={'stateandcity'} onClick={this.hideNave}>
                   State & City
                 </Link>,
-                <Link to={'configuration'} onClick={this.hideNave}>
-                  Admin Configuration
-                </Link>,
                 <Link to="branch" onClick={this.hideNave}>
                   Branch
                 </Link>,
                 <Link to="campus" onClick={this.hideNave}>
                   Campus
+                </Link>,
+                <Link to={'configuration'} onClick={this.hideNave}>
+                  Admin Configuration
                 </Link>
               ]}
               titleStyle={{ backgroundColor: '#0073a8' }}

@@ -1,31 +1,42 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
+
+import { SnackBar } from '../../components/SnackBar';
+import { handleSnackBar } from '../../actions/DashboardAction';
 import CheckBoxTable from '../../components/Table/CheckboxTable';
-import ReactBootstrapModal from '../../components/Modals/ReactBootstrapModal';
-import CreateState from './CreateState';
-import CreateCity from './CreateCity';
+import StateForm from './StateForm';
+import { fetchStates } from '../../actions/StateAction';
+import CityForm from './CityForm';
+import { fetchCities } from '../../actions/CityActions';
 
 class StateAndCity extends Component {
   constructor() {
     super();
     this.state = {
       selectedStates: [],
-      selectedCities: [],
-      enableFilter_stateTable: false,
-
-      openCreateState: false,
-      stateName: '',
-      stateCode: '',
-
-      openCreateCity: false,
-      cityName: '',
-      cityCode: ''
+      selectedCities: []
     };
   }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  componentDidMount() {
+    this.props.dispatch(fetchStates());
+    this.props.dispatch(fetchCities());
+  }
+
+  getStatesTableData = states =>
+    states.map(stateObj => ({
+      _id: stateObj.id,
+      stateName: stateObj.stateName,
+      stateShortCode: stateObj.stateShortCode
+    }));
+  getCitiesTableData = cities =>
+    cities.map(city => ({
+      _id: city.id,
+      cityName: city.cityName,
+      cityShortCode: city.cityShortCode,
+      stateName: city.state.stateName
+    }));
 
   toggleSelectionStateTable = (selected, tableData) => {
     const objectId = '_id';
@@ -50,134 +61,32 @@ class StateAndCity extends Component {
     this.setState({ selectedCities: selected, selectedCityRow: selectedObj });
   };
 
+  toggleStateTableFilter = () =>
+    this.setState({
+      enableFilter_stateTable: !this.state.enableFilter_stateTable
+    });
+  toggleCitiesTableFilter = () =>
+    this.setState({
+      enableFilter_citiesTable: !this.state.enableFilter_citiesTable
+    });
+
   render() {
+    const statesTableData = this.getStatesTableData(this.props.states);
+    const citiesTableData = this.getCitiesTableData(this.props.cities);
     return (
       <div className="browse-wrap padding">
         <Row>
           <Col lg={6} md={6} sm={6}>
-            <ul
-              style={{
-                marginLeft: '-40px'
-              }}
-            >
-              <li
-                style={{
-                  display: 'inline',
-                  padding: '5px',
-                  color: '#0073a8'
-                }}
-              >
-                <i
-                  className="fas fa-plus"
-                  aria-hidden="true"
-                  onClick={() => this.setState({ openCreateState: true })}
-                  title="Create State"
-                />
-              </li>
-              {this.state.selectedStates.length > 0 ? (
-                <li
-                  style={{
-                    display: 'inline',
-                    padding: '5px',
-                    color: '#0073a8'
-                  }}
-                >
-                  <i
-                    className="far fa-edit"
-                    aria-hidden="true"
-                    // onClick={() =>
-                    //   // this.setState({ openCreateAnnouncement: true })
-                    //   )
-                    // }
-                    title="Edit State"
-                  />
-                </li>
-              ) : (
-                ''
-              )}
-              <li
-                style={{
-                  display: 'inline',
-                  padding: '5px',
-                  color: '#0073a8'
-                }}
-              >
-                <i
-                  className="fas fa-filter"
-                  title="Filter Table"
-                  onClick={() =>
-                    this.setState({
-                      enableFilter_stateTable: !this.state
-                        .enableFilter_stateTable
-                    })
-                  }
-                />
-              </li>
-            </ul>
+            <StateForm
+              selectedStates={this.state.selectedStates}
+              toggleStateTableFilter={this.toggleStateTableFilter}
+            />
           </Col>
           <Col lg={6} md={6} sm={6}>
-            <ul
-              style={{
-                marginLeft: '-39px'
-              }}
-            >
-              <li
-                style={{
-                  display: 'inline',
-                  padding: '5px',
-                  color: '#0073a8'
-                }}
-              >
-                <i
-                  className="fas fa-plus"
-                  aria-hidden="true"
-                  onClick={() => this.setState({ openCreateCity: true })}
-                  title="Create City"
-                />
-              </li>
-              {this.state.selectedCities.length > 0 ? (
-                <li
-                  style={{
-                    display: 'inline',
-                    padding: '5px',
-                    color: '#0073a8'
-                  }}
-                >
-                  <i
-                    className="far fa-edit"
-                    aria-hidden="true"
-                    // onClick={() =>
-                    //   // this.setState({ openCreateAnnouncement: true })
-                    //   this.getSelectedAnnouncementData(
-                    //     this.state.selection[0],
-                    //     announcements
-                    //   )
-                    // }
-                    title="Edit State"
-                  />
-                </li>
-              ) : (
-                ''
-              )}
-              <li
-                style={{
-                  display: 'inline',
-                  padding: '5px',
-                  color: '#0073a8'
-                }}
-              >
-                <i
-                  className="fas fa-filter"
-                  title="Filter Table"
-                  onClick={() =>
-                    this.setState({
-                      enableFilter_citiesTable: !this.state
-                        .enableFilter_citiesTable
-                    })
-                  }
-                />
-              </li>
-            </ul>
+            <CityForm
+              selectedCities={this.state.selectedCities}
+              toggleCitiesTableFilter={this.toggleCitiesTableFilter}
+            />
           </Col>
         </Row>
         <Row>
@@ -191,34 +100,12 @@ class StateAndCity extends Component {
                 this.setState({ selectAll, selectedStates: selection })
               }
               toggleSelection={selection =>
-                this.toggleSelectionStateTable(selection, [
-                  {
-                    _id: 0,
-                    name: 'New York',
-                    code: 'NY'
-                  },
-                  {
-                    _id: 1,
-                    name: 'Victoria',
-                    code: 'VI'
-                  }
-                ])
+                this.toggleSelectionStateTable(selection, statesTableData)
               }
-              data={[
-                {
-                  _id: 0,
-                  name: 'New York',
-                  code: 'NY'
-                },
-                {
-                  _id: 1,
-                  name: 'Victoria',
-                  code: 'VI'
-                }
-              ]}
+              data={statesTableData}
               columns={[
-                { Header: 'State Name', accessor: 'name' },
-                { Header: 'State Code', accessor: 'code' }
+                { Header: 'State Name', accessor: 'stateName' },
+                { Header: 'State Code', accessor: 'stateShortCode' }
               ]}
               filterable={this.state.enableFilter_stateTable}
             />
@@ -233,38 +120,12 @@ class StateAndCity extends Component {
                 this.setState({ selectAll, selectedCities: selection })
               }
               toggleSelection={selection =>
-                this.toggleSelectionCityTable(selection, [
-                  {
-                    _id: 0,
-                    name: 'Buffalo',
-                    code: 'Buf',
-                    stateName: 'New York'
-                  },
-                  {
-                    _id: 1,
-                    name: 'Melbourne',
-                    code: 'MEL',
-                    stateName: 'Victoria'
-                  }
-                ])
+                this.toggleSelectionCityTable(selection, citiesTableData)
               }
-              data={[
-                {
-                  _id: 0,
-                  name: 'Buffalo',
-                  code: 'Buf',
-                  stateName: 'New York'
-                },
-                {
-                  _id: 1,
-                  name: 'Melbourne',
-                  code: 'MEL',
-                  stateName: 'Victoria'
-                }
-              ]}
+              data={citiesTableData}
               columns={[
-                { Header: 'City Name', accessor: 'name' },
-                { Header: 'City Code', accessor: 'code' },
+                { Header: 'City Name', accessor: 'cityName' },
+                { Header: 'City Code', accessor: 'cityShortCode' },
                 { Header: 'State Name', accessor: 'stateName' }
               ]}
               filterable={this.state.enableFilter_citiesTable}
@@ -272,55 +133,16 @@ class StateAndCity extends Component {
           </Col>
         </Row>
 
-        {/* Forms are written below */}
-
+        {/* Snackbar is given below */}
         <div>
-          <ReactBootstrapModal
-            show={this.state.openCreateState}
-            onHide={() => this.setState({ openCreateState: false })}
-            title={'Create State'}
-            body={
-              <CreateState
-                formData={{
-                  stateName: this.state.stateName,
-                  stateCode: this.state.stateCode
-                }}
-                handleChange={e => this.handleChange(e)}
-              />
+          <SnackBar
+            open={this.props.snackBarOpen}
+            onClose={() =>
+              this.props.dispatch(
+                handleSnackBar({ snackBarOpen: false, snackBarMsg: '' })
+              )
             }
-            resetButton={
-              <Button
-                onClick={() => this.setState({ stateName: '', stateCode: '' })}
-              >
-                Reset
-              </Button>
-            }
-            cancelText={'Cancel'}
-            submitText={'Create State'}
-          />
-
-          <ReactBootstrapModal
-            show={this.state.openCreateCity}
-            onHide={() => this.setState({ openCreateCity: false })}
-            title={'Create City'}
-            body={
-              <CreateCity
-                formData={{
-                  cityName: this.state.cityName,
-                  cityCode: this.state.cityCode
-                }}
-                handleChange={e => this.handleChange(e)}
-              />
-            }
-            resetButton={
-              <Button
-                onClick={() => this.setState({ cityName: '', cityCode: '' })}
-              >
-                Reset
-              </Button>
-            }
-            cancelText={'Cancel'}
-            submitText={'Create City'}
+            msg={this.props.snackBarMsg}
           />
         </div>
       </div>
@@ -328,4 +150,11 @@ class StateAndCity extends Component {
   }
 }
 
-export default StateAndCity;
+const mapStateToProps = state => ({
+  snackBarOpen: state.dashboard.snackBarOpen,
+  snackBarMsg: state.dashboard.snackBarMsg,
+  states: state.states.states,
+  cities: state.cities.cities
+});
+
+export default connect(mapStateToProps)(StateAndCity);

@@ -138,6 +138,8 @@ class BranchForm extends Component {
             onSave={this.onSubmit}
             saveText="Submit"
             closeText="Close"
+            resetText="Reset"
+            onReset={this.resetForm}
             style={{ width: '450px', margin: '0 auto' }}
           >
             <form>

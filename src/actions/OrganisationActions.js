@@ -1,15 +1,15 @@
 import { API_GET, API_POST } from './APIMethods';
-import { States, ErrorType } from './ActionType';
-import { StatesURL } from './ActionURL';
+import { Organisations, ErrorType } from './ActionType';
+import { OrganisationsURL } from './ActionURL';
 
-export const fetchStates = () => {
-  const url = `${StatesURL.FETCH_STATES}`;
+export const fetchOrganisations = () => {
+  const url = `${OrganisationsURL.FETCH_ORGANISATIONS}`;
   return async dispatch => {
     try {
       const result = await API_GET(url);
       if (result.error !== undefined && !result.error) {
         dispatch({
-          type: States.FETCH_STATES,
+          type: Organisations.FETCH_ORGANISATIONS,
           payload: result.payload
         });
       }
@@ -19,14 +19,14 @@ export const fetchStates = () => {
   };
 };
 
-export const createState = (data, callBack) => {
-  const url = `${StatesURL.CREATE_STATE}`;
+export const createOrg = (data, callBack) => {
+  const url = `${OrganisationsURL.CREATE_ORGANISATION}`;
   return async dispatch => {
     try {
       const result = await API_POST(url, data);
       if (result.error !== undefined && !result.error) {
         dispatch({
-          type: States.CREATE_STATE,
+          type: Organisations.CREATE_ORGANISATION,
           payload: result.payload
         });
       }

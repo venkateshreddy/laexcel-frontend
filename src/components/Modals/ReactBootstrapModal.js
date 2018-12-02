@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 
 export default props => (
   <div className="static-modal">
-    <Modal show={props.show} onHide={props.onHide}>
+    <Modal show={props.show}>
       <Modal.Header closeButton>
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
