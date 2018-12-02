@@ -140,31 +140,100 @@ class SideNavBar extends Component {
             <SideNav
               showNav={this.state.showNav}
               onHideNav={this.hideNave}
-              title="Student Portal"
+              title="LaExcel Application"
               items={[
-                <Link to={'student'} onClick={this.hideNave}>
+                <Link
+                  to={'student'}
+                  onClick={this.hideNave}
+                  style={{
+                    margin: '0px',
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    padding: '22px'
+                  }}
+                >
                   Student
                 </Link>,
-                <Link to={'organisation'} onClick={this.hideNave}>
+                <Link
+                  to={'organisation'}
+                  onClick={this.hideNave}
+                  style={{
+                    margin: '0px',
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    padding: '22px'
+                  }}
+                >
                   Organisation
                 </Link>,
-                <Link to={'stateandcity'} onClick={this.hideNave}>
+                <Link
+                  to={'stateandcity'}
+                  onClick={this.hideNave}
+                  style={{
+                    margin: '0px',
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    padding: '22px'
+                  }}
+                >
                   State & City
                 </Link>,
-                <Link to="branch" onClick={this.hideNave}>
+                <Link
+                  to="branch"
+                  onClick={this.hideNave}
+                  style={{
+                    margin: '0px',
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    padding: '22px'
+                  }}
+                >
                   Branch
                 </Link>,
-                <Link to="campus" onClick={this.hideNave}>
+                <Link
+                  to="campus"
+                  onClick={this.hideNave}
+                  style={{
+                    margin: '0px',
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    padding: '22px'
+                  }}
+                >
                   Campus
                 </Link>,
-                <Link to={'configuration'} onClick={this.hideNave}>
+                <Link
+                  to={'configuration'}
+                  onClick={this.hideNave}
+                  style={{
+                    margin: '0px',
+                    display: 'block',
+                    width: '100%',
+                    height: '100%',
+                    padding: '22px'
+                  }}
+                >
                   Admin Configuration
                 </Link>
               ]}
-              titleStyle={{ backgroundColor: '#0073a8' }}
+              navStyle={{
+                maxWidth: '300px'
+              }}
+              titleStyle={{
+                backgroundColor: '#0073a8',
+                padding: '10px',
+                fontSize: '30px',
+                lineHeight: '50px'
+              }}
               itemStyle={{
                 backgroundColor: '#fff',
-                marginLeft: '-40px'
+                marginLeft: '-40px',
+                padding: '0px'
               }}
               itemHoverStyle={{ backgroundColor: '#ccd9ff' }}
             />

@@ -20,6 +20,7 @@ const initialForm = {
   pincode: ''
 };
 
+const objectId = '_id';
 const ADD = 'add';
 // const EDIT = 'edit';
 
@@ -76,12 +77,26 @@ class OrganisationForm extends Component {
         {stateObj.stateName}
       </option>
     ));
-  getCities = cities =>
-    cities.map(city => (
-      <option key={city.id} value={city.id}>
-        {city.cityName}
+  getCities = cities => {
+    const { form } = this.state;
+    if (form.state !== '') {
+      return cities.map(city => {
+        if (city.state[objectId] === form.state) {
+          return (
+            <option key={city.id} value={city.id}>
+              {city.cityName}
+            </option>
+          );
+        }
+        return null;
+      });
+    }
+    return (
+      <option key="0" value="">
+        --Please Select State First--
       </option>
-    ));
+    );
+  };
 
   formatDataAndSave = form => {
     const { type } = this.state;
