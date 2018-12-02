@@ -6,6 +6,7 @@ import protocolReducer from './ProtocolReducer';
 import branch from './Branch';
 import cities from './Cities';
 import states from './States';
+import organisations from './Organisations';
 
 export default combineReducers({
   locale,
@@ -14,5 +15,6 @@ export default combineReducers({
   protocolReducer,
   branch,
   cities,
-  states
+  states,
+  organisations
 });

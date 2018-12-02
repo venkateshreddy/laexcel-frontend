@@ -232,3 +232,8 @@ export const StatesURL = {
   FETCH_STATES: `${AppConfig.API_BASE_URL}states`,
   CREATE_STATE: `${AppConfig.API_BASE_URL}states`
 };
+
+export const OrganisationsURL = {
+  FETCH_ORGANISATIONS: `${AppConfig.API_BASE_URL}organizations`,
+  CREATE_ORGANISATION: `${AppConfig.API_BASE_URL}organizations`
+};

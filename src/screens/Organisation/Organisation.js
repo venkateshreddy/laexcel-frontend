@@ -1,32 +1,44 @@
 import React, { Component } from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
+
+import { SnackBar } from '../../components/SnackBar';
+import { handleSnackBar } from '../../actions/DashboardAction';
 import CheckBoxTable from '../../components/Table/CheckboxTable';
-import ReactBootstrapModal from '../../components/Modals/ReactBootstrapModal';
-import CreateOrganisation from './CreateOrganisation';
+import OrganisationForm from './OrganisationForm';
+import { fetchOrganisations } from '../../actions/OrganisationActions';
+import { fetchStates } from '../../actions/StateAction';
+import { fetchCities } from '../../actions/CityActions';
 
 class Organisation extends Component {
   constructor() {
     super();
     this.state = {
       selectedOrganisations: [],
-      filterable: false,
-
-      openCreateOrganisation: false,
-
-      organisationName: '',
-      shortName: '',
-      line1: '',
-      line2: '',
-      line3: '',
-      city: '',
-      pinCode: '',
-      pan: ''
+      filterable: false
     };
   }
 
-  handleChange = e => {
-    this.setState({ [e.target.name]: e.target.value });
-  };
+  componentDidMount() {
+    this.props.dispatch(fetchOrganisations());
+    this.props.dispatch(fetchStates());
+    this.props.dispatch(fetchCities());
+  }
+
+  getOrganisationTableData = organisations =>
+    organisations.map(orgObj => ({
+      _id: orgObj.id,
+      legalStatus: orgObj.legalStatus,
+      orgName: orgObj.orgName,
+      orgShortName: orgObj.orgShortName,
+      orgAddress: `${orgObj.orgAddress.line1}, ${orgObj.orgAddress.line2}, ${
+        orgObj.orgAddress.line3
+      }`,
+      state: orgObj.state.stateName,
+      city: orgObj.city.cityName,
+      orgPAN: orgObj.orgPAN,
+      orgPin: orgObj.orgPin
+    }));
 
   toggleSelectionOrganisationsTable = (selected, tableData) => {
     const objectId = '_id';
@@ -43,71 +55,21 @@ class Organisation extends Component {
     });
   };
 
+  toggleTableFilter = () =>
+    this.setState({ filterable: !this.state.filterable });
+
   render() {
+    const organisationTableData = this.getOrganisationTableData(
+      this.props.organisations
+    );
     return (
       <div className="browse-wrap padding">
         <Row>
           <Col lg={6} md={6} sm={6}>
-            <ul
-              style={{
-                marginLeft: '-40px'
-              }}
-            >
-              <li
-                style={{
-                  display: 'inline',
-                  padding: '5px',
-                  color: '#0073a8'
-                }}
-              >
-                <i
-                  className="fas fa-plus"
-                  aria-hidden="true"
-                  onClick={() =>
-                    this.setState({ openCreateOrganisation: true })
-                  }
-                  title="Create Organisation"
-                />
-              </li>
-              {this.state.selectedOrganisations.length > 0 ? (
-                <li
-                  style={{
-                    display: 'inline',
-                    padding: '5px',
-                    color: '#0073a8'
-                  }}
-                >
-                  <i
-                    className="far fa-edit"
-                    aria-hidden="true"
-                    // onClick={() =>
-                    //   // this.setState({ openCreateAnnouncement: true })
-                    //   )
-                    // }
-                    title="Edit Organisation"
-                  />
-                </li>
-              ) : (
-                ''
-              )}
-              <li
-                style={{
-                  display: 'inline',
-                  padding: '5px',
-                  color: '#0073a8'
-                }}
-              >
-                <i
-                  className="fas fa-filter"
-                  title="Filter Table"
-                  onClick={() =>
-                    this.setState({
-                      filterable: !this.state.filterable
-                    })
-                  }
-                />
-              </li>
-            </ul>
+            <OrganisationForm
+              selectedOrganisations={this.state.selectedOrganisations}
+              toggleTableFilter={this.toggleTableFilter}
+            />
           </Col>
         </Row>
         <CheckBoxTable
@@ -119,81 +81,36 @@ class Organisation extends Component {
             this.setState({ selectAll, selectedOrganisations: selection })
           }
           toggleSelection={selection =>
-            this.toggleSelectionOrganisationsTable(selection, [
-              {
-                _id: 0,
-                name: 'Abcd University',
-                address:
-                  'Abcd Universitity, City Name, State Name, Country Name'
-              },
-              {
-                _id: 1,
-                name: 'XYZ Organisation',
-                address: 'XYZ Organisation, City Name, State Name, Country Name'
-              }
-            ])
+            this.toggleSelectionOrganisationsTable(
+              selection,
+              organisationTableData
+            )
           }
-          data={[
-            {
-              _id: 0,
-              name: 'Abcd University',
-              address: 'Abcd Universitity, City Name, State Name, Country Name'
-            },
-            {
-              _id: 1,
-              name: 'XYZ Organisation',
-              address: 'XYZ Organisation, City Name, State Name, Country Name'
-            }
-          ]}
+          data={organisationTableData}
           columns={[
-            { Header: 'Organisation Name', accessor: 'name' },
-            { Header: 'Organisation Address', accessor: 'address' }
+            { Header: 'Legal Status', accessor: 'legalStatus' },
+            { Header: 'Organisation Name', accessor: 'orgName' },
+            { Header: 'Short Name', accessor: 'orgShortName' },
+            { Header: 'Address', accessor: 'orgAddress' },
+            { Header: 'State', accessor: 'state' },
+            { Header: 'City', accessor: 'city' },
+            { Header: 'PAN', accessor: 'orgPAN' },
+            { Header: 'PIN', accessor: 'orgPin' }
           ]}
           filterable={this.state.filterable}
         />
 
-        {/* Forms are written below */}
+        {/* Snackbar written below */}
 
         <div>
-          <ReactBootstrapModal
-            show={this.state.openCreateOrganisation}
-            onHide={() => this.setState({ openCreateOrganisation: false })}
-            title={'Create Organisation'}
-            body={
-              <CreateOrganisation
-                formData={{
-                  organisationName: this.state.organisationName,
-                  shortName: this.state.shortName,
-                  line1: this.state.line1,
-                  line2: this.state.line2,
-                  line3: this.state.line3,
-                  city: this.state.city,
-                  pinCode: this.state.pinCode,
-                  pan: this.state.pan
-                }}
-                handleChange={e => this.handleChange(e)}
-              />
+          <SnackBar
+            open={this.props.snackBarOpen}
+            onClose={() =>
+              this.props.dispatch(
+                handleSnackBar({ snackBarOpen: false, snackBarMsg: '' })
+              )
             }
-            resetButton={
-              <Button
-                onClick={() =>
-                  this.setState({
-                    organisationName: '',
-                    shortName: '',
-                    line1: '',
-                    line2: '',
-                    line3: '',
-                    city: '',
-                    pinCode: '',
-                    pan: ''
-                  })
-                }
-              >
-                Reset
-              </Button>
-            }
-            cancelText={'Cancel'}
-            submitText={'Create Organisation'}
+            msg={this.props.snackBarMsg}
           />
         </div>
       </div>
@@ -201,4 +118,10 @@ class Organisation extends Component {
   }
 }
 
-export default Organisation;
+const mapStateToProps = state => ({
+  snackBarOpen: state.dashboard.snackBarOpen,
+  snackBarMsg: state.dashboard.snackBarMsg,
+  organisations: state.organisations.organisations
+});
+
+export default connect(mapStateToProps)(Organisation);

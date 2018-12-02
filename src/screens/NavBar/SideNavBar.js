@@ -79,7 +79,7 @@ class SideNavBar extends Component {
               }}
             >
               <select onChange={this.getOrganisation}>
-                <option value="">Organisation</option>
+                <option value="">Select Organisation</option>
                 <option value="ABC University">ABC University</option>
                 <option value="XYZ Organisation">XYZ Organisation</option>
               </select>
