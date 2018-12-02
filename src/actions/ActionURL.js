@@ -237,3 +237,8 @@ export const OrganisationsURL = {
   FETCH_ORGANISATIONS: `${AppConfig.API_BASE_URL}organizations`,
   CREATE_ORGANISATION: `${AppConfig.API_BASE_URL}organizations`
 };
+
+export const CampusURL = {
+  CREATE_CAMPUS: `${AppConfig.API_BASE_URL}campuses`,
+  FETCH_CAMPUSES: `${AppConfig.API_BASE_URL}campuses`
+};

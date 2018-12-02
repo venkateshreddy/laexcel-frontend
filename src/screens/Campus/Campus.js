@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { CheckBoxTable } from '../../components/Table';
-import BranchForm from './BranchForm';
+import CampusForm from './CampusForm';
 import { fetchBranches } from '../../actions/BranchActions';
 import { fetchCities } from '../../actions/CityActions';
+import { fetchCampuses } from '../../actions/CampusActions';
 
 const columns = [
-  { Header: 'Branch Name', accessor: 'name' },
-  { Header: 'Branch Code', accessor: 'code' },
+  { Header: 'Campus Name', accessor: 'campusName' },
+  { Header: 'Campus Code', accessor: 'campusCode' },
+  { Header: 'Branch', accessor: 'branchName' },
   {
-    Header: 'Branch Address',
+    Header: 'Campus Address',
     accessor: 'address',
     Cell: row => (
       <div>
@@ -25,7 +27,7 @@ const columns = [
   }
 ];
 
-class Branch extends Component {
+class Campus extends Component {
   state = {
     selection: [],
     filterable: false,
@@ -33,6 +35,7 @@ class Branch extends Component {
   };
 
   componentDidMount() {
+    this.props.dispatch(fetchCampuses());
     this.props.dispatch(fetchBranches());
     this.props.dispatch(fetchCities());
   }
@@ -43,10 +46,10 @@ class Branch extends Component {
 
   render() {
     const { selection, filterable, selectAll } = this.state;
-    const { branches } = this.props;
+    const { campuses } = this.props;
     return (
       <div>
-        <BranchForm />
+        <CampusForm />
         <CheckBoxTable
           enableMultiSelect={false}
           enableSelectAll={false}
@@ -54,7 +57,7 @@ class Branch extends Component {
           selectAll={selectAll}
           toggleAll={this.toggleAll}
           toggleSelection={this.toggleSelection}
-          data={branches}
+          data={campuses}
           columns={columns}
           filterable={filterable}
         />
@@ -64,7 +67,7 @@ class Branch extends Component {
 }
 
 const mapStateToProps = state => ({
-  branches: state.branch.branches
+  campuses: state.campus.campuses
 });
 
-export default connect(mapStateToProps)(Branch);
+export default connect(mapStateToProps)(Campus);
