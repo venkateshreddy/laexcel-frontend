@@ -179,6 +179,17 @@ class CityForm extends Component {
             style={{ width: '450px', margin: '0 auto' }}
           >
             <form>
+              <FieldSelect
+                id="states"
+                type="text"
+                label="State"
+                placeholder="Select State"
+                onChange={this.onChangeText('state')}
+                value={form.state}
+                validationState={errors.state !== '' ? 'error' : null}
+                help={errors.state !== '' ? errors.state : null}
+                options={this.getStates(states)}
+              />
               <FieldGroup
                 id="cityName"
                 type="text"
@@ -200,17 +211,6 @@ class CityForm extends Component {
                 value={form.code}
                 validationState={errors.code !== '' ? 'error' : null}
                 help={errors.code !== '' ? errors.code : null}
-              />
-              <FieldSelect
-                id="states"
-                type="text"
-                label="State"
-                placeholder="Select State"
-                onChange={this.onChangeText('state')}
-                value={form.state}
-                validationState={errors.state !== '' ? 'error' : null}
-                help={errors.state !== '' ? errors.state : null}
-                options={this.getStates(states)}
               />
             </form>
           </LargeModal>
