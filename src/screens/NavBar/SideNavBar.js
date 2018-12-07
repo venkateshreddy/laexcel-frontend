@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, SplitButton, MenuItem } from 'react-bootstrap';
-import SideNav from 'react-simple-sidenav';
-import Menu from '@material-ui/icons/Menu';
+import { Row, Col } from 'react-bootstrap';
+// import SideNav from 'react-simple-sidenav';
+import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
+import '@trendmicro/react-sidenav/dist/react-sidenav.css';
+// import Menu from '@material-ui/icons/Menu';
 import { Link } from 'react-router';
 import './NavBar.scss';
 import './sideNavBar.css';
 import { logOutClicked } from '../../actions/LoginAction';
+import HomeOptions from './homeOptions';
 
 class SideNavBar extends Component {
   constructor() {
@@ -16,6 +19,8 @@ class SideNavBar extends Component {
     };
   }
 
+  onToggleNave = () =>
+    this.setState(prevState => ({ showNav: !prevState.showNav }));
   getOrganisation = e => {
     console.log('e.target', e.target.value);
   };
@@ -40,10 +45,10 @@ class SideNavBar extends Component {
                 color: 'white'
               }}
             >
-              <Menu
+              {/* <Menu
                 onClick={() => this.setState({ showNav: true })}
                 title="Open Menu"
-              />
+              /> */}
             </Col>
             <Col lg={2} md={2} sm={2} className="header-logo np-left">
               <Link className="sidebar-logo" to="/">
@@ -112,65 +117,217 @@ class SideNavBar extends Component {
                 padding: '0px'
               }}
             >
-              <SplitButton
-                bsStyle="default"
-                title={'Home'}
-                // key={i}
-                // id={`dropdown-basic-${i}`}
-                style={{
-                  backgroundColor: 'white'
-                }}
-                onClick={() => this.props.router.push('/')}
-              >
-                {/* <MenuItem eventKey="1"></MenuItem>
-                  <MenuItem eventKey="2">Another action</MenuItem>
-                  <MenuItem eventKey="3" active>
-                    Active Item
-                  </MenuItem> */}
-                <MenuItem divider />
-                <MenuItem eventKey="1">
-                  <Link to="/login" onClick={this.logOut}>
-                    Logout
-                  </Link>
-                </MenuItem>
-              </SplitButton>
+              <HomeOptions />
             </Col>
           </Row>
           <div>
             <SideNav
-              showNav={this.state.showNav}
-              onHideNav={this.hideNave}
-              title="Student Portal"
-              items={[
-                <Link to={'student'} onClick={this.hideNave}>
-                  Student
-                </Link>,
-                <Link to={'organisation'} onClick={this.hideNave}>
-                  Organisation
-                </Link>,
-                <Link to={'stateandcity'} onClick={this.hideNave}>
-                  State & City
-                </Link>,
-                <Link to="branch" onClick={this.hideNave}>
-                  Branch
-                </Link>,
-                <Link to="campus" onClick={this.hideNave}>
-                  Campus
-                </Link>,
-                <Link to={'configuration'} onClick={this.hideNave}>
-                  Admin Configuration
-                </Link>,
-                <Link to="room" onClick={this.hideNave}>
-                  Room
-                </Link>
-              ]}
-              titleStyle={{ backgroundColor: '#0073a8' }}
-              itemStyle={{
-                backgroundColor: '#fff',
-                marginLeft: '-40px'
-              }}
-              itemHoverStyle={{ backgroundColor: '#ccd9ff' }}
-            />
+              // showNav={this.state.showNav}
+              // onHideNav={this.hideNave}
+              expanded={this.state.showNav}
+              onSelect={this.hideNave}
+              onToggle={this.onToggleNave}
+              // title="LaExcel Application"
+              // items={[
+              //   <Link
+              //     to={'student'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Student
+              //   </Link>,
+              //   <Link
+              //     to={'organisation'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Organisation
+              //   </Link>,
+              //   <Link
+              //     to={'stateandcity'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     State & City
+              //   </Link>,
+              //   <Link
+              //     to="branch"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Branch
+              //   </Link>,
+              //   <Link
+              //     to="campus"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Campus
+              //   </Link>,
+              //   <Link
+              //     to="room"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Room
+              //   </Link>,
+              //   <Link
+              //     to="building"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Building
+              //   </Link>,
+              //   <Link
+              //     to={'configuration'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Admin Configuration
+              //   </Link>
+              // ]}
+              // navStyle={{
+              //   maxWidth: '300px'
+              // }}
+              // titleStyle={{
+              //   backgroundColor: '#0073a8',
+              //   padding: '10px',
+              //   fontSize: '30px',
+              //   lineHeight: '50px'
+              // }}
+              // itemStyle={{
+              //   backgroundColor: '#fff',
+              //   marginLeft: '-40px',
+              //   padding: '0px'
+              // }}
+              // itemHoverStyle={{ backgroundColor: '#ccd9ff' }}
+            >
+              <SideNav.Toggle />
+              <SideNav.Nav defaultSelected="home">
+                <NavItem eventKey="home">
+                  <NavIcon>
+                    <Link to="/">
+                      <i className="fas fa-home fa-fw" />
+                    </Link>
+                  </NavIcon>
+                  <NavText>
+                    <Link to="/" className="margin-left10">
+                      Home
+                    </Link>
+                  </NavText>
+                </NavItem>
+                <NavItem eventKey="masterDBMaintenance">
+                  <NavIcon>
+                    <i className="fa fa-database" />
+                  </NavIcon>
+                  <NavText>
+                    Master DB Maintenance
+                    <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
+                    <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
+                  </NavText>
+                  <NavItem eventKey="organisation">
+                    <NavText>
+                      <Link to={'organisation'} className="margin-left10">
+                        Organisation
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="stateandcity">
+                    <NavText>
+                      <Link to={'stateandcity'} className="margin-left10">
+                        State & City
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="branch">
+                    <NavText>
+                      <Link to={'branch'} className="margin-left10">
+                        Branch
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="campus">
+                    <NavText>
+                      <Link to={'campus'} className="margin-left10">
+                        Campus
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="room">
+                    <NavText>
+                      <Link to={'room'} className="margin-left10">
+                        Room
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="building">
+                    <NavText>
+                      <Link to={'building'} className="margin-left10">
+                        Building
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                </NavItem>
+                <NavItem eventKey="configuration">
+                  <NavIcon>
+                    <i className="fa fa-lock" />
+                  </NavIcon>
+                  <NavText>
+                    <Link to={'configuration'} className="margin-left10">
+                      Admin Configuration
+                    </Link>
+                  </NavText>
+                </NavItem>
+              </SideNav.Nav>
+            </SideNav>
           </div>
         </div>
       </div>

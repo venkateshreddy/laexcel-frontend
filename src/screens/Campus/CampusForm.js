@@ -72,13 +72,14 @@ class CampusForm extends Component {
   };
 
   formatDataAndSave = form => {
+    const objectId = '_id';
     const { type } = this.state;
     const data = {
       campusName: form.campusName,
       campusCode: form.campusCode,
       parentBranch: form.parentBranch,
       parentOrg: null,
-      state: this.getState(form.city),
+      state: this.getState(form.city)[objectId],
       address: {
         line1: form.line1,
         line2: form.line2,
@@ -86,7 +87,7 @@ class CampusForm extends Component {
       },
       city: form.city,
       pincode: form.pincode,
-      createdBy: null
+      createdBy: this.props.loggedInUser.id
     };
     if (type === ADD) {
       this.props.dispatch(createCampus(data));
@@ -239,6 +240,7 @@ class CampusForm extends Component {
 }
 
 const mapStateToProps = state => ({
+  loggedInUser: state.login.loggedInUser,
   cities: state.cities.cities,
   branches: state.branch.branches
 });

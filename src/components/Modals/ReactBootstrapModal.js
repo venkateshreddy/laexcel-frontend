@@ -8,7 +8,7 @@ export default props => (
         <Modal.Title>{props.title}</Modal.Title>
       </Modal.Header>
 
-      <Modal.Body>{props.body}</Modal.Body>
+      <Modal.Body>{props.children}</Modal.Body>
 
       <Modal.Footer>
         {props.resetButton}

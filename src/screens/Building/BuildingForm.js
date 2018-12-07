@@ -1,30 +1,35 @@
 import React, { Component } from 'react';
-import { startCase } from 'lodash';
+import { startCase, cloneDeep } from 'lodash';
 import { connect } from 'react-redux';
 
+import { FormGroup, ControlLabel, Radio } from 'react-bootstrap';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import { handleSnackBar } from '../../actions/DashboardAction';
-import { createOrg } from '../../actions/OrganisationActions';
+// import { createOrg } from '../../actions/OrganisationActions';
 
 const initialForm = {
-  legalStatus: '',
-  orgName: '',
-  orgShortName: '',
-  line1: '',
-  line2: '',
-  line3: '',
-  state: '',
-  city: '',
-  orgPan: '',
-  pincode: ''
+  name: '',
+  code: '',
+  campus: '',
+  // line1: '',
+  // line2: '',
+  // line3: '',
+  // city: '',
+  // pincode: '',
+  rented: '',
+  totalArea: '',
+  floorArea: '',
+  carpetArea: '',
+  floorsQty: '',
+  floors: []
 };
 
-const objectId = '_id';
+// const objectId = '_id';
 const ADD = 'add';
 // const EDIT = 'edit';
 
-class OrganisationForm extends Component {
+class BuildingForm extends Component {
   state = {
     type: '',
     form: initialForm,
@@ -33,6 +38,7 @@ class OrganisationForm extends Component {
   };
 
   onSubmit = () => {
+    console.log('state on submit', this.state);
     const { form } = this.state;
     const errors = { ...this.state.errors };
     Object.keys(form).map(name => {
@@ -50,6 +56,7 @@ class OrganisationForm extends Component {
   };
 
   onChangeText = name => ({ target: { value } }) => {
+    console.log(name, value);
     const form = { ...this.state.form };
     const errors = { ...this.state.errors };
     form[name] = value;
@@ -57,6 +64,21 @@ class OrganisationForm extends Component {
       this.setState({ errors: newErrors })
     );
     this.setState({ form, errors });
+    if (name === 'floorsQty') {
+      const floorsStr = 'floors';
+      const tempArr = [];
+      if (Number(value) > 0) {
+        for (let i = 0; i < Number(value); i += 1) {
+          const tempObj = { rowId: i, floorNo: '', floorArea: '' };
+          tempArr.push(tempObj);
+        }
+        form[floorsStr] = tempArr;
+        this.setState({ form });
+      } else {
+        form[floorsStr] = tempArr;
+        this.setState({ form });
+      }
+    }
   };
 
   getLegalStatuses = () => {
@@ -71,52 +93,100 @@ class OrganisationForm extends Component {
       </option>
     ));
   };
-  getStates = states =>
-    states.map(stateObj => (
-      <option key={stateObj.id} value={stateObj.id}>
-        {stateObj.stateName}
+
+  getCampuses = campuses =>
+    campuses.map(campus => (
+      <option key={campus.id} value={campus.id}>
+        {campus.campusName}
       </option>
     ));
-  getCities = cities => {
-    const { form } = this.state;
-    if (form.state !== '') {
-      return cities.map(city => {
-        if (city.state[objectId] === form.state) {
-          return (
-            <option key={city.id} value={city.id}>
-              {city.cityName}
-            </option>
-          );
-        }
-        return null;
-      });
-    }
-    return (
-      <option key="0" value="">
-        --Please Select State First--
+  getCities = cities =>
+    cities.map(city => (
+      <option key={city.id} value={city.id}>
+        {city.cityName}
       </option>
-    );
+    ));
+
+  getFloorNumberAndAreaForm = floors => {
+    if (floors.length > 0) {
+      return (
+        <table>
+          <thead>
+            <tr>
+              <td>Floor No.</td>
+              <td>Floor Area</td>
+            </tr>
+          </thead>
+          <tbody>
+            {floors.map((floorObj, i) => (
+              <tr key={i}>
+                <td>
+                  <input
+                    type="number"
+                    onChange={e =>
+                      this.buildFloorsJson('floorNo', i, e.target.value)
+                    }
+                  />
+                </td>
+                <td>
+                  <input
+                    type="number"
+                    onChange={e =>
+                      this.buildFloorsJson('floorArea', i, e.target.value)
+                    }
+                  />
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      );
+    }
+    return null;
+  };
+
+  buildFloorsJson = (key, index, value) => {
+    const floorsStr = 'floors';
+    const form = { ...this.state.form };
+
+    const floorsClone = cloneDeep(form[floorsStr]);
+    floorsClone.map((floor, i) => {
+      if (index === i) {
+        // eslint-disable-next-line
+        floor[key] = value;
+      }
+      return null;
+    });
+    form[floorsStr] = floorsClone;
+    this.setState({ form });
   };
 
   formatDataAndSave = form => {
+    console.log('form on submit', form);
     const { type } = this.state;
     const data = {
-      legalStatus: form.legalStatus,
-      orgName: form.orgName,
-      orgShortName: form.orgShortName,
-      orgAddress: {
-        line1: form.line1,
-        line2: form.line2,
-        line3: form.line3
-      },
-      state: form.state,
-      city: form.city,
-      orgPAN: form.orgPan,
-      orgPin: form.pincode,
+      name: form.name,
+      code: form.code,
+      campus: form.campus,
+      rented: form.rented,
+      totalArea: form.totalArea,
+      floorArea: form.floorArea,
+      carpetArea: form.carpetArea,
+      floors: form.floors,
+      // city: form.city,
+      // floorsQty: form.floorsQty,
+      // floorAreaByNumber: form.floorAreaByNumber,
+      // campusAddress: {
+      //   line1: form.line1,
+      //   line2: form.line2,
+      //   line3: form.line3
+      // },
+      // pincode: form.pincode,
       createdBy: this.props.loggedInUser.id
     };
+    console.log(data);
     if (type === ADD) {
-      this.props.dispatch(createOrg(data, this.callBack));
+      // this.props.dispatch(createOrg(data, this.callBack));
     }
   };
 
@@ -160,7 +230,7 @@ class OrganisationForm extends Component {
 
   render() {
     const { showModal, type, form, errors } = this.state;
-    const { states, cities } = this.props;
+    const { campuses } = this.props;
     return (
       <div>
         <div>
@@ -218,7 +288,7 @@ class OrganisationForm extends Component {
         {showModal && (
           <LargeModal
             show={showModal}
-            header={`${startCase(type)} Organisation`}
+            header={`${startCase(type)} Building`}
             onHide={this.closeModal}
             onSave={this.onSubmit}
             saveText="Submit"
@@ -228,39 +298,39 @@ class OrganisationForm extends Component {
             style={{ width: '450px', margin: '0 auto' }}
           >
             <form>
+              <FieldGroup
+                id="name"
+                type="text"
+                label="Building Name"
+                placeholder="Enter building name"
+                onChange={this.onChangeText('name')}
+                value={form.name}
+                validationState={errors.name !== '' ? 'error' : null}
+                help={errors.name !== '' ? errors.name : null}
+              />
+              <FieldGroup
+                id="code"
+                type="text"
+                label="Building Code"
+                placeholder="Building code 3 - 4 digits"
+                onChange={this.onChangeText('code')}
+                value={form.code}
+                validationState={errors.code !== '' ? 'error' : null}
+                help={errors.code !== '' ? errors.code : null}
+              />
               <FieldSelect
-                id="legalStatus"
+                id="campus"
                 type="text"
-                label="Legal Status"
-                placeholder="Select Legal Status"
-                onChange={this.onChangeText('legalStatus')}
-                value={form.legalStatus}
-                validationState={errors.legalStatus !== '' ? 'error' : null}
-                help={errors.legalStatus !== '' ? errors.legalStatus : null}
-                options={this.getLegalStatuses()}
+                label="Campus"
+                placeholder="Select Campus"
+                onChange={this.onChangeText('campus')}
+                value={form.campus}
+                validationState={errors.campus !== '' ? 'error' : null}
+                help={errors.campus !== '' ? errors.campus : null}
+                options={this.getCampuses(campuses)}
               />
-              <FieldGroup
-                id="orgName"
-                type="text"
-                label="Organisation Name"
-                placeholder="Enter Organisation name"
-                onChange={this.onChangeText('orgName')}
-                value={form.orgName}
-                validationState={errors.orgName !== '' ? 'error' : null}
-                help={errors.orgName !== '' ? errors.orgName : null}
-              />
-              <FieldGroup
-                id="orgShortName"
-                type="text"
-                label="Organisation Short Name"
-                placeholder="Enter Organisation Short name"
-                onChange={this.onChangeText('orgShortName')}
-                value={form.orgShortName}
-                validationState={errors.orgShortName !== '' ? 'error' : null}
-                help={errors.orgShortName !== '' ? errors.orgShortName : null}
-              />
-              <label>Organisation Address</label>
-              <FieldGroup
+              {/* <label>Campus Address</label> */}
+              {/* <FieldGroup
                 id="line1"
                 type="text"
                 label="Line 1"
@@ -291,17 +361,6 @@ class OrganisationForm extends Component {
                 help={errors.line3 !== '' ? errors.line3 : null}
               />
               <FieldSelect
-                id="state"
-                type="text"
-                label="State"
-                placeholder="Select State"
-                onChange={this.onChangeText('state')}
-                value={form.state}
-                validationState={errors.state !== '' ? 'error' : null}
-                help={errors.state !== '' ? errors.state : null}
-                options={this.getStates(states)}
-              />
-              <FieldSelect
                 id="city"
                 type="text"
                 label="City"
@@ -313,16 +372,6 @@ class OrganisationForm extends Component {
                 options={this.getCities(cities)}
               />
               <FieldGroup
-                id="orgPan"
-                type="text"
-                label="PAN"
-                placeholder="Enter 10 digit PAN"
-                onChange={this.onChangeText('orgPan')}
-                value={form.orgPan}
-                validationState={errors.orgPan !== '' ? 'error' : null}
-                help={errors.orgPan !== '' ? errors.orgPan : null}
-              />
-              <FieldGroup
                 id="pincode"
                 type="number"
                 label="Pincode"
@@ -331,7 +380,58 @@ class OrganisationForm extends Component {
                 value={form.pincode}
                 validationState={errors.pincode !== '' ? 'error' : null}
                 help={errors.pincode !== '' ? errors.pincode : null}
+              /> */}
+              <FormGroup onChange={this.onChangeText('rented')}>
+                <ControlLabel>Rented Premises</ControlLabel>
+                <br />
+                <Radio name="radioGroup" inline>
+                  Yes
+                </Radio>{' '}
+                <Radio name="radioGroup" inline>
+                  No
+                </Radio>
+              </FormGroup>
+              <FieldGroup
+                id="totalArea"
+                type="number"
+                label="Total Area(in Sft)"
+                placeholder="Enter Total Area"
+                onChange={this.onChangeText('totalArea')}
+                value={form.totalArea}
+                validationState={errors.totalArea !== '' ? 'error' : null}
+                help={errors.totalArea !== '' ? errors.totalArea : null}
               />
+              <FieldGroup
+                id="floorArea"
+                type="number"
+                label="Floor Area(in Sft)"
+                placeholder="Enter Floor Area"
+                onChange={this.onChangeText('floorArea')}
+                value={form.floorArea}
+                validationState={errors.floorArea !== '' ? 'error' : null}
+                help={errors.floorArea !== '' ? errors.floorArea : null}
+              />
+              <FieldGroup
+                id="carpetArea"
+                type="number"
+                label="Carpet Area(in Sft)"
+                placeholder="Enter Carpet Area"
+                onChange={this.onChangeText('carpetArea')}
+                value={form.carpetArea}
+                validationState={errors.carpetArea !== '' ? 'error' : null}
+                help={errors.carpetArea !== '' ? errors.carpetArea : null}
+              />
+              <FieldGroup
+                id="floorsQty"
+                type="number"
+                label="Number of Floors"
+                placeholder="Enter Number of Floors"
+                onChange={this.onChangeText('floorsQty')}
+                value={form.floorsQty}
+                validationState={errors.floorsQty !== '' ? 'error' : null}
+                help={errors.floorsQty !== '' ? errors.floorsQty : null}
+              />
+              {this.getFloorNumberAndAreaForm(form.floors)}
             </form>
           </LargeModal>
         )}
@@ -342,8 +442,8 @@ class OrganisationForm extends Component {
 
 const mapStateToProps = state => ({
   loggedInUser: state.login.loggedInUser,
-  states: state.states.states,
-  cities: state.cities.cities
+  campuses: state.campus.campuses
+  // cities: state.cities.cities
 });
 
-export default connect(mapStateToProps)(OrganisationForm);
+export default connect(mapStateToProps)(BuildingForm);

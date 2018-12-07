@@ -10,3 +10,281 @@
   transition: transform 0.35s ease-out;
   transition: transform 0.35s ease-out, -webkit-transform 0.35s ease-out;
 }
+
+.sidebar ol,
+ul {
+  list-style: none;
+}
+.sidebar-item--active {
+  border-left-color: #175d9d;
+}
+.sidebar-item--active,
+.sidebar-item:hover {
+  opacity: 1;
+}
+.sidebar-item {
+  display: block;
+  max-width: 250px;
+  height: 39px;
+  padding-left: 25px;
+  padding-right: 10px;
+  line-height: 39px;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 600;
+  border-left: 5px solid transparent;
+  border-bottom: 1px solid #d6e2ee;
+  opacity: 0.5;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: #175d9d;
+}
+.sidebar-toggler {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50px;
+  background-color: rgba(205, 223, 238, 0.59);
+  cursor: pointer;
+  -webkit-box-shadow: 11px 17px 20px 17px rgba(23, 93, 157, 0.5);
+  box-shadow: 11px 17px 20px 17px rgba(23, 93, 157, 0.5);
+}
+
+.sidebar-item-icon {
+  width: 20px;
+  height: 20px;
+  margin-top: -3px;
+  margin-right: 10px;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+}
+.sidebar-icon-home {
+  background-image: url(/assets/images/sidebar/sidebar-ico-home.svg);
+}
+.sidebar-icon-my-team {
+  background-image: url(/assets/images/sidebar/sidebar-ico-my-team.svg);
+}
+.sidebar-icon-personal-information {
+  background-image: url(/assets/images/sidebar/sidebar-ico-personal-information.svg);
+}
+.sidebar-icon-job-info {
+  background-image: url(/assets/images/sidebar/sidebar-ico-job-info.svg);
+}
+.sidebar-icon-compensation {
+  background-image: url(/assets/images/sidebar/sidebar-ico-compensation.svg);
+}
+.sidebar-icon-benefits {
+  background-image: url(/assets/images/sidebar/sidebar-ico-benefits.svg);
+}
+.sidebar-icon-time-off {
+  background-image: url(/assets/images/sidebar/sidebar-ico-time-off.svg);
+}
+.sidebar-icon-org-chart {
+  background-image: url(/assets/images/sidebar/sidebar-ico-org-chart.svg);
+}
+.sidebar-icon-comparison {
+  background-image: url(/assets/images/sidebar/sidebar-ico-comparison.svg);
+}
+.sidebar-icon-development {
+  background-image: url(/assets/images/sidebar/sidebar-ico-development.svg);
+}
+.sidebar-icon-expenses {
+  background-image: url(/assets/images/sidebar/sidebar-ico-expenses.svg);
+}
+.sidebar-icon-documentation {
+  background-image: url(/assets/images/sidebar/sidebar-ico-documentation.svg);
+}
+.sidebar-icon-audit {
+  background-image: url(/assets/images/sidebar/sidebar-ico-audit.svg);
+}
+.sidebar-icon-comapny {
+  background-image: url(/assets/images/sidebar/sidebar-logo-company.svg);
+  background-size: 100%;
+}
+.sidebar-toggler svg {
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 10px;
+  top: 15px;
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+  opacity: 0.8;
+}
+.sidebar-toggler:hover svg {
+  right: 15px;
+}
+.sidebar-toggler.active svg {
+  -webkit-transform: rotate(0);
+  transform: rotate(0);
+  right: 30px;
+}
+.sidebar-hidden .sidebar {
+  width: 75px;
+}
+.sidebar-hidden .app {
+  margin-left: 75px;
+}
+.sidenav---sidenav---_2tBP {
+  background: #222d32;
+  min-width: 40px;
+}
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T
+  .sidenav---navicon---3gCRo,
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T {
+  height: 40px;
+  line-height: 40px;
+  font-size: 13px;
+}
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T
+  .sidenav---navicon---3gCRo,
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T
+  .sidenav---navtext---1AE_f,
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T,
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T
+  .sidenav---navicon---3gCRo
+  > *,
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T
+  .sidenav---navtext---1AE_f
+  > *,
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-.sidenav---highlighted---oUx9u
+  > .sidenav---navitem---9uL5T
+  .sidenav---navicon---3gCRo
+  > *,
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL
+  .sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47
+  > .sidenav---navitem---9uL5T {
+  color: #b8c7ce;
+}
+.sidemenu-logo {
+  position: absolute;
+  top: 17px;
+  left: 42%;
+  display: none;
+}
+.sidemenu-logo img {
+  height: 40px;
+}
+.sidenav---expanded---1KdUL .sidemenu-logo {
+  display: block;
+}
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T
+  .sidenav---navicon---3gCRo
+  > img,
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T
+  .sidenav---navtext---1AE_f
+  > img {
+  width: 20px;
+}
+.sidenav---navtext---1AE_f img {
+  width: 20px;
+  margin-right: 10px;
+}
+.sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47
+  > .sidenav---navitem---9uL5T {
+  padding: 0px 15px;
+  color: #ffffff;
+}
+.sidenav---sidenav---_2tBP {
+  position: fixed;
+}
+.sidenav---sidenav-subnav---1EN61 {
+  background: #222d32;
+  color: #fff;
+  width: 230px;
+  left: 40px;
+}
+.sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47
+  > .sidenav---navitem---9uL5T:hover {
+  background: #999;
+}
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL
+  .sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47
+  > .sidenav---navitem---9uL5T {
+  padding: 5px 14px 5px 20px;
+}
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL
+  .sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47::before {
+  height: 35px;
+}
+.sidenav---sidenav-nav---3tvij
+  > .sidenav---sidenav-navitem---uwIJ-
+  > .sidenav---navitem---9uL5T
+  .sidenav---navicon---3gCRo {
+  width: 40px;
+}
+.sidenav---navtext---1AE_f > a {
+  color: #ffffff !important;
+  display: block;
+}
+.sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47.sidenav---selected---1EK3y
+  > .sidenav---navitem---9uL5T:hover {
+  background: #37a000;
+}
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL
+  .sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47.sidenav---selected---1EK3y
+  > .sidenav---navitem---9uL5T::before {
+  top: 10px;
+}
+.sidenav---sidenav---_2tBP.sidenav---expanded---1KdUL
+  .sidenav---sidenav-subnav---1EN61
+  > .sidenav---sidenav-subnavitem---1cD47::before {
+  top: 2px;
+}
+.sidenav---sidenav-toggle---1KRjR {
+  width: 40px;
+}
+.sidenav---navicon---3gCRo i {
+  font-size: 1.3em;
+}
+.sidenav---navicon---3gCRo a img {
+  width: 20px;
+}
+.cntrl-arrow {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+}
+.dropup-arrow {
+  display: none;
+  top: 15px;
+}
+.sidenav---highlighted---oUx9u .dropup-arrow {
+  display: inline-block;
+}
+.sidenav---highlighted---oUx9u .dropdown-arrow {
+  display: none;
+}
+.sidenav---collapsed---LQDEv .cntrl-arrow {
+  display: none;
+}
