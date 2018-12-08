@@ -1,4 +1,4 @@
-import { API_GET, API_POST } from './APIMethods';
+import { API_GET, API_POST, API_PUT } from './APIMethods';
 import { Organisations, ErrorType } from './ActionType';
 import { OrganisationsURL } from './ActionURL';
 
@@ -45,6 +45,24 @@ export const deleteOrg = (data, callBack) => {
       if (result.error !== undefined && !result.error) {
         dispatch({
           type: Organisations.FETCH_ORGANISATIONS,
+          payload: result.payload
+        });
+      }
+      callBack({ error: result.error, message: result.message });
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};
+
+export const updateOrg = (id, data, callBack) => {
+  const url = `${OrganisationsURL.UPDATE_ORGANISATION}/${id}`;
+  return async dispatch => {
+    try {
+      const result = await API_PUT(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: Organisations.UPDATE_ORGANISATION,
           payload: result.payload
         });
       }

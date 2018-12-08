@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import { handleSnackBar } from '../../actions/DashboardAction';
-import { createOrg, deleteOrg } from '../../actions/OrganisationActions';
+import { createOrg, deleteOrg, updateOrg } from '../../actions/OrganisationActions';
 
 const initialForm = {
   legalStatus: '',
@@ -22,7 +22,7 @@ const initialForm = {
 
 const objectId = '_id';
 const ADD = 'add';
-// const EDIT = 'edit';
+const EDIT = 'edit';
 
 class OrganisationForm extends Component {
   state = {
@@ -118,6 +118,9 @@ class OrganisationForm extends Component {
     if (type === ADD) {
       this.props.dispatch(createOrg(data, this.callBack));
     }
+    if (type === EDIT) {
+      this.props.dispatch(updateOrg(this.props.selectedTableRow.id, data, this.callBack));
+    }
   };
 
   callBack = APIresponse => {
@@ -155,7 +158,26 @@ class OrganisationForm extends Component {
       resolve(errors);
     });
 
-  openModal = type => () => this.setState({ type, showModal: true });
+  editForm = () => ({
+    legalStatus: this.props.selectedTableRow.legalStatus,
+    orgName: this.props.selectedTableRow.orgName,
+    orgShortName: this.props.selectedTableRow.orgShortName,
+    line1: this.props.selectedTableRow.orgAddress.line1,
+    line2: this.props.selectedTableRow.orgAddress.line2,
+    line3: this.props.selectedTableRow.orgAddress.line3,
+    state: this.props.selectedTableRow.state[objectId],
+    city: this.props.selectedTableRow.city[objectId],
+    orgPan: this.props.selectedTableRow.orgPAN,
+    pincode: this.props.selectedTableRow.orgPin
+  });
+  openModal = type => () => {
+    if (type === EDIT) {
+      const form = this.editForm();
+      this.setState({ type, form, showModal: true });
+    } else {
+      this.setState({ type, showModal: true });
+    }
+  };
 
   closeModal = () => this.setState({ type: '', showModal: false });
 
@@ -202,6 +224,7 @@ class OrganisationForm extends Component {
                   className="far fa-edit"
                   aria-hidden="true"
                   title="Edit Organisation"
+                  onClick={this.openModal(EDIT)}
                 />
               </li>
             ) : (

@@ -5,7 +5,11 @@ import { connect } from 'react-redux';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import { handleSnackBar } from '../../actions/DashboardAction';
-import { createCity, deleteCities } from '../../actions/CityActions';
+import {
+  createCity,
+  deleteCities,
+  updateCity
+} from '../../actions/CityActions';
 
 const initialForm = {
   name: '',
@@ -13,8 +17,9 @@ const initialForm = {
   state: ''
 };
 
+const objectId = '_id';
 const ADD = 'add';
-// const EDIT = 'edit';
+const EDIT = 'edit';
 
 class CityForm extends Component {
   state = {
@@ -69,6 +74,15 @@ class CityForm extends Component {
     if (type === ADD) {
       this.props.dispatch(createCity(data, this.callBack));
     }
+    if (type === EDIT) {
+      this.props.dispatch(
+        updateCity(
+          this.props.selectedCityTableRow[objectId],
+          data,
+          this.callBack
+        )
+      );
+    }
   };
 
   callBack = APIresponse => {
@@ -99,7 +113,19 @@ class CityForm extends Component {
       resolve(errors);
     });
 
-  openModal = type => () => this.setState({ type, showModal: true });
+  editCityForm = () => ({
+    name: this.props.selectedCityTableRow.cityName,
+    code: this.props.selectedCityTableRow.cityShortCode,
+    state: this.props.selectedCityTableRow.state
+  });
+  openModal = type => () => {
+    if (type === EDIT) {
+      const form = this.editCityForm();
+      this.setState({ type, form, showModal: true });
+    } else {
+      this.setState({ type, showModal: true });
+    }
+  };
 
   closeModal = () => this.setState({ type: '', showModal: false });
 
@@ -143,13 +169,7 @@ class CityForm extends Component {
                 <i
                   className="far fa-edit"
                   aria-hidden="true"
-                  // onClick={() =>
-                  //   // this.setState({ openCreateAnnouncement: true })
-                  //   this.getSelectedAnnouncementData(
-                  //     this.state.selection[0],
-                  //     announcements
-                  //   )
-                  // }
+                  onClick={this.openModal(EDIT)}
                   title="Edit City"
                 />
               </li>

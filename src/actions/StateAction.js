@@ -1,4 +1,4 @@
-import { API_GET, API_POST } from './APIMethods';
+import { API_GET, API_POST, API_PUT } from './APIMethods';
 import { States, ErrorType } from './ActionType';
 import { StatesURL } from './ActionURL';
 
@@ -52,6 +52,24 @@ export const deleteState = (data, callBack) => {
         error: result.statesDB.error,
         message: result.statesDB.message
       });
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};
+
+export const updateState = (id, data, callBack) => {
+  const url = `${StatesURL.UPDATE_STATE}/${id}`;
+  return async dispatch => {
+    try {
+      const result = await API_PUT(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: States.UPDATE_STATE,
+          payload: result.payload
+        });
+      }
+      callBack({ error: result.error, message: result.message });
     } catch (error) {
       dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
     }

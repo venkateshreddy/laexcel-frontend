@@ -17,6 +17,20 @@ export default function reducer(state = initialState, action) {
     case States.FETCH_STATES_CITIES: {
       return { ...state, states: action.payload.statesDB.payload };
     }
+    case States.UPDATE_STATE: {
+      const states = [...state.states];
+      const statesClone = [];
+      let statesCloneObj = {};
+      states.map(org => {
+        statesCloneObj = { ...org };
+        if (org.id === action.payload.id) {
+          statesCloneObj = { ...action.payload };
+        }
+        statesClone.push(statesCloneObj);
+        return null;
+      });
+      return { ...state, states: statesClone };
+    }
     default:
       return state;
   }

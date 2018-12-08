@@ -4,7 +4,11 @@ import { connect } from 'react-redux';
 
 import { FieldGroup } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
-import { createState, deleteState } from '../../actions/StateAction';
+import {
+  createState,
+  deleteState,
+  updateState
+} from '../../actions/StateAction';
 import { handleSnackBar } from '../../actions/DashboardAction';
 
 const initialForm = {
@@ -13,7 +17,7 @@ const initialForm = {
 };
 
 const ADD = 'add';
-// const EDIT = 'edit';
+const EDIT = 'edit';
 
 class StateForm extends Component {
   state = {
@@ -51,6 +55,7 @@ class StateForm extends Component {
   };
 
   formatDataAndSave = form => {
+    const objectId = '_id';
     const { type } = this.state;
     const data = {
       stateName: form.name,
@@ -59,6 +64,15 @@ class StateForm extends Component {
     };
     if (type === ADD) {
       this.props.dispatch(createState(data, this.callBack));
+    }
+    if (type === EDIT) {
+      this.props.dispatch(
+        updateState(
+          this.props.selectedStateTableRow[objectId],
+          data,
+          this.callBack
+        )
+      );
     }
   };
 
@@ -86,7 +100,18 @@ class StateForm extends Component {
       resolve(errors);
     });
 
-  openModal = type => () => this.setState({ type, showModal: true });
+  editStateForm = () => ({
+    name: this.props.selectedStateTableRow.stateName,
+    code: this.props.selectedStateTableRow.stateShortCode
+  });
+  openModal = type => () => {
+    if (type === EDIT) {
+      const form = this.editStateForm();
+      this.setState({ type, form, showModal: true });
+    } else {
+      this.setState({ type, showModal: true });
+    }
+  };
 
   closeModal = () => this.setState({ type: '', showModal: false });
 
@@ -95,6 +120,7 @@ class StateForm extends Component {
   };
 
   render() {
+    console.log('in state', this.state);
     const { showModal, type, form, errors } = this.state;
     return (
       <div>
@@ -132,6 +158,7 @@ class StateForm extends Component {
                   className="far fa-edit"
                   aria-hidden="true"
                   title="Edit State"
+                  onClick={this.openModal(EDIT)}
                 />
               </li>
             ) : (
