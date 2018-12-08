@@ -72,3 +72,8 @@ export const updateOrg = (id, data, callBack) => {
     }
   };
 };
+
+export const setCurrentOrganisation = organisation => ({
+  type: Organisations.SET_CURRENT_ORGANISATION,
+  payload: organisation
+});

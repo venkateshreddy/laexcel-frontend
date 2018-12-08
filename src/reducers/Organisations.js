@@ -1,7 +1,8 @@
 import { Organisations } from '../actions/ActionType';
 
 const initialState = {
-  organisations: []
+  organisations: [],
+  currentOrganisation: {}
 };
 
 export default function reducer(state = initialState, action) {
@@ -27,6 +28,10 @@ export default function reducer(state = initialState, action) {
         return null;
       });
       return { ...state, organisations: organisationsClone };
+    }
+
+    case Organisations.SET_CURRENT_ORGANISATION: {
+      return { ...state, currentOrganisation: action.payload };
     }
     default:
       return state;
