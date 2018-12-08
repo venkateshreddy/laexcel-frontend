@@ -117,7 +117,7 @@ class SideNavBar extends Component {
                 padding: '0px'
               }}
             >
-              <HomeOptions />
+              <HomeOptions logOut={this.logOut} />
             </Col>
           </Row>
           <div>

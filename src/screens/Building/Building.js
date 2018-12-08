@@ -8,34 +8,28 @@ import CheckBoxTable from '../../components/Table/CheckboxTable';
 import { fetchCities } from '../../actions/CityActions';
 import BuildingForm from './BuildingForm';
 import { fetchCampuses } from '../../actions/CampusActions';
+import { fetchBuildingss } from '../../actions/BuildingActions';
 
 class Building extends Component {
   constructor() {
     super();
     this.state = {
       selectedOrganisations: [],
-      filterable: false
+      filterable: false,
+      selectAll: false
     };
   }
 
   componentDidMount() {
     this.props.dispatch(fetchCampuses());
     this.props.dispatch(fetchCities());
+    this.props.dispatch(fetchBuildingss());
   }
 
-  getOrganisationTableData = organisations =>
-    organisations.map(orgObj => ({
-      _id: orgObj.id,
-      legalStatus: orgObj.legalStatus,
-      orgName: orgObj.orgName,
-      orgShortName: orgObj.orgShortName,
-      orgAddress: `${orgObj.orgAddress.line1}, ${orgObj.orgAddress.line2}, ${
-        orgObj.orgAddress.line3
-      }`,
-      state: orgObj.state.stateName,
-      city: orgObj.city.cityName,
-      orgPAN: orgObj.orgPAN,
-      orgPin: orgObj.orgPin
+  getTableData = buildings =>
+    buildings.map(buildingObj => ({
+      _id: buildingObj.id,
+      ...buildingObj
     }));
 
   toggleSelectionOrganisationsTable = (selected, tableData) => {
@@ -49,7 +43,7 @@ class Building extends Component {
     });
     this.setState({
       selectedOrganisations: selected,
-      selectedOrganisationRow: selectedObj
+      selectedTableRow: selectedObj
     });
   };
 
@@ -57,9 +51,15 @@ class Building extends Component {
     this.setState({ filterable: !this.state.filterable });
 
   render() {
-    // const organisationTableData = this.getOrganisationTableData(
-    //   this.props.organisations
-    // );
+    const { buildings } = this.props;
+    const buildingTableData = this.getTableData(buildings);
+
+    let { selectAll } = this.state;
+    if (this.state.selectedOrganisations.length === buildingTableData.length) {
+      selectAll = true;
+    } else {
+      selectAll = false;
+    }
     return (
       <div className="browse-wrap padding">
         <Row>
@@ -67,31 +67,53 @@ class Building extends Component {
             <BuildingForm
               selectedOrganisations={this.state.selectedOrganisations}
               toggleTableFilter={this.toggleTableFilter}
+              selectedTableRow={this.state.selectedTableRow}
             />
           </Col>
         </Row>
         <CheckBoxTable
-          enableMultiSelect={false}
-          enableSelectAll={false}
+          enableMultiSelect
+          enableSelectAll
           selection={this.state.selectedOrganisations}
-          selectAll={false}
-          toggleAll={(selectAll, selection) =>
-            this.setState({ selectAll, selectedOrganisations: selection })
+          selectAll={selectAll}
+          toggleAll={(selectall, selection) =>
+            this.setState({
+              selectAll: selectall,
+              selectedOrganisations: selection
+            })
           }
           toggleSelection={selection =>
-            this.toggleSelectionOrganisationsTable(selection, [])
+            this.toggleSelectionOrganisationsTable(selection, buildingTableData)
           }
-          data={[]}
+          data={buildingTableData}
           columns={[
             { Header: 'Building Name', accessor: 'name' },
             { Header: 'Building Code', accessor: 'code' },
-            { Header: 'Campus', accessor: 'campus' },
-            { Header: 'Campus Address', accessor: 'campusAddress' },
-            { Header: 'Rented Premises', accessor: 'rented' },
+            { Header: 'Campus', accessor: 'campusName' },
+            {
+              Header: 'Campus Address',
+              accessor: 'campusAddress',
+              Cell: row => (
+                <div>
+                  {row.original.campusAddress.line1},{' '}
+                  {row.original.campusAddress.line2},{' '}
+                  {row.original.campusAddress.line3}
+                </div>
+              )
+            },
+            {
+              Header: 'Rented Premises',
+              accessor: 'rented',
+              Cell: row => <div>{row.original.rented ? 'Yes' : 'No'}</div>
+            },
             { Header: 'Total Area(in Sft)', accessor: 'totalArea' },
             { Header: 'Floor Area(in Sft)', accessor: 'floorArea' },
             { Header: 'Carpet Area', accessor: 'carpetArea' },
-            { Header: 'Number of Floors', accessor: 'floorsQty' }
+            {
+              Header: 'Number of Floors',
+              accessor: 'floorsQty',
+              Cell: row => <div>{row.original.floors.length}</div>
+            }
           ]}
           filterable={this.state.filterable}
         />
@@ -116,7 +138,8 @@ class Building extends Component {
 
 const mapStateToProps = state => ({
   snackBarOpen: state.dashboard.snackBarOpen,
-  snackBarMsg: state.dashboard.snackBarMsg
+  snackBarMsg: state.dashboard.snackBarMsg,
+  buildings: state.building.buildings
 });
 
 export default connect(mapStateToProps)(Building);

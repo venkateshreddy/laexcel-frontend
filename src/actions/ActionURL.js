@@ -223,6 +223,13 @@ export const BranchURL = {
   FETCH_BRANCHES: `${AppConfig.API_BASE_URL}branches`
 };
 
+export const BuildingURL = {
+  CREATE_BUILDING: `${AppConfig.API_BASE_URL}buildings`,
+  FETCH_BUILDINGS: `${AppConfig.API_BASE_URL}buildings`,
+  UPDATE_BUILDING: `${AppConfig.API_BASE_URL}buildings`,
+  DELETE_BUILDING: `${AppConfig.API_BASE_URL}buildings/delete`
+};
+
 export const CitiesURL = {
   FETCH_CITIES: `${AppConfig.API_BASE_URL}cities`,
   CREATE_CITIES: `${AppConfig.API_BASE_URL}cities`,

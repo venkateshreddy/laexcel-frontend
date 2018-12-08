@@ -8,6 +8,7 @@ import states from './StatesReducer';
 import organisations from './Organisations';
 import campus from './CampusReducer';
 import room from './RoomReducer';
+import building from './BuildingReducer';
 
 export default combineReducers({
   locale,
@@ -18,5 +19,6 @@ export default combineReducers({
   states,
   organisations,
   campus,
-  room
+  room,
+  building
 });
