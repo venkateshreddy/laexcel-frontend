@@ -83,3 +83,25 @@ export const logOutClicked = () => {
     });
   };
 };
+
+export const updatePassword = (userName, oldPassword, password) => {
+  const url = `${LoginUrl.CHANGE_PASSWORD}`;
+  const LOGINCONFIG = Configs.GLOBALCONFIG;
+  LOGINCONFIG.auth = {
+    username: userName,
+    password: oldPassword
+  };
+  return async dispatch => {
+    try {
+      const result = await axios.put(url, { password }, LOGINCONFIG);
+      return result.data;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Unable to update password. Please try later.'
+      };
+    }
+  };
+};

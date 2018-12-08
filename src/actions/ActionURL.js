@@ -1,7 +1,8 @@
 import AppConfig from '../config';
 
 export const LoginUrl = {
-  AUTHENTICATE: `${AppConfig.API_BASE_URL}users/auth`
+  AUTHENTICATE: `${AppConfig.API_BASE_URL}users/auth`,
+  CHANGE_PASSWORD: `${AppConfig.API_BASE_URL}users/me/password/`
 };
 export const ChatBotUrl = {
   CHATBOT: 'https://api.wit.ai/message?v=04/10/2017&q='
