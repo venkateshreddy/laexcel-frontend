@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import { handleSnackBar } from '../../actions/DashboardAction';
-import { createOrg } from '../../actions/OrganisationActions';
+import { createOrg, deleteOrg } from '../../actions/OrganisationActions';
 
 const initialForm = {
   legalStatus: '',
@@ -127,6 +127,7 @@ class OrganisationForm extends Component {
     if (!APIresponse.error) {
       this.closeModal();
       this.resetForm();
+      this.props.changeParentState();
     }
   };
 
@@ -158,6 +159,12 @@ class OrganisationForm extends Component {
 
   closeModal = () => this.setState({ type: '', showModal: false });
 
+  deleteOrganisations = () => {
+    this.props.dispatch(
+      deleteOrg(this.props.selectedOrganisations, this.callBack)
+    );
+  };
+
   render() {
     const { showModal, type, form, errors } = this.state;
     const { states, cities } = this.props;
@@ -183,7 +190,7 @@ class OrganisationForm extends Component {
                 title="Create Organisation"
               />
             </li>
-            {this.props.selectedOrganisations.length > 0 ? (
+            {this.props.selectedOrganisations.length === 1 ? (
               <li
                 style={{
                   display: 'inline',
@@ -195,6 +202,24 @@ class OrganisationForm extends Component {
                   className="far fa-edit"
                   aria-hidden="true"
                   title="Edit Organisation"
+                />
+              </li>
+            ) : (
+              ''
+            )}
+            {this.props.selectedOrganisations.length > 0 ? (
+              <li
+                style={{
+                  display: 'inline',
+                  padding: '5px',
+                  color: '#0073a8'
+                }}
+              >
+                <i
+                  className="fa fa-trash"
+                  aria-hidden="true"
+                  title="Delete Organisation"
+                  onClick={this.deleteOrganisations}
                 />
               </li>
             ) : (

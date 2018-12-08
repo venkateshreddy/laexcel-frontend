@@ -36,3 +36,21 @@ export const createOrg = (data, callBack) => {
     }
   };
 };
+
+export const deleteOrg = (data, callBack) => {
+  const url = `${OrganisationsURL.DELETE_ORGANISATION}`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: Organisations.FETCH_ORGANISATIONS,
+          payload: result.payload
+        });
+      }
+      callBack({ error: result.error, message: result.message });
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};

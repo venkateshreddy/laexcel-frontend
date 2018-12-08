@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import { startCase, cloneDeep } from 'lodash';
 import { connect } from 'react-redux';
 
-import { FormGroup, ControlLabel, Radio } from 'react-bootstrap';
+// import { FormGroup, ControlLabel, Radio } from 'react-bootstrap';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import { handleSnackBar } from '../../actions/DashboardAction';
+import FieldRadio from '../../components/Form/FieldRadio';
 // import { createOrg } from '../../actions/OrganisationActions';
 
 const initialForm = {
@@ -381,7 +382,7 @@ class BuildingForm extends Component {
                 validationState={errors.pincode !== '' ? 'error' : null}
                 help={errors.pincode !== '' ? errors.pincode : null}
               /> */}
-              <FormGroup onChange={this.onChangeText('rented')}>
+              {/* <FormGroup onChange={this.onChangeText('rented')}>
                 <ControlLabel>Rented Premises</ControlLabel>
                 <br />
                 <Radio name="radioGroup" inline>
@@ -390,7 +391,15 @@ class BuildingForm extends Component {
                 <Radio name="radioGroup" inline>
                   No
                 </Radio>
-              </FormGroup>
+              </FormGroup> */}
+              <FieldRadio
+                id="rented"
+                checked={false}
+                values={['Yes', 'No']}
+                onChange={this.onChangeText('rented')}
+                validationState={errors.rented !== '' ? 'error' : null}
+                help={errors.rented !== '' ? errors.rented : null}
+              />
               <FieldGroup
                 id="totalArea"
                 type="number"

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import { handleSnackBar } from '../../actions/DashboardAction';
-import { createCity } from '../../actions/CityActions';
+import { createCity, deleteCities } from '../../actions/CityActions';
 
 const initialForm = {
   name: '',
@@ -78,6 +78,7 @@ class CityForm extends Component {
     if (!APIresponse.error) {
       this.closeModal();
       this.resetForm();
+      this.props.changeParentState();
     }
   };
 
@@ -101,6 +102,10 @@ class CityForm extends Component {
   openModal = type => () => this.setState({ type, showModal: true });
 
   closeModal = () => this.setState({ type: '', showModal: false });
+
+  deleteCity = () => {
+    this.props.dispatch(deleteCities(this.props.selectedCities, this.callBack));
+  };
 
   render() {
     const { showModal, type, form, errors } = this.state;
@@ -127,7 +132,7 @@ class CityForm extends Component {
                 title="Create City"
               />
             </li>
-            {this.props.selectedCities.length > 0 ? (
+            {this.props.selectedCities.length === 1 ? (
               <li
                 style={{
                   display: 'inline',
@@ -146,6 +151,24 @@ class CityForm extends Component {
                   //   )
                   // }
                   title="Edit City"
+                />
+              </li>
+            ) : (
+              ''
+            )}
+            {this.props.selectedCities.length > 0 ? (
+              <li
+                style={{
+                  display: 'inline',
+                  padding: '5px',
+                  color: '#0073a8'
+                }}
+              >
+                <i
+                  className="fa fa-trash"
+                  aria-hidden="true"
+                  title="Delete City"
+                  onClick={this.deleteCity}
                 />
               </li>
             ) : (

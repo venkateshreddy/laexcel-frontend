@@ -36,3 +36,21 @@ export const createCity = (data, callBack) => {
     }
   };
 };
+
+export const deleteCities = (data, callBack) => {
+  const url = `${CitiesURL.DELETE_CITIES}`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: Cities.FETCH_CITIES,
+          payload: result.payload
+        });
+      }
+      callBack({ error: result.error, message: result.message });
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};

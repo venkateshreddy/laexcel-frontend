@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import { FieldGroup } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
-import { createState } from '../../actions/StateAction';
+import { createState, deleteState } from '../../actions/StateAction';
 import { handleSnackBar } from '../../actions/DashboardAction';
 
 const initialForm = {
@@ -69,6 +69,7 @@ class StateForm extends Component {
     if (!APIresponse.error) {
       this.closeModal();
       this.resetForm();
+      this.props.changeParentState();
     }
   };
 
@@ -88,6 +89,10 @@ class StateForm extends Component {
   openModal = type => () => this.setState({ type, showModal: true });
 
   closeModal = () => this.setState({ type: '', showModal: false });
+
+  deleteState = () => {
+    this.props.dispatch(deleteState(this.props.selectedStates, this.callBack));
+  };
 
   render() {
     const { showModal, type, form, errors } = this.state;
@@ -115,7 +120,7 @@ class StateForm extends Component {
                 title="Create State"
               />
             </li>
-            {this.props.selectedStates.length > 0 ? (
+            {this.props.selectedStates.length === 1 ? (
               <li
                 style={{
                   display: 'inline',
@@ -126,11 +131,25 @@ class StateForm extends Component {
                 <i
                   className="far fa-edit"
                   aria-hidden="true"
-                  // onClick={() =>
-                  //   // this.setState({ openCreateAnnouncement: true })
-                  //   )
-                  // }
                   title="Edit State"
+                />
+              </li>
+            ) : (
+              ''
+            )}
+            {this.props.selectedStates.length > 0 ? (
+              <li
+                style={{
+                  display: 'inline',
+                  padding: '5px',
+                  color: '#0073a8'
+                }}
+              >
+                <i
+                  className="fa fa-trash"
+                  aria-hidden="true"
+                  title="Delete State"
+                  onClick={this.deleteState}
                 />
               </li>
             ) : (
