@@ -10,6 +10,7 @@ import Registration from '../Registration/Registration';
 
 import Student from '../Student/Student';
 import Organisation from '../Organisation/Organisation';
+import PreAdmission from '../admission/PreAdmission';
 import ConfigurationInitialScreen from '../Configuration/ConfigurationInitialScreen';
 import StateAndCity from '../StateAndCity/State&City';
 import Branch from '../Branch/Branch';
@@ -46,6 +47,11 @@ class Routes extends React.Component {
             path="/configuration"
             name="configuration"
             component={ConfigurationInitialScreen}
+          />
+          <Route
+            path="/preAdmission"
+            name="preAdmission"
+            component={PreAdmission}
           />
           <Route
             path="/user/management"

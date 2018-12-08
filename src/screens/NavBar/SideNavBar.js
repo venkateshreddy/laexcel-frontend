@@ -3,10 +3,10 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 // import SideNav from 'react-simple-sidenav';
 import SideNav, { NavItem, NavIcon, NavText } from '@trendmicro/react-sidenav';
-import '@trendmicro/react-sidenav/dist/react-sidenav.css';
 // import Menu from '@material-ui/icons/Menu';
 import { Link } from 'react-router';
 import './NavBar.scss';
+import './react-sidenav.css';
 import './sideNavBar.css';
 import { logOutClicked } from '../../actions/LoginAction';
 import HomeOptions from './homeOptions';
@@ -323,6 +323,16 @@ class SideNavBar extends Component {
                   <NavText>
                     <Link to={'configuration'} className="margin-left10">
                       Admin Configuration
+                    </Link>
+                  </NavText>
+                </NavItem>
+                <NavItem eventKey="preAdmission">
+                  <NavIcon>
+                    <i className="fa fa-edit" />
+                  </NavIcon>
+                  <NavText>
+                    <Link to={'preAdmission'} className="margin-left10">
+                      Pre Admission
                     </Link>
                   </NavText>
                 </NavItem>
