@@ -13,7 +13,7 @@ const FieldRadio = ({
   <FormGroup controlId={id} validationState={validationState}>
     {values.map((value, i) => (
       <Fragment key={i}>
-        <Radio name="radioGroup" checked={value === checked} {...props}>
+        <Radio name={value} checked={value === checked} {...props}>
           {value}
         </Radio>{' '}
         {help && <HelpBlock>{help}</HelpBlock>}
@@ -29,7 +29,7 @@ FieldRadio.defaultProps = {
 
 FieldRadio.propTypes = {
   id: PropTypes.string.isRequired,
-  checked: PropTypes.bool.isRequired,
+  checked: PropTypes.string.isRequired,
   // inline: PropTypes.bool.isRequired,
   values: PropTypes.arrayOf(PropTypes.string).isRequired,
   help: PropTypes.string,

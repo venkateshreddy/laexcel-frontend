@@ -31,7 +31,7 @@ class HomeOptions extends Component {
                   </MenuItem> */}
           <MenuItem divider />
           <MenuItem eventKey="2">
-            <Link to="/login" onClick={this.logOut}>
+            <Link to="/login" onClick={this.props.logOut}>
               Logout
             </Link>
           </MenuItem>

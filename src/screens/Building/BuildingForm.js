@@ -7,6 +7,11 @@ import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import { handleSnackBar } from '../../actions/DashboardAction';
 import FieldRadio from '../../components/Form/FieldRadio';
+import {
+  createBuilding,
+  updateBuilding,
+  deleteBuilding
+} from '../../actions/BuildingActions';
 // import { createOrg } from '../../actions/OrganisationActions';
 
 const initialForm = {
@@ -28,7 +33,7 @@ const initialForm = {
 
 // const objectId = '_id';
 const ADD = 'add';
-// const EDIT = 'edit';
+const EDIT = 'edit';
 
 class BuildingForm extends Component {
   state = {
@@ -48,7 +53,10 @@ class BuildingForm extends Component {
       }
       return name;
     });
-    const hasNoErrors = Object.keys(errors).every(name => errors[name] === '');
+    const hasNoErrors = Object.keys(errors).every(
+      name => (name !== 'floors' ? errors[name] === '' : true)
+    );
+    console.log(hasNoErrors);
     if (!hasNoErrors) {
       this.setState({ errors });
     } else {
@@ -56,8 +64,16 @@ class BuildingForm extends Component {
     }
   };
 
+  onRadioSelect = key => ({ target: { name, checked } }) => {
+    const form = { ...this.state.form };
+    const errors = { ...this.state.errors };
+    form[key] = checked ? name : '';
+    errors[key] = '';
+    this.setState({ form, errors });
+  };
+
   onChangeText = name => ({ target: { value } }) => {
-    console.log(name, value);
+    // console.log(name, value);
     const form = { ...this.state.form };
     const errors = { ...this.state.errors };
     form[name] = value;
@@ -127,6 +143,7 @@ class BuildingForm extends Component {
                     onChange={e =>
                       this.buildFloorsJson('floorNo', i, e.target.value)
                     }
+                    value={floorObj.floorNo}
                   />
                 </td>
                 <td>
@@ -135,6 +152,7 @@ class BuildingForm extends Component {
                     onChange={e =>
                       this.buildFloorsJson('floorArea', i, e.target.value)
                     }
+                    value={floorObj.floorArea}
                   />
                 </td>
               </tr>
@@ -146,6 +164,8 @@ class BuildingForm extends Component {
     return null;
   };
 
+  getRentedBool = rented => rented === 'Yes';
+
   buildFloorsJson = (key, index, value) => {
     const floorsStr = 'floors';
     const form = { ...this.state.form };
@@ -154,7 +174,7 @@ class BuildingForm extends Component {
     floorsClone.map((floor, i) => {
       if (index === i) {
         // eslint-disable-next-line
-        floor[key] = value;
+        floor[key] = Number(value);
       }
       return null;
     });
@@ -163,16 +183,15 @@ class BuildingForm extends Component {
   };
 
   formatDataAndSave = form => {
-    console.log('form on submit', form);
     const { type } = this.state;
     const data = {
       name: form.name,
       code: form.code,
       campus: form.campus,
-      rented: form.rented,
-      totalArea: form.totalArea,
-      floorArea: form.floorArea,
-      carpetArea: form.carpetArea,
+      rented: this.getRentedBool(form.rented),
+      totalArea: Number(form.totalArea),
+      floorArea: Number(form.floorArea),
+      carpetArea: Number(form.carpetArea),
       floors: form.floors,
       // city: form.city,
       // floorsQty: form.floorsQty,
@@ -185,9 +204,14 @@ class BuildingForm extends Component {
       // pincode: form.pincode,
       createdBy: this.props.loggedInUser.id
     };
-    console.log(data);
+    // console.log(data);
     if (type === ADD) {
-      // this.props.dispatch(createOrg(data, this.callBack));
+      this.props.dispatch(createBuilding(data, this.callBack));
+    }
+    if (type === EDIT) {
+      this.props.dispatch(
+        updateBuilding(this.props.selectedTableRow.id, data, this.callBack)
+      );
     }
   };
 
@@ -225,10 +249,33 @@ class BuildingForm extends Component {
       resolve(errors);
     });
 
-  openModal = type => () => this.setState({ type, showModal: true });
+  editForm = () => ({
+    name: this.props.selectedTableRow.name,
+    code: this.props.selectedTableRow.code,
+    campus: this.props.selectedTableRow.campus,
+    rented: this.props.selectedTableRow.rented ? 'Yes' : 'No',
+    totalArea: this.props.selectedTableRow.totalArea,
+    floorArea: this.props.selectedTableRow.floorArea,
+    carpetArea: this.props.selectedTableRow.carpetArea,
+    floorsQty: this.props.selectedTableRow.floors.length,
+    floors: this.props.selectedTableRow.floors
+  });
+  openModal = type => () => {
+    if (type === EDIT) {
+      const form = this.editForm();
+      this.setState({ type, form, showModal: true });
+    } else {
+      this.setState({ type, showModal: true });
+    }
+  };
 
   closeModal = () => this.setState({ type: '', showModal: false });
 
+  deleteBuildings = () => {
+    this.props.dispatch(
+      deleteBuilding(this.props.selectedOrganisations, this.callBack)
+    );
+  };
   render() {
     const { showModal, type, form, errors } = this.state;
     const { campuses } = this.props;
@@ -251,10 +298,10 @@ class BuildingForm extends Component {
                 className="fas fa-plus"
                 aria-hidden="true"
                 onClick={this.openModal(ADD)}
-                title="Create Organisation"
+                title="Create Building"
               />
             </li>
-            {this.props.selectedOrganisations.length > 0 ? (
+            {this.props.selectedOrganisations.length === 1 ? (
               <li
                 style={{
                   display: 'inline',
@@ -265,7 +312,26 @@ class BuildingForm extends Component {
                 <i
                   className="far fa-edit"
                   aria-hidden="true"
-                  title="Edit Organisation"
+                  title="Edit Building"
+                  onClick={this.openModal(EDIT)}
+                />
+              </li>
+            ) : (
+              ''
+            )}
+            {this.props.selectedOrganisations.length > 0 ? (
+              <li
+                style={{
+                  display: 'inline',
+                  padding: '5px',
+                  color: '#0073a8'
+                }}
+              >
+                <i
+                  className="fa fa-trash"
+                  aria-hidden="true"
+                  title="Delete Building"
+                  onClick={this.deleteBuildings}
                 />
               </li>
             ) : (
@@ -394,9 +460,9 @@ class BuildingForm extends Component {
               </FormGroup> */}
               <FieldRadio
                 id="rented"
-                checked={false}
+                checked={form.rented}
                 values={['Yes', 'No']}
-                onChange={this.onChangeText('rented')}
+                onChange={this.onRadioSelect('rented')}
                 validationState={errors.rented !== '' ? 'error' : null}
                 help={errors.rented !== '' ? errors.rented : null}
               />
