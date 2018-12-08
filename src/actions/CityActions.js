@@ -1,4 +1,4 @@
-import { API_GET, API_POST } from './APIMethods';
+import { API_GET, API_POST, API_PUT } from './APIMethods';
 import { Cities, ErrorType } from './ActionType';
 import { CitiesURL } from './ActionURL';
 
@@ -45,6 +45,24 @@ export const deleteCities = (data, callBack) => {
       if (result.error !== undefined && !result.error) {
         dispatch({
           type: Cities.FETCH_CITIES,
+          payload: result.payload
+        });
+      }
+      callBack({ error: result.error, message: result.message });
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};
+
+export const updateCity = (id, data, callBack) => {
+  const url = `${CitiesURL.UPDATE_CITY}/${id}`;
+  return async dispatch => {
+    try {
+      const result = await API_PUT(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: Cities.UPDATE_CITY,
           payload: result.payload
         });
       }

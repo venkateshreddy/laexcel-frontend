@@ -29,16 +29,17 @@ class Organisation extends Component {
   getOrganisationTableData = organisations =>
     organisations.map(orgObj => ({
       _id: orgObj.id,
-      legalStatus: orgObj.legalStatus,
-      orgName: orgObj.orgName,
-      orgShortName: orgObj.orgShortName,
-      orgAddress: `${orgObj.orgAddress.line1}, ${orgObj.orgAddress.line2}, ${
-        orgObj.orgAddress.line3
-      }`,
-      state: orgObj.state.stateName,
-      city: orgObj.city.cityName,
-      orgPAN: orgObj.orgPAN,
-      orgPin: orgObj.orgPin
+      ...orgObj
+      // legalStatus: orgObj.legalStatus,
+      // orgName: orgObj.orgName,
+      // orgShortName: orgObj.orgShortName,
+      // orgAddress: `${orgObj.orgAddress.line1}, ${orgObj.orgAddress.line2}, ${
+      //   orgObj.orgAddress.line3
+      // }`,
+      // state: orgObj.state.stateName,
+      // city: orgObj.city.cityName,
+      // orgPAN: orgObj.orgPAN,
+      // orgPin: orgObj.orgPin
     }));
 
   toggleSelectionOrganisationsTable = (selected, tableData) => {
@@ -81,6 +82,7 @@ class Organisation extends Component {
               selectedOrganisations={this.state.selectedOrganisations}
               toggleTableFilter={this.toggleTableFilter}
               changeParentState={this.changeParentState}
+              selectedTableRow={this.state.selectedOrganisationRow}
             />
           </Col>
         </Row>
@@ -106,9 +108,27 @@ class Organisation extends Component {
             { Header: 'Legal Status', accessor: 'legalStatus' },
             { Header: 'Organisation Name', accessor: 'orgName' },
             { Header: 'Short Name', accessor: 'orgShortName' },
-            { Header: 'Address', accessor: 'orgAddress' },
-            { Header: 'State', accessor: 'state' },
-            { Header: 'City', accessor: 'city' },
+            {
+              Header: 'Address',
+              accessor: 'orgAddress',
+              Cell: row => (
+                <div>
+                  {row.original.orgAddress.line1},{' '}
+                  {row.original.orgAddress.line2},{' '}
+                  {row.original.orgAddress.line3}
+                </div>
+              )
+            },
+            {
+              Header: 'State',
+              accessor: 'state',
+              Cell: row => <div>{row.original.state.stateName}</div>
+            },
+            {
+              Header: 'City',
+              accessor: 'city',
+              Cell: row => <div>{row.original.city.cityName}</div>
+            },
             { Header: 'PAN', accessor: 'orgPAN' },
             { Header: 'PIN', accessor: 'orgPin' }
           ]}

@@ -10,6 +10,8 @@ import { fetchStates } from '../../actions/StateAction';
 import CityForm from './CityForm';
 import { fetchCities } from '../../actions/CityActions';
 
+const objectId = '_id';
+
 class StateAndCity extends Component {
   constructor() {
     super();
@@ -37,11 +39,11 @@ class StateAndCity extends Component {
       _id: city.id,
       cityName: city.cityName,
       cityShortCode: city.cityShortCode,
-      stateName: city.state.stateName
+      stateName: city.state.stateName,
+      state: city.state[objectId]
     }));
 
   toggleSelectionStateTable = (selected, tableData) => {
-    const objectId = '_id';
     let selectedObj = {};
     tableData.map(row => {
       if (selected.indexOf(row[objectId]) >= 0) {
@@ -52,7 +54,6 @@ class StateAndCity extends Component {
     this.setState({ selectedStates: selected, selectedStateRow: selectedObj });
   };
   toggleSelectionCityTable = (selected, tableData) => {
-    const objectId = '_id';
     let selectedObj = {};
     tableData.map(row => {
       if (selected.indexOf(row[objectId]) >= 0) {
@@ -106,6 +107,7 @@ class StateAndCity extends Component {
               selectedStates={this.state.selectedStates}
               toggleStateTableFilter={this.toggleStateTableFilter}
               changeParentState={this.changeParentState}
+              selectedStateTableRow={this.state.selectedStateRow}
             />
           </Col>
           <Col lg={6} md={6} sm={6}>
@@ -113,6 +115,7 @@ class StateAndCity extends Component {
               selectedCities={this.state.selectedCities}
               toggleCitiesTableFilter={this.toggleCitiesTableFilter}
               changeParentState={this.changeParentState}
+              selectedCityTableRow={this.state.selectedCityRow}
             />
           </Col>
         </Row>
