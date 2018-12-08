@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 // import SideNav from 'react-simple-sidenav';
@@ -31,6 +31,7 @@ class SideNavBar extends Component {
   hideNave = () => this.setState({ showNav: false });
 
   render() {
+    const { currentOrganisation } = this.props;
     return (
       <div className="navbar HeaderBar" style={{ backgroundColor: '#0073a8' }}>
         <div className="header-top-wrap row">
@@ -82,16 +83,28 @@ class SideNavBar extends Component {
               style={{
                 marginTop: '15px',
                 padding: '0px',
-                textAlign: 'right'
+                textAlign: 'center',
+                color: 'white'
               }}
             >
-              <select onChange={this.getOrganisation}>
-                <option value="">Select Organisation</option>
-                <option value="ABC University">ABC University</option>
-                <option value="XYZ Organisation">XYZ Organisation</option>
-              </select>
+              {currentOrganisation.orgName ? (
+                <Fragment>
+                  <label>{currentOrganisation.orgName}</label>
+                  <Link
+                    to="/"
+                    style={{
+                      padding: '0px 5px',
+                      color: 'white'
+                    }}
+                  >
+                    <i className="fas fa-exchange-alt" />
+                  </Link>
+                </Fragment>
+              ) : (
+                <label>None</label>
+              )}
             </Col>
-            <Col
+            {/* <Col
               lg={2}
               md={2}
               sm={2}
@@ -107,7 +120,7 @@ class SideNavBar extends Component {
                 <option value="2018">2018</option>
                 <option value="2019">2019</option>
               </select>
-            </Col>
+            </Col> */}
             <Col
               lg={1}
               md={1}
@@ -346,7 +359,8 @@ class SideNavBar extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedInUser: state.login.loggedInUser
+  loggedInUser: state.login.loggedInUser,
+  currentOrganisation: state.organisations.currentOrganisation
 });
 
 export default connect(mapStateToProps)(SideNavBar);
