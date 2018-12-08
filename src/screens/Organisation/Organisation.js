@@ -15,7 +15,8 @@ class Organisation extends Component {
     super();
     this.state = {
       selectedOrganisations: [],
-      filterable: false
+      filterable: false,
+      selectAll: false
     };
   }
 
@@ -58,10 +59,20 @@ class Organisation extends Component {
   toggleTableFilter = () =>
     this.setState({ filterable: !this.state.filterable });
 
+  changeParentState = () =>
+    this.setState({ selectAll: false, selectedOrganisations: [] });
   render() {
     const organisationTableData = this.getOrganisationTableData(
       this.props.organisations
     );
+    let { selectAll } = this.state;
+    if (
+      this.state.selectedOrganisations.length === organisationTableData.length
+    ) {
+      selectAll = true;
+    } else {
+      selectAll = false;
+    }
     return (
       <div className="browse-wrap padding">
         <Row>
@@ -69,16 +80,20 @@ class Organisation extends Component {
             <OrganisationForm
               selectedOrganisations={this.state.selectedOrganisations}
               toggleTableFilter={this.toggleTableFilter}
+              changeParentState={this.changeParentState}
             />
           </Col>
         </Row>
         <CheckBoxTable
-          enableMultiSelect={false}
-          enableSelectAll={false}
+          enableMultiSelect
+          enableSelectAll
           selection={this.state.selectedOrganisations}
-          selectAll={false}
-          toggleAll={(selectAll, selection) =>
-            this.setState({ selectAll, selectedOrganisations: selection })
+          selectAll={selectAll}
+          toggleAll={(selectall, selection) =>
+            this.setState({
+              selectAll: selectall,
+              selectedOrganisations: selection
+            })
           }
           toggleSelection={selection =>
             this.toggleSelectionOrganisationsTable(

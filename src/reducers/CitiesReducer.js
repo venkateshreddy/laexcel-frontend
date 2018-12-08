@@ -1,4 +1,4 @@
-import { Cities } from '../actions/ActionType';
+import { Cities, States } from '../actions/ActionType';
 
 const initialState = {
   cities: []
@@ -13,6 +13,9 @@ export default function reducer(state = initialState, action) {
       const cities = [...state.cities];
       cities.unshift(action.payload);
       return { ...state, cities };
+    }
+    case States.FETCH_STATES_CITIES: {
+      return { ...state, cities: action.payload.citiesDB.payload };
     }
     default:
       return state;

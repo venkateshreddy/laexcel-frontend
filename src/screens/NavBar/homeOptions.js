@@ -7,7 +7,8 @@ class HomeOptions extends Component {
   state = {
     openChangePass: false
   };
-  openChangePass = () => this.setState({ openChangePass: true });
+  toggleChangePass = () =>
+    this.setState({ openChangePass: !this.state.openChangePass });
   render() {
     return (
       <div>
@@ -21,7 +22,7 @@ class HomeOptions extends Component {
           }}
           onClick={() => this.props.router.push('/')}
         >
-          <MenuItem eventKey="1" onClick={this.openChangePass}>
+          <MenuItem eventKey="1" onClick={this.toggleChangePass}>
             Change Password
           </MenuItem>
           {/* <MenuItem eventKey="2">Another action</MenuItem>
@@ -35,7 +36,10 @@ class HomeOptions extends Component {
             </Link>
           </MenuItem>
         </SplitButton>
-        <ChangePassword show={this.state.openChangePass} />
+        <ChangePassword
+          show={this.state.openChangePass}
+          onHide={this.toggleChangePass}
+        />
       </div>
     );
   }

@@ -225,17 +225,20 @@ export const BranchURL = {
 
 export const CitiesURL = {
   FETCH_CITIES: `${AppConfig.API_BASE_URL}cities`,
-  CREATE_CITIES: `${AppConfig.API_BASE_URL}cities`
+  CREATE_CITIES: `${AppConfig.API_BASE_URL}cities`,
+  DELETE_CITIES: `${AppConfig.API_BASE_URL}cities/delete`
 };
 
 export const StatesURL = {
   FETCH_STATES: `${AppConfig.API_BASE_URL}states`,
-  CREATE_STATE: `${AppConfig.API_BASE_URL}states`
+  CREATE_STATE: `${AppConfig.API_BASE_URL}states`,
+  DELETE_STATE: `${AppConfig.API_BASE_URL}states/delete`
 };
 
 export const OrganisationsURL = {
   FETCH_ORGANISATIONS: `${AppConfig.API_BASE_URL}organizations`,
-  CREATE_ORGANISATION: `${AppConfig.API_BASE_URL}organizations`
+  CREATE_ORGANISATION: `${AppConfig.API_BASE_URL}organizations/create`,
+  DELETE_ORGANISATION: `${AppConfig.API_BASE_URL}organizations/delete`
 };
 
 export const CampusURL = {

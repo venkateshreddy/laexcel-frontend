@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 // import { LargeModal } from '../../components/Modals';
 import { Button } from 'react-bootstrap';
 
@@ -14,9 +15,7 @@ const initialForm = {
 class ChangePassword extends Component {
   state = {
     form: initialForm,
-    errors: initialForm,
-    displayCurrentPass: true,
-    displayNewPass: false
+    errors: initialForm
   };
 
   onChangeText = name => ({ target: { value } }) => {
@@ -50,14 +49,6 @@ class ChangePassword extends Component {
       resolve(errors);
     });
 
-  validateCurrentPassword = () => {
-    const { form } = this.state;
-    if (form.currentPass !== '') {
-      // write api to check current pass matches or not
-      this.setState({ displayNewPass: true, displayCurrentPass: false });
-    }
-  };
-
   render() {
     const { form, errors } = this.state;
     return (
@@ -67,56 +58,43 @@ class ChangePassword extends Component {
         resetButton={<Button onClick={this.resetForm}>Reset</Button>}
         cancelText={'Cancel'}
         submitText={'Submit'}
+        onHide={this.props.onHide}
       >
         <form>
-          {this.state.displayCurrentPass ? (
-            <span>
-              <FieldGroup
-                id="currentPass"
-                type="password"
-                label="Current Password"
-                placeholder="Enter Current Password"
-                onChange={this.onChangeText('currentPass')}
-                value={form.currentPass}
-                validationState={errors.currentPass !== '' ? 'error' : null}
-                help={errors.currentPass !== '' ? errors.currentPass : null}
-              />
-              <Button onClick={this.validateCurrentPassword}>validate</Button>
-            </span>
-          ) : (
-            ''
-          )}
-
-          {this.state.displayNewPass ? (
-            <span>
-              <FieldGroup
-                id="newPass1"
-                type="password"
-                label="New Password"
-                placeholder="Enter New Password"
-                onChange={this.onChangeText('newPass1')}
-                value={form.newPass1}
-                validationState={errors.newPass1 !== '' ? 'error' : null}
-                help={errors.newPass1 !== '' ? errors.newPass1 : null}
-              />
-              <FieldGroup
-                id="newPass2"
-                type="password"
-                label="Confirm New Password"
-                placeholder="Confirm New Password"
-                onChange={this.onChangeText('newPass2')}
-                value={form.newPass2}
-                validationState={errors.newPass2 !== '' ? 'error' : null}
-                help={errors.newPass2 !== '' ? errors.newPass2 : null}
-              />
-            </span>
-          ) : (
-            ''
-          )}
+          <FieldGroup
+            id="currentPass"
+            type="password"
+            label="Current Password"
+            placeholder="Enter Current Password"
+            onChange={this.onChangeText('currentPass')}
+            value={form.currentPass}
+            validationState={errors.currentPass !== '' ? 'error' : null}
+            help={errors.currentPass !== '' ? errors.currentPass : null}
+          />
+          <FieldGroup
+            id="newPass1"
+            type="password"
+            label="New Password"
+            placeholder="Enter New Password"
+            onChange={this.onChangeText('newPass1')}
+            value={form.newPass1}
+            validationState={errors.newPass1 !== '' ? 'error' : null}
+            help={errors.newPass1 !== '' ? errors.newPass1 : null}
+          />
+          <FieldGroup
+            id="newPass2"
+            type="password"
+            label="Confirm New Password"
+            placeholder="Confirm New Password"
+            onChange={this.onChangeText('newPass2')}
+            value={form.newPass2}
+            validationState={errors.newPass2 !== '' ? 'error' : null}
+            help={errors.newPass2 !== '' ? errors.newPass2 : null}
+          />
         </form>
       </ReactBootstrapModal>
     );
   }
 }
 
-export default ChangePassword;
+export default connect()(ChangePassword);

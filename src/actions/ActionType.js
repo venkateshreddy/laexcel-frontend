@@ -34,7 +34,8 @@ export const Cities = {
 
 export const States = {
   FETCH_STATES: 'FETCH_STATES',
-  CREATE_STATE: 'CREATE_STATE'
+  CREATE_STATE: 'CREATE_STATE',
+  FETCH_STATES_CITIES: 'FETCH_STATES_CITIES'
 };
 
 export const Organisations = {

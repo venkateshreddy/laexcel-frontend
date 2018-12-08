@@ -36,3 +36,24 @@ export const createState = (data, callBack) => {
     }
   };
 };
+
+export const deleteState = (data, callBack) => {
+  const url = `${StatesURL.DELETE_STATE}`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: States.FETCH_STATES_CITIES,
+          payload: result
+        });
+      }
+      callBack({
+        error: result.statesDB.error,
+        message: result.statesDB.message
+      });
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};

@@ -15,7 +15,9 @@ class StateAndCity extends Component {
     super();
     this.state = {
       selectedStates: [],
-      selectedCities: []
+      selectedCities: [],
+      selectAllState: false,
+      selectAllCity: false
     };
   }
 
@@ -70,9 +72,32 @@ class StateAndCity extends Component {
       enableFilter_citiesTable: !this.state.enableFilter_citiesTable
     });
 
+  changeParentState = () =>
+    this.setState({
+      selectedStates: [],
+      selectedCities: [],
+      selectAllState: false,
+      selectAllCity: false
+    });
+
   render() {
     const statesTableData = this.getStatesTableData(this.props.states);
     const citiesTableData = this.getCitiesTableData(this.props.cities);
+
+    let { selectAllState } = this.state;
+    if (this.state.selectedStates.length === statesTableData.length) {
+      selectAllState = true;
+    } else {
+      selectAllState = false;
+    }
+
+    let { selectAllCity } = this.state;
+    if (this.state.selectedCities.length === citiesTableData.length) {
+      selectAllCity = true;
+    } else {
+      selectAllCity = false;
+    }
+
     return (
       <div className="browse-wrap padding">
         <Row>
@@ -80,24 +105,29 @@ class StateAndCity extends Component {
             <StateForm
               selectedStates={this.state.selectedStates}
               toggleStateTableFilter={this.toggleStateTableFilter}
+              changeParentState={this.changeParentState}
             />
           </Col>
           <Col lg={6} md={6} sm={6}>
             <CityForm
               selectedCities={this.state.selectedCities}
               toggleCitiesTableFilter={this.toggleCitiesTableFilter}
+              changeParentState={this.changeParentState}
             />
           </Col>
         </Row>
         <Row>
           <Col lg={6} md={6} sm={6}>
             <CheckBoxTable
-              enableMultiSelect={false}
-              enableSelectAll={false}
+              enableMultiSelect
+              enableSelectAll
               selection={this.state.selectedStates}
-              selectAll={false}
+              selectAll={selectAllState}
               toggleAll={(selectAll, selection) =>
-                this.setState({ selectAll, selectedStates: selection })
+                this.setState({
+                  selectAllState: selectAll,
+                  selectedStates: selection
+                })
               }
               toggleSelection={selection =>
                 this.toggleSelectionStateTable(selection, statesTableData)
@@ -112,12 +142,15 @@ class StateAndCity extends Component {
           </Col>
           <Col lg={6} md={6} sm={6}>
             <CheckBoxTable
-              enableMultiSelect={false}
-              enableSelectAll={false}
+              enableMultiSelect
+              enableSelectAll
               selection={this.state.selectedCities}
-              selectAll={false}
+              selectAll={selectAllCity}
               toggleAll={(selectAll, selection) =>
-                this.setState({ selectAll, selectedCities: selection })
+                this.setState({
+                  selectAllCity: selectAll,
+                  selectedCities: selection
+                })
               }
               toggleSelection={selection =>
                 this.toggleSelectionCityTable(selection, citiesTableData)
