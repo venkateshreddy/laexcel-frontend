@@ -49,7 +49,7 @@ class Campus extends Component {
     const { campuses } = this.props;
     return (
       <div>
-        <CampusForm />
+        <CampusForm selection={selection} />
         <CheckBoxTable
           enableMultiSelect={false}
           enableSelectAll={false}

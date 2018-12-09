@@ -29,6 +29,8 @@ class HomeOptions extends Component {
     }, 2000);
   };
 
+  hideSnackBar = () => this.setState({ showFeedback: false, feedback: '' });
+
   render() {
     const { showFeedback, feedback } = this.state;
     return (
@@ -62,7 +64,11 @@ class HomeOptions extends Component {
           onHide={this.toggleChangePass}
           showFeedback={this.showFeedback}
         />
-        <SnackBar open={showFeedback} onClose={() => {}} msg={feedback} />
+        <SnackBar
+          open={showFeedback}
+          onClose={this.hideSnackBar}
+          msg={feedback}
+        />
       </div>
     );
   }
