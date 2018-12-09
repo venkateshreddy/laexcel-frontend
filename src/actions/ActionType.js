@@ -24,7 +24,9 @@ export const UsersType = {
 
 export const Branch = {
   CREATE_BRANCH: 'CREATE_BRANCH',
-  FETCH_BRANCHES: 'FETCH_BRANCHES'
+  FETCH_BRANCHES: 'FETCH_BRANCHES',
+  UPDATE_BRANCH: 'UPDATE_BRANCH',
+  DELETE_BRANCHES: 'DELETE_BRANCHES'
 };
 
 export const Building = {
@@ -55,7 +57,9 @@ export const Organisations = {
 
 export const Campus = {
   CREATE_CAMPUS: 'CREATE_CAMPUS',
-  FETCH_CAMPUSES: 'FETCH_CAMPUSES'
+  FETCH_CAMPUSES: 'FETCH_CAMPUSES',
+  UPDATE_CAMPUS: 'UPDATE_CAMPUS',
+  DELETE_CAMPUSES: 'DELETE_CAMPUSES'
 };
 
 export const Room = {
