@@ -221,7 +221,9 @@ export const AuditsUrl = {
 
 export const BranchURL = {
   CREATE_BRANCH: `${AppConfig.API_BASE_URL}branches`,
-  FETCH_BRANCHES: `${AppConfig.API_BASE_URL}branches`
+  FETCH_BRANCHES: `${AppConfig.API_BASE_URL}branches`,
+  UPDATE_BRANCHES: `${AppConfig.API_BASE_URL}branches`,
+  DELETE_BRANCHES: `${AppConfig.API_BASE_URL}branches/delete`
 };
 
 export const BuildingURL = {
@@ -254,7 +256,9 @@ export const OrganisationsURL = {
 
 export const CampusURL = {
   CREATE_CAMPUS: `${AppConfig.API_BASE_URL}campuses`,
-  FETCH_CAMPUSES: `${AppConfig.API_BASE_URL}campuses`
+  FETCH_CAMPUSES: `${AppConfig.API_BASE_URL}campuses`,
+  UPDATE_CAMPUSES: `${AppConfig.API_BASE_URL}campuses`,
+  DELETE_CAMPUSES: `${AppConfig.API_BASE_URL}campuses/delete`
 };
 
 export const RoomURL = {

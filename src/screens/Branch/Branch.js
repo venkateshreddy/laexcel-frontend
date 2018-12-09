@@ -37,9 +37,6 @@ class Branch extends Component {
     this.props.dispatch(fetchCities());
   }
 
-  getBranchesTableData = branches =>
-    branches.map(branch => ({ _id: branch.id, ...branch }));
-
   toggleAll = (selectAll, selection) => this.setState({ selectAll, selection });
 
   toggleSelection = selection => this.setState({ selection });
@@ -47,10 +44,9 @@ class Branch extends Component {
   render() {
     const { selection, filterable, selectAll } = this.state;
     const { branches } = this.props;
-    const branchesTableData = this.getBranchesTableData(branches);
     return (
       <div>
-        <BranchForm />
+        <BranchForm selection={selection} />
         <CheckBoxTable
           enableMultiSelect={false}
           enableSelectAll={false}
@@ -58,7 +54,7 @@ class Branch extends Component {
           selectAll={selectAll}
           toggleAll={this.toggleAll}
           toggleSelection={this.toggleSelection}
-          data={branchesTableData}
+          data={branches}
           columns={columns}
           filterable={filterable}
         />
