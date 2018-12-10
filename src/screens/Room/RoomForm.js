@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { startCase, findIndex } from 'lodash';
 import { connect } from 'react-redux';
 
+import { SnackBar } from '../../components/SnackBar';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import './Room.scss';
-import { createRoom } from '../../actions/RoomActions';
+import { createRoom, deleteRooms, updateRoom } from '../../actions/RoomActions';
+import { fetchBuildingss } from '../../actions/BuildingActions';
 
 const initialForm = {
   branchName: '',
@@ -18,7 +20,7 @@ const initialForm = {
 };
 
 const ADD = 'add';
-// const EDIT = 'edit';
+const EDIT = 'edit';
 
 const roomUsageOptions = [
   <option key={1} value={'Class Room'}>
@@ -29,18 +31,6 @@ const roomUsageOptions = [
   </option>,
   <option key={3} value={'Admin Room'}>
     Admin Room
-  </option>
-];
-
-const buildNameOptions = [
-  <option key="5c02ba7b70a1c3277ac948fa" value="5c02ba7b70a1c3277ac948fa">
-    Building 1
-  </option>,
-  <option key="5c02ba7b80a2c3277ac948fb" value="5c02ba7b80a2c3277ac948fb">
-    Building 2
-  </option>,
-  <option key="5c02ba7b90a3c3277ac948fc" value="5c02ba7b90a3c3277ac948fc">
-    Building 3
   </option>
 ];
 
@@ -63,6 +53,10 @@ class RoomForm extends Component {
     errors: initialForm,
     showModal: false
   };
+
+  componentDidMount() {
+    this.props.dispatch(fetchBuildingss());
+  }
 
   onSubmit = () => {
     const { form } = this.state;
@@ -104,26 +98,74 @@ class RoomForm extends Component {
     return index >= 0 ? cities[index].state : null;
   };
 
+  setEditData = id => {
+    const { rooms } = this.props;
+    const index = findIndex(rooms, { id });
+    if (index >= 0) {
+      const form = {
+        branchName: rooms[index].parentBranch,
+        buildingName: rooms[index].parentBuilding,
+        floorNumber: rooms[index].floorNumber,
+        roomNumber: rooms[index].roomNumber,
+        roomUsage: rooms[index].roomUsage,
+        roomCarpetArea: rooms[index].roomCarpetArea
+      };
+      this.setState({ type: EDIT, showModal: true, form });
+    } else {
+      this.setState({
+        showFeedback: true,
+        feedback: 'Unable to edit data at the moment!'
+      });
+    }
+  };
+
+  deleteRooms = () => {
+    if (window.confirm('This action will delete all the selected rooms!')) {
+      this.props.dispatch(deleteRooms({ ids: this.props.selection }));
+    }
+  };
+
   formatDataAndSave = form => {
     const { type } = this.state;
+    const { currentOrganisation } = this.props;
     const data = {
       parentBranch: form.branchName,
       parentBuilding: form.buildingName,
-      parentOrg: null,
+      parentOrg: currentOrganisation.id,
       floorNumber: form.floorNumber,
       roomNumber: form.roomNumber,
       roomUsage: form.roomUsage,
       roomCarpetArea: form.roomCarpetArea,
-      createdBy: null
+      createdBy: this.props.loggedInUser.id
     };
     if (type === ADD) {
-      this.props.dispatch(createRoom(data));
+      this.props
+        .dispatch(createRoom(data))
+        .then(result => this.showFeedback(result, 'added'));
+      this.closeModal();
+      this.resetForm();
+    }
+    if (type === EDIT) {
+      this.props
+        .dispatch(updateRoom(this.props.selection[0], data))
+        .then(result => this.showFeedback(result, 'updated'));
       this.closeModal();
       this.resetForm();
     }
   };
 
   resetForm = () => this.setState({ form: initialForm, errors: initialForm });
+
+  showFeedback = (result, actionType) => {
+    if (result.error !== undefined && !result.error) {
+      this.setState({
+        showFeedback: true,
+        feedback: `Branch ${actionType} successfully!`
+      });
+    }
+  };
+
+  hideSnackBar = () => this.setState({ showFeedback: false, feedback: '' });
 
   validateInput = (name, value) =>
     new Promise(resolve => {
@@ -143,18 +185,56 @@ class RoomForm extends Component {
       resolve(errors);
     });
 
-  openModal = type => () => this.setState({ type, showModal: true });
+  openModal = type => () => {
+    if (type === ADD) {
+      this.setState({ type, showModal: true });
+    } else {
+      const { selection } = this.props;
+      if (selection.length === 1) {
+        this.setEditData(selection[0]);
+      } else if (selection.length === 0) {
+        this.setState({
+          showFeedback: true,
+          feedback: 'Please select a room to edit!'
+        });
+      }
+    }
+  };
 
   closeModal = () => this.setState({ type: '', showModal: false });
 
   render() {
-    const { showModal, type, form, errors } = this.state;
-    const { branches } = this.props;
+    const {
+      showModal,
+      type,
+      form,
+      errors,
+      showFeedback,
+      feedback
+    } = this.state;
+    const { branches, buildings, selection } = this.props;
     return (
       <div>
         <div className="action-icons">
-          <i className="fas fa-plus" onClick={this.openModal(ADD)} />
-          {/* <i className="fas fa-pencil-alt" onClick={this.openModal(EDIT)} /> */}
+          <i
+            className="fas fa-plus"
+            title="Add room"
+            onClick={this.openModal(ADD)}
+          />
+          {selection.length <= 1 && (
+            <i
+              className="fas fa-pencil-alt"
+              title="Edit room"
+              onClick={this.openModal(EDIT)}
+            />
+          )}
+          {selection.length >= 1 && (
+            <i
+              className="fas fa-trash"
+              title="Delete rooms"
+              onClick={this.deleteRooms}
+            />
+          )}
         </div>
         {showModal && (
           <LargeModal
@@ -186,7 +266,7 @@ class RoomForm extends Component {
                 value={form.buildingName}
                 validationState={errors.buildingName !== '' ? 'error' : null}
                 help={errors.buildingName !== '' ? errors.buildingName : null}
-                options={buildNameOptions}
+                options={this.getOptions(buildings, 'name', 'id')}
               />
               <FieldSelect
                 id="floorNumber"
@@ -236,13 +316,22 @@ class RoomForm extends Component {
             </form>
           </LargeModal>
         )}
+        <SnackBar
+          open={showFeedback}
+          onClose={this.hideSnackBar}
+          msg={feedback}
+        />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  branches: state.branch.branches
+  loggedInUser: state.login.loggedInUser,
+  branches: state.branch.branches,
+  buildings: state.building.buildings,
+  rooms: state.room.rooms,
+  currentOrganisation: state.organisations.currentOrganisation
 });
 
 export default connect(mapStateToProps)(RoomForm);
