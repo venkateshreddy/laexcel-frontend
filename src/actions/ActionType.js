@@ -64,5 +64,7 @@ export const Campus = {
 
 export const Room = {
   CREATE_ROOM: 'CREATE_ROOM',
-  FETCH_ROOMS: 'FETCH_ROOMS'
+  FETCH_ROOMS: 'FETCH_ROOMS',
+  UPDATE_ROOM: 'UPDATE_ROOM',
+  DELETE_ROOMS: 'DELETE_ROOMS'
 };

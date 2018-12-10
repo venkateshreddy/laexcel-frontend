@@ -263,5 +263,7 @@ export const CampusURL = {
 
 export const RoomURL = {
   CREATE_ROOM: `${AppConfig.API_BASE_URL}room`,
-  FETCH_ROOMS: `${AppConfig.API_BASE_URL}room`
+  FETCH_ROOMS: `${AppConfig.API_BASE_URL}room`,
+  UPDATE_ROOM: `${AppConfig.API_BASE_URL}room`,
+  DELETE_ROOMS: `${AppConfig.API_BASE_URL}room/delete`
 };
