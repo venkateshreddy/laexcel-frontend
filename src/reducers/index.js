@@ -9,6 +9,7 @@ import organisations from './Organisations';
 import campus from './CampusReducer';
 import room from './RoomReducer';
 import building from './BuildingReducer';
+import codesAndTypes from './CodesAndTypesReducer';
 
 export default combineReducers({
   locale,
@@ -20,5 +21,6 @@ export default combineReducers({
   organisations,
   campus,
   room,
-  building
+  building,
+  codesAndTypes
 });

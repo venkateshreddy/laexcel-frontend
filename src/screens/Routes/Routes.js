@@ -17,6 +17,7 @@ import Branch from '../Branch/Branch';
 import Campus from '../Campus/Campus';
 import Room from '../Room/Room';
 import Building from '../Building/Building';
+import SourceAndAgency from '../SourceAndAgency/SourceAndAgency';
 
 class Routes extends React.Component {
   render() {
@@ -62,6 +63,11 @@ class Routes extends React.Component {
           <Route path="/campus" name="Campus" component={Campus} />
           <Route path="/room" name="Room" component={Room} />
           <Route path="/building" name="Building" component={Building} />
+          <Route
+            path="/sourceandagency"
+            name="SourceAndAgency"
+            component={SourceAndAgency}
+          />
         </Route>
       </Router>
     );

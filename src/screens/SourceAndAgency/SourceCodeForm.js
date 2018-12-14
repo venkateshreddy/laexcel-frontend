@@ -4,12 +4,16 @@ import { connect } from 'react-redux';
 
 import { FieldGroup } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
-import {
-  createState,
-  deleteState,
-  updateState
-} from '../../actions/StateAction';
+// import {
+//   // createState,
+//   // deleteState,
+//   // updateState
+// } from '../../actions/StateAction';
 import { handleSnackBar } from '../../actions/DashboardAction';
+import {
+  createSourceCode,
+  updateSourceType
+} from '../../actions/CodeAndTypeActions';
 
 const initialForm = {
   name: '',
@@ -19,7 +23,7 @@ const initialForm = {
 const ADD = 'add';
 const EDIT = 'edit';
 
-class StateForm extends Component {
+class SourceCodeForm extends Component {
   state = {
     type: '',
     form: initialForm,
@@ -58,17 +62,17 @@ class StateForm extends Component {
     const objectId = '_id';
     const { type } = this.state;
     const data = {
-      stateName: form.name,
-      stateShortCode: form.code,
+      sourceName: form.name,
+      sourceCode: form.code,
       createdBy: this.props.loggedInUser.id
     };
     if (type === ADD) {
-      this.props.dispatch(createState(data, this.callBack));
+      this.props.dispatch(createSourceCode(data, this.callBack));
     }
     if (type === EDIT) {
       this.props.dispatch(
-        updateState(
-          this.props.selectedStateTableRow[objectId],
+        updateSourceType(
+          this.props.selectedThisTableRow[objectId],
           data,
           this.callBack
         )
@@ -101,8 +105,8 @@ class StateForm extends Component {
     });
 
   editStateForm = () => ({
-    name: this.props.selectedStateTableRow.stateName,
-    code: this.props.selectedStateTableRow.stateShortCode
+    name: this.props.selectedThisTableRow.sourceName,
+    code: this.props.selectedThisTableRow.sourceCode
   });
   openModal = type => () => {
     if (type === EDIT) {
@@ -115,8 +119,11 @@ class StateForm extends Component {
 
   closeModal = () => this.setState({ type: '', showModal: false });
 
-  deleteState = () => {
-    this.props.dispatch(deleteState(this.props.selectedStates, this.callBack));
+  deleteThisTableRows = () => {
+    // this.props.dispatch(
+    //   deleteState(this.props.selectedSourceCodes, this.callBack)
+    // );
+    alert('under development');
   };
 
   render() {
@@ -142,10 +149,10 @@ class StateForm extends Component {
                 className="fas fa-plus"
                 aria-hidden="true"
                 onClick={this.openModal(ADD)}
-                title="Create State"
+                title="Create Source"
               />
             </li>
-            {this.props.selectedStates.length === 1 ? (
+            {this.props.selectedSourceCodes.length === 1 ? (
               <li
                 style={{
                   display: 'inline',
@@ -156,14 +163,14 @@ class StateForm extends Component {
                 <i
                   className="far fa-edit"
                   aria-hidden="true"
-                  title="Edit State"
+                  title="Edit Source"
                   onClick={this.openModal(EDIT)}
                 />
               </li>
             ) : (
               ''
             )}
-            {this.props.selectedStates.length > 0 ? (
+            {this.props.selectedSourceCodes.length > 0 ? (
               <li
                 style={{
                   display: 'inline',
@@ -174,8 +181,8 @@ class StateForm extends Component {
                 <i
                   className="fa fa-trash"
                   aria-hidden="true"
-                  title="Delete State"
-                  onClick={this.deleteState}
+                  title="Delete Source"
+                  onClick={this.deleteThisTableRows}
                 />
               </li>
             ) : (
@@ -191,7 +198,7 @@ class StateForm extends Component {
               <i
                 className="fas fa-filter"
                 title="Filter Table"
-                onClick={this.props.toggleStateTableFilter}
+                onClick={this.props.toggleThisTableFilter}
               />
             </li>
           </ul>
@@ -199,7 +206,7 @@ class StateForm extends Component {
         {showModal && (
           <LargeModal
             show={showModal}
-            header={`${startCase(type)} State`}
+            header={`${startCase(type)} Source`}
             onHide={this.closeModal}
             onSave={this.onSubmit}
             saveText="Submit"
@@ -210,17 +217,17 @@ class StateForm extends Component {
           >
             <form>
               <FieldGroup
-                id="stateName"
+                id="sourceName"
                 type="text"
-                label="State Name"
-                placeholder="Enter state name"
+                label="Source Name"
+                placeholder="Enter Source name"
                 onChange={this.onChangeText('name')}
                 value={form.name}
                 validationState={errors.name !== '' ? 'error' : null}
                 help={errors.name !== '' ? errors.name : null}
               />
               <FieldGroup
-                id="stateCode"
+                id="sourceCode"
                 type="text"
                 label="State Code"
                 minLength="1"
@@ -243,4 +250,4 @@ const mapStateToProps = state => ({
   loggedInUser: state.login.loggedInUser
 });
 
-export default connect(mapStateToProps)(StateForm);
+export default connect(mapStateToProps)(SourceCodeForm);
