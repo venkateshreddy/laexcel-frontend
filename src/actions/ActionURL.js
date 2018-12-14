@@ -267,3 +267,15 @@ export const RoomURL = {
   UPDATE_ROOM: `${AppConfig.API_BASE_URL}room`,
   DELETE_ROOMS: `${AppConfig.API_BASE_URL}room/delete`
 };
+
+export const sourcetypeURL = {
+  FETCH_SOURCETYPES: `${AppConfig.API_BASE_URL}sourcetype`,
+  CREATE_SOURCETYPE: `${AppConfig.API_BASE_URL}sourcetype`,
+  UPDATE_SOURCETYPE: `${AppConfig.API_BASE_URL}sourcetype`
+};
+
+export const agencycodesURL = {
+  FETCH_AGENCYCODES: `${AppConfig.API_BASE_URL}agencycodes`,
+  CREATE_AGENCY: `${AppConfig.API_BASE_URL}agencycodes`,
+  UPDATE_AGENCY: `${AppConfig.API_BASE_URL}agencycodes`
+};

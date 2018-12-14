@@ -2,24 +2,27 @@ import React, { Component } from 'react';
 import { startCase } from 'lodash';
 import { connect } from 'react-redux';
 
-import { FieldGroup } from '../../components/Form';
+import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
-import {
-  createState,
-  deleteState,
-  updateState
-} from '../../actions/StateAction';
 import { handleSnackBar } from '../../actions/DashboardAction';
+// import {
+//   // createCity,
+//   // deleteCities,
+//   // updateCity
+// } from '../../actions/CityActions';
+import { createAgency, updateAgency } from '../../actions/CodeAndTypeActions';
 
 const initialForm = {
   name: '',
-  code: ''
+  code: '',
+  state: ''
 };
 
+const objectId = '_id';
 const ADD = 'add';
 const EDIT = 'edit';
 
-class StateForm extends Component {
+class CityForm extends Component {
   state = {
     type: '',
     form: initialForm,
@@ -54,21 +57,28 @@ class StateForm extends Component {
     this.setState({ form, errors });
   };
 
+  getSourceTypes = jsonArr =>
+    jsonArr.map(stateObj => (
+      <option key={stateObj.id} value={stateObj.id}>
+        {stateObj.sourceName}
+      </option>
+    ));
+
   formatDataAndSave = form => {
-    const objectId = '_id';
     const { type } = this.state;
     const data = {
-      stateName: form.name,
-      stateShortCode: form.code,
+      agencyName: form.name,
+      agencyCode: form.code,
+      source: form.state,
       createdBy: this.props.loggedInUser.id
     };
     if (type === ADD) {
-      this.props.dispatch(createState(data, this.callBack));
+      this.props.dispatch(createAgency(data, this.callBack));
     }
     if (type === EDIT) {
       this.props.dispatch(
-        updateState(
-          this.props.selectedStateTableRow[objectId],
+        updateAgency(
+          this.props.selectedThisTableRow[objectId],
           data,
           this.callBack
         )
@@ -95,18 +105,23 @@ class StateForm extends Component {
       if (value === '') {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
-        errors[name] = '';
+        if (name === 'code' && !(value.length >= 3 && value.length <= 4)) {
+          errors[name] = 'Branch code must be 3-4 digits!';
+        } else {
+          errors[name] = '';
+        }
       }
       resolve(errors);
     });
 
-  editStateForm = () => ({
-    name: this.props.selectedStateTableRow.stateName,
-    code: this.props.selectedStateTableRow.stateShortCode
+  editCityForm = () => ({
+    name: this.props.selectedThisTableRow.agencyName,
+    code: this.props.selectedThisTableRow.agencyCode,
+    state: this.props.selectedThisTableRow.source
   });
   openModal = type => () => {
     if (type === EDIT) {
-      const form = this.editStateForm();
+      const form = this.editCityForm();
       this.setState({ type, form, showModal: true });
     } else {
       this.setState({ type, showModal: true });
@@ -115,20 +130,21 @@ class StateForm extends Component {
 
   closeModal = () => this.setState({ type: '', showModal: false });
 
-  deleteState = () => {
-    this.props.dispatch(deleteState(this.props.selectedStates, this.callBack));
+  deleteRow = () => {
+    // this.props.dispatch(deleteCities(this.props.selectedCities, this.callBack));
+    alert('under development');
   };
 
   render() {
+    console.log('in state', this.state);
     const { showModal, type, form, errors } = this.state;
+    const { sourceTypes } = this.props;
     return (
       <div>
         <div>
-          {/* <i className="fas fa-pencil-alt" onClick={this.openModal(EDIT)} /> */}
-
           <ul
             style={{
-              marginLeft: '-40px'
+              marginLeft: '-39px'
             }}
           >
             <li
@@ -142,10 +158,10 @@ class StateForm extends Component {
                 className="fas fa-plus"
                 aria-hidden="true"
                 onClick={this.openModal(ADD)}
-                title="Create State"
+                title="Create Agency"
               />
             </li>
-            {this.props.selectedStates.length === 1 ? (
+            {this.props.selectedAgencyCodes.length === 1 ? (
               <li
                 style={{
                   display: 'inline',
@@ -156,14 +172,14 @@ class StateForm extends Component {
                 <i
                   className="far fa-edit"
                   aria-hidden="true"
-                  title="Edit State"
                   onClick={this.openModal(EDIT)}
+                  title="Edit Agency"
                 />
               </li>
             ) : (
               ''
             )}
-            {this.props.selectedStates.length > 0 ? (
+            {this.props.selectedAgencyCodes.length > 0 ? (
               <li
                 style={{
                   display: 'inline',
@@ -174,8 +190,8 @@ class StateForm extends Component {
                 <i
                   className="fa fa-trash"
                   aria-hidden="true"
-                  title="Delete State"
-                  onClick={this.deleteState}
+                  title="Delete Agency"
+                  onClick={this.deleteRow}
                 />
               </li>
             ) : (
@@ -191,7 +207,7 @@ class StateForm extends Component {
               <i
                 className="fas fa-filter"
                 title="Filter Table"
-                onClick={this.props.toggleStateTableFilter}
+                onClick={this.props.toggleThisTableFilter}
               />
             </li>
           </ul>
@@ -199,7 +215,7 @@ class StateForm extends Component {
         {showModal && (
           <LargeModal
             show={showModal}
-            header={`${startCase(type)} State`}
+            header={`${startCase(type)} Agency`}
             onHide={this.closeModal}
             onSave={this.onSubmit}
             saveText="Submit"
@@ -209,23 +225,34 @@ class StateForm extends Component {
             style={{ width: '450px', margin: '0 auto' }}
           >
             <form>
-              <FieldGroup
-                id="stateName"
+              <FieldSelect
+                id="states"
                 type="text"
-                label="State Name"
-                placeholder="Enter state name"
+                label="Source"
+                placeholder="Select Source"
+                onChange={this.onChangeText('state')}
+                value={form.state}
+                validationState={errors.state !== '' ? 'error' : null}
+                help={errors.state !== '' ? errors.state : null}
+                options={this.getSourceTypes(sourceTypes)}
+              />
+              <FieldGroup
+                id="cityName"
+                type="text"
+                label="Agency Name"
+                placeholder="Enter city name"
                 onChange={this.onChangeText('name')}
                 value={form.name}
                 validationState={errors.name !== '' ? 'error' : null}
                 help={errors.name !== '' ? errors.name : null}
               />
               <FieldGroup
-                id="stateCode"
+                id="cityCode"
                 type="text"
-                label="State Code"
-                minLength="1"
-                maxLength="2"
-                placeholder="Enter state Code - Max 2 digits"
+                label="Agency Code"
+                minLength="3"
+                maxLength="4"
+                placeholder="Enter state Code 3 - 4 digits"
                 onChange={this.onChangeText('code')}
                 value={form.code}
                 validationState={errors.code !== '' ? 'error' : null}
@@ -240,7 +267,8 @@ class StateForm extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedInUser: state.login.loggedInUser
+  loggedInUser: state.login.loggedInUser,
+  sourceTypes: state.codesAndTypes.sourceTypes
 });
 
-export default connect(mapStateToProps)(StateForm);
+export default connect(mapStateToProps)(CityForm);

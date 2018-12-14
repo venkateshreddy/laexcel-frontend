@@ -328,6 +328,13 @@ class SideNavBar extends Component {
                       </Link>
                     </NavText>
                   </NavItem>
+                  <NavItem eventKey="sourceandagency">
+                    <NavText>
+                      <Link to={'sourceandagency'} className="margin-left10">
+                        Source & Agency
+                      </Link>
+                    </NavText>
+                  </NavItem>
                 </NavItem>
                 <NavItem eventKey="configuration">
                   <NavIcon>
