@@ -10,12 +10,14 @@ import campus from './CampusReducer';
 import room from './RoomReducer';
 import building from './BuildingReducer';
 import codesAndTypes from './CodesAndTypesReducer';
+import employee from './employee';
 import preAdmissions from './PreAdmissionReducer';
 
 export default combineReducers({
   locale,
   login,
   dashboard,
+  employee,
   branch,
   cities,
   states,
