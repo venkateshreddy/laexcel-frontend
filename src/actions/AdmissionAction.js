@@ -63,3 +63,20 @@ export const fetchPreAdmissionData = () => {
     }
   };
 };
+
+export const fetchStudentsBasedOnFilter = data => {
+  const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}basedOnEquiryDate`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: PreAdmission.FETCH_STUDENTS_BASEDON_FILTER,
+          payload: result.result
+        });
+      }
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};
