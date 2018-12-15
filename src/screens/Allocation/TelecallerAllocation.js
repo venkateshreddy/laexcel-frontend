@@ -24,6 +24,7 @@ class TelecallerAllocation extends Component {
     this.props.dispatch(fetchPreAdmissionData());
   }
   onClick = () => this.setState({ showTable: true });
+  onAllocate = () => alert('Allocating');
   render() {
     const { admissions } = this.props;
     const { showTable } = this.state;
@@ -80,6 +81,15 @@ class TelecallerAllocation extends Component {
                 columns={columns}
                 filterable
               />
+            </Col>
+            <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">
+              <Button
+                style={{ marginRight: '15px' }}
+                onClick={this.onAllocate}
+                bsStyle="primary"
+              >
+                Allocate
+              </Button>
             </Col>
           </Row>
         )}
