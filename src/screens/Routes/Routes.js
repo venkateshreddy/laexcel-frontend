@@ -18,6 +18,7 @@ import Campus from '../Campus/Campus';
 import Room from '../Room/Room';
 import Building from '../Building/Building';
 import SourceAndAgency from '../SourceAndAgency/SourceAndAgency';
+import EmployeeRegister from '../../screens/Employee/AdminView';
 
 class Routes extends React.Component {
   render() {
@@ -34,6 +35,7 @@ class Routes extends React.Component {
           <IndexRoute component={LandingPage} />
 
           <Route path="/student" name="student" component={Student} />
+          <Route path="/EmployeeRegister" name="EmployeeRegister" component={EmployeeRegister} />
           <Route
             path="/organisation"
             name="organisation"

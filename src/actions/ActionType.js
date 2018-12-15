@@ -29,6 +29,11 @@ export const Branch = {
   DELETE_BRANCHES: 'DELETE_BRANCHES'
 };
 
+export const Employee = {
+  CREATE_EMPLOYEE: 'CREATE_EMPLOYEE',
+  FETCH_EMPLOYEE: 'FETCH_EMPLOYEE'
+};
+
 export const Building = {
   CREATE_BUILDING: 'CREATE_BUILDING',
   FETCH_BUILDINGS: 'FETCH_BUILDINGS',

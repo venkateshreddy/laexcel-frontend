@@ -286,6 +286,13 @@ class SideNavBar extends Component {
                     <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
                     <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
                   </NavText>
+                  <NavItem eventKey="EmployeeRegister">
+                    <NavText>
+                      <Link to={'/EmployeeRegister'} className="margin-left10">
+                        Employee
+                      </Link>
+                    </NavText>
+                  </NavItem>
                   <NavItem eventKey="organisation">
                     <NavText>
                       <Link to={'organisation'} className="margin-left10">
