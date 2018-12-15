@@ -75,8 +75,31 @@ export const fetchStudentsBasedOnFilter = data => {
           payload: result.result
         });
       }
+      return result;
     } catch (error) {
       dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};
+
+export const allocateEmployeeToEnquires = data => {
+  const url = `${PreAdmissionURL.ALLOCATE_EMPLOYEE}`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
     }
   };
 };

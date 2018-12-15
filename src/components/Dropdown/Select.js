@@ -14,7 +14,7 @@ const Select = ({
   ...rest
 }) => (
   <div className="input-group">
-    <label htmlFor="color" className={`label ${labelClass}`}>
+    <label htmlFor="color">
       {label}
     </label>
     <ReactSelect

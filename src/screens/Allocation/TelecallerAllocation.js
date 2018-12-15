@@ -5,8 +5,13 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 
 import { CheckBoxTable } from '../../components/Table';
-import { fetchPreAdmissionData, fetchStudentsBasedOnFilter } from '../../actions/AdmissionAction';
-import { FieldGroup } from '../../components/Form';
+import { SnackBar } from '../../components/SnackBar';
+import { Select } from '../../components/Dropdown';
+import {
+  fetchStudentsBasedOnFilter,
+  allocateEmployeeToEnquires
+} from '../../actions/AdmissionAction';
+import { fetchEmployeesByRole } from '../../actions/employee';
 
 const columns = [
   { Header: 'Program', accessor: 'Program' },
@@ -15,51 +20,120 @@ const columns = [
   { Header: 'Email', accessor: 'Email' }
 ];
 
+const initialState = {
+  from: null,
+  to: null
+};
 class TelecallerAllocation extends Component {
   constructor(props) {
     super(props);
-    const initialState = {
-      from: null,
-      to: null
-    };
     this.state = {
       form: initialState,
-      errors: initialState,
-      selectedRecords: [],
-      showTable: false
+      employees: [],
+      employee: {},
+      selectAll: false,
+      selection: [],
+      showTable: false,
+      showFeedback: false,
+      feedback: ''
     };
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchPreAdmissionData());
+    this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
+      if (result.error !== undefined && !result.error) {
+        this.setState({ employees: result.payload });
+      }
+    });
   }
+
   onClick = () => {
-    console.log(this.state);
     const { from, to } = this.state.form;
-    this.props.dispatch(fetchStudentsBasedOnFilter({ from, to })).then(() => {
-      this.setState({ showTable: true });
+    if (from !== null && to !== null) {
+      this.props
+        .dispatch(fetchStudentsBasedOnFilter({ from, to }))
+        .then(response => {
+          if (response.error !== undefined) {
+            if (!response.error) {
+              this.setState({ showTable: true });
+            }
+            this.showFeedback(response.message);
+            setTimeout(this.hideSnackBar, 2000);
+          }
+        });
+    } else {
+      alert('Please select from and to to continue!');
+    }
+  };
+
+  onAllocate = () => {
+    const { selection, employee } = this.state;
+    if (selection.length === 0) {
+      alert('Please select at least one enqiry to continue!');
+    } else if (!employee.value) {
+      alert('Please select an employee to continue!');
+    } else {
+      this.props
+        .dispatch(
+          allocateEmployeeToEnquires({ selection, employee: employee.value })
+        )
+        .then(result => {
+          if (result.error !== undefined && !result.error) {
+            this.showFeedback(
+              `Enquires assigned to ${employee.label} successfully!`
+            );
+            setTimeout(this.hideSnackBar, 2000);
+            this.resetForm();
+          }
+        });
+    }
+  };
+
+  getOptions = employees =>
+    employees.map(employee => ({ label: employee.name, value: employee.id }));
+
+  handleChange = name => value => {
+    const { form } = this.state;
+    if (name === 'employee') {
+      this.setState({ [name]: value });
+    } else {
+      form[name] = value;
+      this.setState({ form });
+    }
+  };
+
+  resetForm = () =>
+    this.setState({
+      form: { from: null, to: null },
+      employees: [],
+      employee: {},
+      selectAll: false,
+      selection: [],
+      showTable: false
+    });
+
+  toggleSelection = selection => this.setState({ selection });
+
+  toggleAll = (selectAll, selection) => this.setState({ selectAll, selection });
+
+  showFeedback = feedback => {
+    this.setState({
+      showFeedback: true,
+      feedback
     });
   };
 
-  onChangeText = name => ({ target: { value } }) => {
-    const form = { ...this.state.form };
-    const errors = { ...this.state.errors };
-    form[name] = value;
-    this.validateInput(name, value).then(newErrors =>
-      this.setState({ errors: newErrors })
-    );
-    this.setState({ form, errors });
-  };
+  hideSnackBar = () => this.setState({ showFeedback: false, feedback: '' });
 
-  onDayChange = name => (date) => {
-    const { form } = this.state;
-    form[name] = date;
-    this.setState({ form });
-  }
-
-  onAllocate = () => alert('Allocating');
   render() {
-    const { showTable, form } = this.state;
+    const {
+      showTable,
+      form,
+      employees,
+      employee,
+      showFeedback,
+      feedback
+    } = this.state;
     return (
       <div className="browse-wrap padding">
         <Row>
@@ -68,8 +142,9 @@ class TelecallerAllocation extends Component {
             <br />
             <DayPickerInput
               style={{ width: '100%' }}
-              value={form.dateOfEnquiry}
-              onDayChange={this.onDayChange('from')}
+              value={form.from}
+              key={form.from}
+              onDayChange={this.handleChange('from')}
             />
           </Col>
           <Col lg={6} md={6} sm={6}>
@@ -77,8 +152,9 @@ class TelecallerAllocation extends Component {
             <br />
             <DayPickerInput
               style={{ width: '100%' }}
-              value={form.dateOfEnquiry}
-              onDayChange={this.onDayChange('to')}
+              value={form.to}
+              key={form.to}
+              onDayChange={this.handleChange('to')}
             />
           </Col>
           <Row className="text-right">
@@ -94,27 +170,36 @@ class TelecallerAllocation extends Component {
         {showTable && (
           <Row className="margin-top">
             <Col lg={12} md={12} sm={12} xs={12}>
-              <FieldGroup
+              <Select
                 id="employee"
-                type="text"
-                label="Allocate to Employee"
-                placeholder="Enter employee name"
-                // onChange={this.onChangeText('Email')}
-                // value={form.Email}
-                // validationState={errors.Email !== '' ? 'error' : null}
-                // help={errors.Email !== '' ? errors.Email : null}
+                className="custom-select"
+                placeholder="Choose employee"
+                label="Allocate to employee"
+                onChange={this.handleChange('employee')}
+                options={this.getOptions(employees)}
+                value={employee}
+                multi={false}
               />
               <CheckBoxTable
                 enableMultiSelect
-                enableSelectAll={false}
-                selection={this.state.selectedRecords}
-                selectAll={false}
+                enableSelectAll
+                selection={this.state.selection}
+                selectAll={this.state.selectAll}
                 data={this.props.students}
                 columns={columns}
                 filterable
+                toggleAll={this.toggleAll}
+                toggleSelection={this.toggleSelection}
               />
             </Col>
             <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">
+              <Button
+                style={{ marginRight: '15px' }}
+                onClick={this.resetForm}
+                bsStyle="primary"
+              >
+                Reset
+              </Button>
               <Button
                 style={{ marginRight: '15px' }}
                 onClick={this.onAllocate}
@@ -125,6 +210,11 @@ class TelecallerAllocation extends Component {
             </Col>
           </Row>
         )}
+        <SnackBar
+          open={showFeedback}
+          onClose={this.hideSnackBar}
+          msg={feedback}
+        />
       </div>
     );
   }
