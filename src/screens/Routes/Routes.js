@@ -18,6 +18,7 @@ import Campus from '../Campus/Campus';
 import Room from '../Room/Room';
 import Building from '../Building/Building';
 import SourceAndAgency from '../SourceAndAgency/SourceAndAgency';
+import TelecallerAllocation from '../Allocation/TelecallerAllocation';
 import EmployeeRegister from '../../screens/Employee/AdminView';
 
 class Routes extends React.Component {
@@ -35,7 +36,11 @@ class Routes extends React.Component {
           <IndexRoute component={LandingPage} />
 
           <Route path="/student" name="student" component={Student} />
-          <Route path="/EmployeeRegister" name="EmployeeRegister" component={EmployeeRegister} />
+          <Route
+            path="/EmployeeRegister"
+            name="EmployeeRegister"
+            component={EmployeeRegister}
+          />
           <Route
             path="/organisation"
             name="organisation"
@@ -69,6 +74,11 @@ class Routes extends React.Component {
             path="/sourceandagency"
             name="SourceAndAgency"
             component={SourceAndAgency}
+          />
+          <Route
+            path="/telecallerAllocation"
+            name="Telecaller Allocation"
+            component={TelecallerAllocation}
           />
         </Route>
       </Router>
