@@ -14,6 +14,7 @@ class MyLargeModal extends React.Component {
       closeText,
       onReset,
       resetText,
+      showFooter,
       ...rest
     } = this.props;
     return (
@@ -27,7 +28,7 @@ class MyLargeModal extends React.Component {
           <Modal.Title id="contained-modal-title-lg">{header}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
-        <Modal.Footer>
+        { showFooter && <Modal.Footer>
           <div className="text-right">
             <Button onClick={onReset}>{resetText}</Button>
             <Button onClick={this.onHide}>{closeText}</Button>
@@ -35,7 +36,7 @@ class MyLargeModal extends React.Component {
               {saveText}
             </Button>
           </div>
-        </Modal.Footer>
+        </Modal.Footer>}
       </Modal>
     );
   }
@@ -44,7 +45,8 @@ class MyLargeModal extends React.Component {
 MyLargeModal.defaultProps = {
   saveText: 'Save Changes',
   closeText: 'Close',
-  resetText: 'Reset'
+  resetText: 'Reset',
+  showFooter: true
 };
 
 MyLargeModal.propTypes = {
@@ -55,7 +57,8 @@ MyLargeModal.propTypes = {
   saveText: PropTypes.string,
   closeText: PropTypes.string,
   resetText: PropTypes.string,
-  onReset: PropTypes.func.isRequired
+  onReset: PropTypes.func.isRequired,
+  showFooter: PropTypes.bool
 };
 
 export default MyLargeModal;
