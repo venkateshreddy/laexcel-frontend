@@ -18,7 +18,6 @@ class PreAdmissionsTable extends Component {
   }
   render() {
     const { admissions } = this.props;
-    console.log('admissions', admissions);
     return (
       <Row>
         <Col lg={12} md={12} sm={12} xs={12}>

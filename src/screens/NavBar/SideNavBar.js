@@ -344,6 +344,16 @@ class SideNavBar extends Component {
                       </Link>
                     </NavText>
                   </NavItem>
+                  <NavItem eventKey="telecallerAllocation">
+                    <NavText>
+                      <Link
+                        to={'telecallerAllocation'}
+                        className="margin-left10"
+                      >
+                        Telecaller Allocation
+                      </Link>
+                    </NavText>
+                  </NavItem>
                 </NavItem>
                 <NavItem eventKey="configuration">
                   <NavIcon>

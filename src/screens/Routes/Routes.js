@@ -18,6 +18,7 @@ import Campus from '../Campus/Campus';
 import Room from '../Room/Room';
 import Building from '../Building/Building';
 import SourceAndAgency from '../SourceAndAgency/SourceAndAgency';
+import TelecallerAllocation from '../Allocation/TelecallerAllocation';
 
 class Routes extends React.Component {
   render() {
@@ -67,6 +68,11 @@ class Routes extends React.Component {
             path="/sourceandagency"
             name="SourceAndAgency"
             component={SourceAndAgency}
+          />
+          <Route
+            path="/telecallerAllocation"
+            name="Telecaller Allocation"
+            component={TelecallerAllocation}
           />
         </Route>
       </Router>
