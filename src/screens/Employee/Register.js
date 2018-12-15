@@ -84,12 +84,16 @@ class Register extends React.Component {
         const splCharsAllowed = ['email', 'address'];
         // eslint-disable-next-line
         const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-        if (name === 'code' && !(value.length >= 3 && value.length <= 4)) {
-          errors[name] = 'Branch code must be 3-4 digits!';
-        } else if (!splCharsAllowed.includes(name) && format.test(value)) {
+        if (!splCharsAllowed.includes(name) && format.test(value)) {
           errors[name] = 'Special characters are not allowed!';
-        } else if (name === 'pincode' && value.length !== 6) {
-          errors[name] = 'Pincode must be 6 digits long!';
+        } else if (name === 'email') {
+          // eslint-disable-next-line
+          const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+          if (!emailFormat.test(value)) {
+            errors[name] = 'invalid email';
+          } else {
+            errors[name] = '';
+          }
         } else {
           errors[name] = '';
         }

@@ -5,7 +5,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 
 import { CheckBoxTable } from '../../components/Table';
-import { fetchPreAdmissionData } from '../../actions/AdmissionAction';
+import { fetchPreAdmissionData, fetchStudentsBasedOnFilter } from '../../actions/AdmissionAction';
 import { FieldGroup } from '../../components/Form';
 
 const columns = [
@@ -16,18 +16,50 @@ const columns = [
 ];
 
 class TelecallerAllocation extends Component {
-  state = {
-    selectedRecords: [],
-    showTable: false
-  };
+  constructor(props) {
+    super(props);
+    const initialState = {
+      from: null,
+      to: null
+    };
+    this.state = {
+      form: initialState,
+      errors: initialState,
+      selectedRecords: [],
+      showTable: false
+    };
+  }
+
   componentDidMount() {
     this.props.dispatch(fetchPreAdmissionData());
   }
-  onClick = () => this.setState({ showTable: true });
+  onClick = () => {
+    console.log(this.state);
+    const { from, to } = this.state.form;
+    this.props.dispatch(fetchStudentsBasedOnFilter({ from, to })).then(() => {
+      this.setState({ showTable: true });
+    });
+  };
+
+  onChangeText = name => ({ target: { value } }) => {
+    const form = { ...this.state.form };
+    const errors = { ...this.state.errors };
+    form[name] = value;
+    this.validateInput(name, value).then(newErrors =>
+      this.setState({ errors: newErrors })
+    );
+    this.setState({ form, errors });
+  };
+
+  onDayChange = name => (date) => {
+    const { form } = this.state;
+    form[name] = date;
+    this.setState({ form });
+  }
+
   onAllocate = () => alert('Allocating');
   render() {
-    const { admissions } = this.props;
-    const { showTable } = this.state;
+    const { showTable, form } = this.state;
     return (
       <div className="browse-wrap padding">
         <Row>
@@ -36,8 +68,8 @@ class TelecallerAllocation extends Component {
             <br />
             <DayPickerInput
               style={{ width: '100%' }}
-              // value={form.dateOfEnquiry}
-              // onDayChange={this.onDayChange('dateOfEnquiry')}
+              value={form.dateOfEnquiry}
+              onDayChange={this.onDayChange('from')}
             />
           </Col>
           <Col lg={6} md={6} sm={6}>
@@ -45,8 +77,8 @@ class TelecallerAllocation extends Component {
             <br />
             <DayPickerInput
               style={{ width: '100%' }}
-              // value={form.dateOfEnquiry}
-              // onDayChange={this.onDayChange('dateOfEnquiry')}
+              value={form.dateOfEnquiry}
+              onDayChange={this.onDayChange('to')}
             />
           </Col>
           <Row className="text-right">
@@ -77,7 +109,7 @@ class TelecallerAllocation extends Component {
                 enableSelectAll={false}
                 selection={this.state.selectedRecords}
                 selectAll={false}
-                data={admissions}
+                data={this.props.students}
                 columns={columns}
                 filterable
               />
@@ -99,7 +131,8 @@ class TelecallerAllocation extends Component {
 }
 
 const mapStateToProps = state => ({
-  admissions: state.preAdmissions.admissions
+  admissions: state.preAdmissions.admissions,
+  students: state.preAdmissions.students
 });
 
 export default connect(mapStateToProps)(TelecallerAllocation);

@@ -2,7 +2,8 @@ import { findIndex } from 'lodash';
 import { PreAdmission } from '../actions/ActionType';
 
 const initialState = {
-  admissions: []
+  admissions: [],
+  students: []
 };
 
 const updatePreAdmission = (state, action) => {
@@ -19,6 +20,11 @@ const deletePreAdmission = (state, action) => {
     admission => !action.payload.ids.includes(admission.id)
   );
   return { ...state, admissions };
+};
+
+// eslint-disable-next-line
+const fetchStudentsBasedOnFilter = (state, action) => {
+  return { ...state, students: action.payload };
 };
 
 export default function reducer(state = initialState, action) {
@@ -41,6 +47,9 @@ export default function reducer(state = initialState, action) {
       return deletePreAdmission(state, action);
     }
 
+    case PreAdmission.FETCH_STUDENTS_BASEDON_FILTER: {
+      return fetchStudentsBasedOnFilter(state, action);
+    }
     default:
       return state;
   }
