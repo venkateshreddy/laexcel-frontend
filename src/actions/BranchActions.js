@@ -25,11 +25,11 @@ export const createBranch = data => {
   };
 };
 
-export const fetchBranches = data => {
+export const fetchBranches = () => {
   const url = `${BranchURL.FETCH_BRANCHES}`;
   return async dispatch => {
     try {
-      const result = await API_GET(url, data);
+      const result = await API_GET(url);
       if (result.error !== undefined && !result.error) {
         dispatch({
           type: Branch.FETCH_BRANCHES,

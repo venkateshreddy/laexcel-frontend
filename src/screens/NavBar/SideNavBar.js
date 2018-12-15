@@ -59,6 +59,15 @@ class SideNavBar extends Component {
                   alt="Go to index"
                   title="Go to index"
                 />
+                <span
+                  style={{
+                    color: 'white',
+                    position: 'relative',
+                    top: '-8px'
+                  }}
+                >
+                  (beta)
+                </span>
               </Link>
             </Col>
             <Col

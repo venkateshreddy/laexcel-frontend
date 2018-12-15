@@ -60,6 +60,7 @@ class Login extends React.Component {
             La Excel
             <span>Application</span>
           </div>
+          (beta)
         </div>
         <br />
         <div className="login">

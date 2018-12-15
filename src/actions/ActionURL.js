@@ -279,3 +279,8 @@ export const agencycodesURL = {
   CREATE_AGENCY: `${AppConfig.API_BASE_URL}agencycodes`,
   UPDATE_AGENCY: `${AppConfig.API_BASE_URL}agencycodes`
 };
+
+export const PreAdmissionURL = {
+  CREATE_PREADMISSION_DATA: `${AppConfig.API_BASE_URL}preadmission/`,
+  FETCH_PREADMISSION_DATA: `${AppConfig.API_BASE_URL}preadmission/`
+};
