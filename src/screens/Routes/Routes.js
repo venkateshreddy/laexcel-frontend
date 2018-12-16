@@ -23,6 +23,7 @@ import EmployeeRegister from '../../screens/Employee/AdminView';
 import Program from '../../screens/Program/AdminView';
 import Course from '../../screens/course/AdminView';
 import Batch from '../../screens/Batch/AdminView';
+import TelecallerAcceptance from '../Allocation/TelecallerAcceptance';
 
 class Routes extends React.Component {
   render() {
@@ -94,6 +95,10 @@ class Routes extends React.Component {
             component={Batch}
           />
           <Route path="/course" name="Course" component={Course} />
+          <Route path="/telecallerAcceptance"
+            name="Telecaller Acceptance"
+            component={TelecallerAcceptance}
+          />
         </Route>
       </Router>
     );

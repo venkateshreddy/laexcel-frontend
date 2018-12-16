@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import Switch from 'react-switch';
 
 import { CheckBoxTable } from '../../components/Table';
 import { SnackBar } from '../../components/SnackBar';
-import { Select } from '../../components/Dropdown';
 import DateRangeSearch from './DateRangeSearch';
+import './Telecaller.scss';
 
 import {
   fetchStudentsBasedOnFilter,
-  allocateEmployeeToEnquires
+  acceptOrRejectEnquiry
 } from '../../actions/AdmissionAction';
-import { fetchEmployeesByRole } from '../../actions/employee';
 
 const columns = [
   {
@@ -35,29 +35,22 @@ const initialState = {
   to: null,
   program: ''
 };
+
 class TelecallerAllocation extends Component {
   constructor(props) {
     super(props);
     this.state = {
       form: initialState,
-      employees: [],
-      employee: {},
       selectAll: false,
       selection: [],
       showTable: false,
       showFeedback: false,
-      feedback: ''
+      feedback: '',
+      isAccepted: false
     };
   }
 
-  componentDidMount() {
-    this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
-      if (result.error !== undefined && !result.error) {
-        this.setState({ employees: result.payload });
-      }
-    });
-  }
-
+  // TODO: add logged in employee to the filter
   onSearchClick = () => {
     const { from, to, program } = this.state.form;
     if (from !== null && to !== null && program !== '') {
@@ -77,50 +70,47 @@ class TelecallerAllocation extends Component {
     }
   };
 
-  onAllocate = () => {
-    const { selection, employee } = this.state;
+  onSubmit = () => {
+    const { selection, isAccepted } = this.state;
     if (selection.length === 0) {
       alert('Please select at least one enqiry to continue!');
-    } else if (!employee.value) {
-      alert('Please select an employee to continue!');
-    } else {
-      this.props
-        .dispatch(
-          allocateEmployeeToEnquires({ selection, employee: employee.value })
-        )
-        .then(result => {
-          if (result.error !== undefined && !result.error) {
-            this.showFeedback(
-              `Enquires assigned to ${employee.label} successfully!`
-            );
-            setTimeout(this.hideSnackBar, 2000);
-            this.resetForm();
-          }
-        });
+    } else if (
+      !isAccepted &&
+      window.confirm('This action will return enquiries to admin')
+    ) {
+      this.acceptOrRejectEnquiry(selection, 'return');
+    } else if (isAccepted) {
+      this.acceptOrRejectEnquiry(selection, 'accept');
     }
   };
 
-  getOptions = employees =>
-    employees.map(employee => ({ label: employee.name, value: employee.id }));
+  acceptOrRejectEnquiry = (selection, actionType) => {
+    this.props
+      .dispatch(acceptOrRejectEnquiry({ selection, status: actionType }))
+      .then(result => {
+        if (result.error !== undefined && !result.error) {
+          this.showFeedback(`Enquires ${actionType}ed successfully!`);
+          setTimeout(this.hideSnackBar, 2000);
+          this.resetForm();
+        }
+      });
+  };
 
   handleChange = name => value => {
     const { form } = this.state;
-    if (name === 'employee') {
-      this.setState({ [name]: value });
-    } else {
-      form[name] = value;
-      this.setState({ form });
-    }
+    form[name] = value;
+    this.setState({ form });
   };
 
   resetForm = () =>
     this.setState({
       form: { from: null, to: null, program: '' },
-      employees: [],
-      employee: {},
       selectAll: false,
       selection: [],
-      showTable: false
+      showTable: false,
+      showFeedback: false,
+      feedback: '',
+      isAccepted: false
     });
 
   toggleSelection = selection => this.setState({ selection });
@@ -137,14 +127,7 @@ class TelecallerAllocation extends Component {
   hideSnackBar = () => this.setState({ showFeedback: false, feedback: '' });
 
   render() {
-    const {
-      showTable,
-      form,
-      employees,
-      employee,
-      showFeedback,
-      feedback
-    } = this.state;
+    const { showTable, form, showFeedback, feedback } = this.state;
     return (
       <div className="browse-wrap padding">
         <DateRangeSearch
@@ -154,17 +137,23 @@ class TelecallerAllocation extends Component {
         />
         {showTable && (
           <Row className="margin-top">
-            <Col lg={12} md={12} sm={12} xs={12}>
-              <Select
-                id="employee"
-                className="custom-select"
-                placeholder="Choose employee"
-                label="Allocate to employee"
-                onChange={this.handleChange('employee')}
-                options={this.getOptions(employees)}
-                value={employee}
-                multi={false}
+            <Row style={{ margin: '0px 0px 2px 13px' }}>
+              <Switch
+                checkedIcon={<div className="accept-toggle">Accept</div>}
+                uncheckedIcon={<div className="return-toggle">Return</div>}
+                onChange={value => {
+                  this.setState({
+                    isAccepted: value
+                  });
+                }}
+                height={30}
+                width={80}
+                onColor="#0073a8"
+                checked={this.state.isAccepted}
+                id="accept-return"
               />
+            </Row>
+            <Col lg={12} md={12} sm={12} xs={12}>
               <CheckBoxTable
                 enableMultiSelect
                 enableSelectAll
@@ -187,10 +176,10 @@ class TelecallerAllocation extends Component {
               </Button>
               <Button
                 style={{ marginRight: '15px' }}
-                onClick={this.onAllocate}
+                onClick={this.onSubmit}
                 bsStyle="primary"
               >
-                Allocate
+                Submit
               </Button>
             </Col>
           </Row>
