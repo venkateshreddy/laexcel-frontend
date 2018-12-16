@@ -34,6 +34,21 @@ export const Employee = {
   FETCH_EMPLOYEE: 'FETCH_EMPLOYEE'
 };
 
+export const Program = {
+  CREATE_PROGRAM: 'CREATE_PROGRAM',
+  FETCH_PROGRAM: 'FETCH_PROGRAM'
+};
+
+export const Course = {
+  CREATE_COURSE: 'CREATE_COURSE',
+  FETCH_COURSE: 'FETCH_COURSE'
+};
+
+export const Batch = {
+  CREATE_BATCH: 'CREATE_BATCH',
+  FETCH_BATCH: 'FETCH_BATCH'
+};
+
 export const Building = {
   CREATE_BUILDING: 'CREATE_BUILDING',
   FETCH_BUILDINGS: 'FETCH_BUILDINGS',

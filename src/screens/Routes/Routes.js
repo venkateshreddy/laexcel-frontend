@@ -20,6 +20,9 @@ import Building from '../Building/Building';
 import SourceAndAgency from '../SourceAndAgency/SourceAndAgency';
 import TelecallerAllocation from '../Allocation/TelecallerAllocation';
 import EmployeeRegister from '../../screens/Employee/AdminView';
+import Program from '../../screens/Program/AdminView';
+import Course from '../../screens/course/AdminView';
+import Batch from '../../screens/Batch/AdminView';
 
 class Routes extends React.Component {
   render() {
@@ -80,6 +83,17 @@ class Routes extends React.Component {
             name="Telecaller Allocation"
             component={TelecallerAllocation}
           />
+          <Route
+            path="/program"
+            name="program"
+            component={Program}
+          />
+          <Route
+            path="/batch"
+            name="Batch"
+            component={Batch}
+          />
+          <Route path="/course" name="Course" component={Course} />
         </Route>
       </Router>
     );
