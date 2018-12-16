@@ -103,3 +103,20 @@ export const allocateEmployeeToEnquires = data => {
     }
   };
 };
+
+export const acceptOrRejectEnquiry = data => {
+  const url = `${PreAdmissionURL.ACCEPT_REJECT_ENQUIRY}`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};

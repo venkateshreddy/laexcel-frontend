@@ -283,5 +283,6 @@ export const agencycodesURL = {
 export const PreAdmissionURL = {
   CREATE_PREADMISSION_DATA: `${AppConfig.API_BASE_URL}preadmission/`,
   FETCH_PREADMISSION_DATA: `${AppConfig.API_BASE_URL}preadmission/`,
-  ALLOCATE_EMPLOYEE: `${AppConfig.API_BASE_URL}preadmission/allocate`
+  ALLOCATE_EMPLOYEE: `${AppConfig.API_BASE_URL}preadmission/allocate`,
+  ACCEPT_REJECT_ENQUIRY: `${AppConfig.API_BASE_URL}preadmission/employee`
 };

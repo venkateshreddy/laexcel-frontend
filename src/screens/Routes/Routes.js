@@ -20,6 +20,7 @@ import Building from '../Building/Building';
 import SourceAndAgency from '../SourceAndAgency/SourceAndAgency';
 import TelecallerAllocation from '../Allocation/TelecallerAllocation';
 import EmployeeRegister from '../../screens/Employee/AdminView';
+import TelecallerAcceptance from '../Allocation/TelecallerAcceptance';
 
 class Routes extends React.Component {
   render() {
@@ -79,6 +80,11 @@ class Routes extends React.Component {
             path="/telecallerAllocation"
             name="Telecaller Allocation"
             component={TelecallerAllocation}
+          />
+          <Route
+            path="/telecallerAcceptance"
+            name="Telecaller Acceptance"
+            component={TelecallerAcceptance}
           />
         </Route>
       </Router>
