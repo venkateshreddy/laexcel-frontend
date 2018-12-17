@@ -24,6 +24,7 @@ import Program from '../../screens/Program/AdminView';
 import Course from '../../screens/course/AdminView';
 import Batch from '../../screens/Batch/AdminView';
 import TelecallerAcceptance from '../Allocation/TelecallerAcceptance';
+import CourseDuration from '../../screens/CourseDuration/AdminView';
 
 class Routes extends React.Component {
   render() {
@@ -95,10 +96,12 @@ class Routes extends React.Component {
             component={Batch}
           />
           <Route path="/course" name="Course" component={Course} />
-          <Route path="/telecallerAcceptance"
+          <Route
+            path="/telecallerAcceptance"
             name="Telecaller Acceptance"
             component={TelecallerAcceptance}
           />
+          <Route path="/CourseDuration" name="CourseDuration" component={CourseDuration} />
         </Route>
       </Router>
     );
