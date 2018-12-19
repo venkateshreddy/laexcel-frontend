@@ -44,6 +44,11 @@ export const Course = {
   FETCH_COURSE: 'FETCH_COURSE'
 };
 
+export const CourseDuration = {
+  CREATE_COURSE_DURATION: 'CREATE_COURSE_DURATION',
+  FETCH_COURSE_DURATION: 'FETCH_COURSE_DURATION'
+};
+
 export const Batch = {
   CREATE_BATCH: 'CREATE_BATCH',
   FETCH_BATCH: 'FETCH_BATCH'
