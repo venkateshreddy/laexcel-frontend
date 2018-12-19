@@ -12,10 +12,16 @@ import building from './BuildingReducer';
 import codesAndTypes from './CodesAndTypesReducer';
 import employee from './employee';
 import preAdmissions from './PreAdmissionReducer';
+import program from './programreducer';
+import course from './coursereducer';
+import batch from './batchReducer';
 
 export default combineReducers({
   locale,
   login,
+  program,
+  course,
+  batch,
   dashboard,
   employee,
   branch,
