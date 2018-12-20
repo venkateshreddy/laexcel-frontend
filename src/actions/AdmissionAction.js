@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { API_GET, API_POST } from './APIMethods';
+import { API_GET, API_POST, API_PUT } from './APIMethods';
 import { PreAdmission, ErrorType } from './ActionType';
 import { PreAdmissionURL } from './ActionURL';
 import { Configs } from './ActionConfigs';
@@ -109,6 +109,69 @@ export const acceptOrRejectEnquiry = data => {
   return async dispatch => {
     try {
       const result = await API_POST(url, data);
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};
+
+export const fetchAdmissionsByEmp = (id, data) => {
+  const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}${id}/employee`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: PreAdmission.FETCH_STUDENTS_BASEDON_FILTER,
+          payload: result.result
+        });
+      }
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};
+
+export const fetchAssignedAdmissions = data => {
+  const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}assigned`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: PreAdmission.FETCH_STUDENTS_BASEDON_FILTER,
+          payload: result.result
+        });
+      }
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};
+
+export const setResponseAndRemarks = (id, data) => {
+  const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}${id}`;
+  return async dispatch => {
+    try {
+      const result = await API_PUT(url, data);
       return result;
     } catch (error) {
       dispatch({ type: ErrorType.ERROR_LOG, message: error.message });

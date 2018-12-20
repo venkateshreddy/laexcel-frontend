@@ -33,8 +33,13 @@ class Branch extends Component {
   };
 
   componentDidMount() {
-    this.props.dispatch(fetchBranches());
-    this.props.dispatch(fetchCities());
+    const { currentOrganisation } = this.props;
+    if (currentOrganisation.id) {
+      this.props.dispatch(fetchBranches());
+      this.props.dispatch(fetchCities());
+    } else {
+      this.props.router.push('/');
+    }
   }
 
   toggleAll = (selectAll, selection) => this.setState({ selectAll, selection });
@@ -64,7 +69,8 @@ class Branch extends Component {
 }
 
 const mapStateToProps = state => ({
-  branches: state.branch.branches
+  branches: state.branch.branches,
+  currentOrganisation: state.organisations.currentOrganisation
 });
 
 export default connect(mapStateToProps)(Branch);

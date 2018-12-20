@@ -22,8 +22,13 @@ class Campus extends Component {
   };
 
   componentDidMount() {
-    this.props.dispatch(fetchBranches());
-    this.props.dispatch(fetchRooms());
+    const { currentOrganisation } = this.props;
+    if (currentOrganisation.id) {
+      this.props.dispatch(fetchBranches());
+      this.props.dispatch(fetchRooms());
+    } else {
+      this.props.router.push('/');
+    }
   }
 
   toggleAll = (selectAll, selection) => this.setState({ selectAll, selection });
@@ -53,7 +58,8 @@ class Campus extends Component {
 }
 
 const mapStateToProps = state => ({
-  rooms: state.room.rooms
+  rooms: state.room.rooms,
+  currentOrganisation: state.organisations.currentOrganisation
 });
 
 export default connect(mapStateToProps)(Campus);

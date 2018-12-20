@@ -58,9 +58,9 @@
 }
 
 .header {
-  position: absolute;
-  top: calc(50% - 35px);
-  left: calc(43% - 255px);
+  position: relative;
+  top: calc(40% - 50px);
+  left: calc(45% - 150px);
   z-index: 2;
 }
 
@@ -79,7 +79,7 @@
 .login {
   position: absolute;
   top: calc(50% - 75px);
-  left: calc(52% - 50px);
+  left: calc(40% - 32px);
   height: 150px;
   width: 350px;
   padding: 10px;
@@ -114,7 +114,7 @@
 }
 
 .login input[type='button'] {
-  width: 260px;
+  width: 250px;
   height: 35px;
   background: #fff;
   border: 1px solid #fff;

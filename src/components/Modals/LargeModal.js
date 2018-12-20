@@ -28,15 +28,17 @@ class MyLargeModal extends React.Component {
           <Modal.Title id="contained-modal-title-lg">{header}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
-        { showFooter && <Modal.Footer>
-          <div className="text-right">
-            <Button onClick={onReset}>{resetText}</Button>
-            <Button onClick={this.onHide}>{closeText}</Button>
-            <Button onClick={onSave} bsStyle="primary">
-              {saveText}
-            </Button>
-          </div>
-        </Modal.Footer>}
+        {showFooter && (
+          <Modal.Footer>
+            <div className="text-right">
+              <Button onClick={onReset}>{resetText}</Button>
+              <Button onClick={this.onHide}>{closeText}</Button>
+              <Button onClick={onSave} bsStyle="primary">
+                {saveText}
+              </Button>
+            </div>
+          </Modal.Footer>
+        )}
       </Modal>
     );
   }
@@ -46,18 +48,20 @@ MyLargeModal.defaultProps = {
   saveText: 'Save Changes',
   closeText: 'Close',
   resetText: 'Reset',
-  showFooter: true
+  showFooter: true,
+  onSave: () => null,
+  onReset: () => null
 };
 
 MyLargeModal.propTypes = {
   header: PropTypes.string.isRequired,
   children: PropTypes.element.isRequired,
   onHide: PropTypes.func.isRequired,
-  onSave: PropTypes.func.isRequired,
+  onSave: PropTypes.func,
   saveText: PropTypes.string,
   closeText: PropTypes.string,
   resetText: PropTypes.string,
-  onReset: PropTypes.func.isRequired,
+  onReset: PropTypes.func,
   showFooter: PropTypes.bool
 };
 

@@ -18,6 +18,7 @@ class Login extends React.Component {
       diplayMsg: ''
     };
   }
+
   checkDisabled = name => e => {
     this.setState({ [name]: e.target.value });
     if (e.target.value === '') {
@@ -60,7 +61,7 @@ class Login extends React.Component {
             La Excel
             <span>Application</span>
           </div>
-          (beta)
+          <span style={{ color: 'white' }}>(beta)</span>
         </div>
         <br />
         <div className="login">

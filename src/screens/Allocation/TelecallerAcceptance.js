@@ -9,7 +9,7 @@ import DateRangeSearch from './DateRangeSearch';
 import './Telecaller.scss';
 
 import {
-  fetchStudentsBasedOnFilter,
+  fetchAdmissionsByEmp,
   acceptOrRejectEnquiry
 } from '../../actions/AdmissionAction';
 
@@ -21,13 +21,28 @@ const columns = [
   },
   {
     Header: 'Enquiry Number',
-    accessor: 'enquiryNumber'
+    accessor: 'id',
+    Cell: row => {
+      if (row.value) {
+        return (
+          <label className="simulate-link">
+            {row ? row.value.substring(15) : ''}
+          </label>
+        );
+      }
+      return '';
+    }
   },
   { Header: 'Name of Student', accessor: 'StudentName' },
   { Header: 'Contact Number', accessor: 'ContactNumber' },
   { Header: 'Email', accessor: 'Email' },
   { Header: 'Program', accessor: 'Program' },
-  { Header: 'Branch', accessor: 'others', Cell: row => row.value.branch }
+  { Header: 'Branch', accessor: 'others', Cell: () => '' },
+  {
+    Header: 'Status',
+    accessor: 'isAcceptedByEmp',
+    Cell: row => (row.value ? <div>Accepted</div> : <div>Pending</div>)
+  }
 ];
 
 const initialState = {
@@ -50,12 +65,19 @@ class TelecallerAllocation extends Component {
     };
   }
 
-  // TODO: add logged in employee to the filter
+  componentDidMount() {
+    const { currentOrganisation } = this.props;
+    if (!currentOrganisation.id) {
+      this.props.router.push('/');
+    }
+  }
+
   onSearchClick = () => {
+    const { loggedInUser } = this.props;
     const { from, to, program } = this.state.form;
     if (from !== null && to !== null && program !== '') {
       this.props
-        .dispatch(fetchStudentsBasedOnFilter({ from, to, program }))
+        .dispatch(fetchAdmissionsByEmp(loggedInUser.id, { from, to, program }))
         .then(response => {
           if (response.error !== undefined) {
             if (!response.error) {
@@ -195,7 +217,9 @@ class TelecallerAllocation extends Component {
 }
 
 const mapStateToProps = state => ({
-  admissions: state.preAdmissions.admissions
+  loggedInUser: state.login.loggedInUser,
+  admissions: state.preAdmissions.admissions,
+  currentOrganisation: state.organisations.currentOrganisation
 });
 
 export default connect(mapStateToProps)(TelecallerAllocation);

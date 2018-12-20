@@ -35,9 +35,14 @@ class Campus extends Component {
   };
 
   componentDidMount() {
-    this.props.dispatch(fetchCampuses());
-    this.props.dispatch(fetchBranches());
-    this.props.dispatch(fetchCities());
+    const { currentOrganisation } = this.props;
+    if (currentOrganisation.id) {
+      this.props.dispatch(fetchCampuses());
+      this.props.dispatch(fetchBranches());
+      this.props.dispatch(fetchCities());
+    } else {
+      this.props.router.push('/');
+    }
   }
 
   toggleAll = (selectAll, selection) => this.setState({ selectAll, selection });
@@ -67,7 +72,8 @@ class Campus extends Component {
 }
 
 const mapStateToProps = state => ({
-  campuses: state.campus.campuses
+  campuses: state.campus.campuses,
+  currentOrganisation: state.organisations.currentOrganisation
 });
 
 export default connect(mapStateToProps)(Campus);

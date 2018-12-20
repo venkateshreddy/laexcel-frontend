@@ -31,7 +31,8 @@ class SideNavBar extends Component {
   hideNave = () => this.setState({ showNav: false });
 
   render() {
-    const { currentOrganisation } = this.props;
+    const { currentOrganisation, loggedInUser } = this.props;
+    const isAdmin = loggedInUser.roles[0] === 'Admin';
     return (
       <div className="navbar HeaderBar" style={{ backgroundColor: '#0073a8' }}>
         <div className="header-top-wrap row">
@@ -286,112 +287,135 @@ class SideNavBar extends Component {
                     </Link>
                   </NavText>
                 </NavItem>
-                <NavItem eventKey="masterDBMaintenance">
-                  <NavIcon>
-                    <i className="fa fa-database" />
-                  </NavIcon>
-                  <NavText>
-                    Master DB Maintenance
-                    <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
-                    <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
-                  </NavText>
-                  <NavItem eventKey="EmployeeRegister">
-                    <NavText>
-                      <Link to={'/EmployeeRegister'} className="margin-left10">
-                        Employee
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="organisation">
-                    <NavText>
-                      <Link to={'organisation'} className="margin-left10">
-                        Organisation
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="stateandcity">
-                    <NavText>
-                      <Link to={'stateandcity'} className="margin-left10">
-                        State & City
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="branch">
-                    <NavText>
-                      <Link to={'branch'} className="margin-left10">
-                        Branch
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="campus">
-                    <NavText>
-                      <Link to={'campus'} className="margin-left10">
-                        Campus
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="room">
-                    <NavText>
-                      <Link to={'room'} className="margin-left10">
-                        Room
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="building">
-                    <NavText>
-                      <Link to={'building'} className="margin-left10">
-                        Building
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="sourceandagency">
-                    <NavText>
-                      <Link to={'sourceandagency'} className="margin-left10">
-                        Source & Agency
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="telecallerAllocation">
-                    <NavText>
-                      <Link
-                        to={'telecallerAllocation'}
-                        className="margin-left10"
-                      >
-                        Telecaller Allocation
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="telecallerAcceptance">
-                    <NavText>
-                      <Link
-                        to={'telecallerAcceptance'}
-                        className="margin-left10"
-                      >
-                        Telecaller Acceptance
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                </NavItem>
-                <NavItem eventKey="configuration">
-                  <NavIcon>
-                    <i className="fa fa-lock" />
-                  </NavIcon>
-                  <NavText>
-                    <Link to={'configuration'} className="margin-left10">
-                      Admin Configuration
-                    </Link>
-                  </NavText>
-                </NavItem>
-                <NavItem eventKey="preAdmission">
-                  <NavIcon>
-                    <i className="fa fa-edit" />
-                  </NavIcon>
-                  <NavText>
-                    <Link to={'preAdmission'} className="margin-left10">
-                      Pre Admission
-                    </Link>
-                  </NavText>
-                </NavItem>
+                {isAdmin ? (
+                  <Fragment>
+                    <NavItem eventKey="masterDBMaintenance">
+                      <NavIcon>
+                        <i className="fa fa-database" />
+                      </NavIcon>
+                      <NavText>
+                        Master DB Maintenance
+                        <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
+                        <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
+                      </NavText>
+                      <NavItem eventKey="EmployeeRegister">
+                        <NavText>
+                          <Link
+                            to={'/EmployeeRegister'}
+                            className="margin-left10"
+                          >
+                            Employee
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="organisation">
+                        <NavText>
+                          <Link to={'organisation'} className="margin-left10">
+                            Organisation
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="stateandcity">
+                        <NavText>
+                          <Link to={'stateandcity'} className="margin-left10">
+                            State & City
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="branch">
+                        <NavText>
+                          <Link to={'branch'} className="margin-left10">
+                            Branch
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="campus">
+                        <NavText>
+                          <Link to={'campus'} className="margin-left10">
+                            Campus
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="room">
+                        <NavText>
+                          <Link to={'room'} className="margin-left10">
+                            Room
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="building">
+                        <NavText>
+                          <Link to={'building'} className="margin-left10">
+                            Building
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="sourceandagency">
+                        <NavText>
+                          <Link
+                            to={'sourceandagency'}
+                            className="margin-left10"
+                          >
+                            Source & Agency
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="telecallerAllocation">
+                        <NavText>
+                          <Link
+                            to={'telecallerAllocation'}
+                            className="margin-left10"
+                          >
+                            Telecaller Allocation
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="telecalling">
+                        <NavText>
+                          <Link to={'telecalling'} className="margin-left10">
+                            Telecalling
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                    </NavItem>
+                    <NavItem eventKey="configuration">
+                      <NavIcon>
+                        <i className="fa fa-lock" />
+                      </NavIcon>
+                      <NavText>
+                        <Link to={'configuration'} className="margin-left10">
+                          Admin Configuration
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="preAdmission">
+                      <NavIcon>
+                        <i className="fa fa-edit" />
+                      </NavIcon>
+                      <NavText>
+                        <Link to={'preAdmission'} className="margin-left10">
+                          Pre Admission
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                  </Fragment>
+                ) : (
+                  <Fragment>
+                    <NavItem eventKey="telecallerAcceptance">
+                      <NavIcon>
+                        <i className="fas fa-user-check" />
+                      </NavIcon>
+                      <NavText>
+                        <Link
+                          to={'telecallerAcceptance'}
+                          className="margin-left10"
+                        >
+                          Telecaller Acceptance
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                  </Fragment>
+                )}
               </SideNav.Nav>
             </SideNav>
           </div>

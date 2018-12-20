@@ -12,6 +12,7 @@ import building from './BuildingReducer';
 import codesAndTypes from './CodesAndTypesReducer';
 import employee from './employee';
 import preAdmissions from './PreAdmissionReducer';
+import responseType from './ResponseTypeReducer';
 
 export default combineReducers({
   locale,
@@ -26,5 +27,6 @@ export default combineReducers({
   room,
   building,
   codesAndTypes,
-  preAdmissions
+  preAdmissions,
+  responseType
 });

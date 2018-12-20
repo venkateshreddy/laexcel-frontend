@@ -21,7 +21,17 @@ const columns = [
   },
   {
     Header: 'Enquiry Number',
-    accessor: 'enquiryNumber'
+    accessor: 'id',
+    Cell: row => {
+      if (row.value) {
+        return (
+          <label className="simulate-link">
+            {row ? row.value.substring(15) : ''}
+          </label>
+        );
+      }
+      return '';
+    }
   },
   { Header: 'Name of Student', accessor: 'StudentName' },
   { Header: 'Contact Number', accessor: 'ContactNumber' },
@@ -51,11 +61,16 @@ class TelecallerAllocation extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
-      if (result.error !== undefined && !result.error) {
-        this.setState({ employees: result.payload });
-      }
-    });
+    const { currentOrganisation } = this.props;
+    if (currentOrganisation.id) {
+      this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
+        if (result.error !== undefined && !result.error) {
+          this.setState({ employees: result.payload });
+        }
+      });
+    } else {
+      this.props.router.push('/');
+    }
   }
 
   onSearchClick = () => {
@@ -206,7 +221,8 @@ class TelecallerAllocation extends Component {
 }
 
 const mapStateToProps = state => ({
-  admissions: state.preAdmissions.admissions
+  admissions: state.preAdmissions.admissions,
+  currentOrganisation: state.organisations.currentOrganisation
 });
 
 export default connect(mapStateToProps)(TelecallerAllocation);
