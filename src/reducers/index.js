@@ -13,10 +13,18 @@ import codesAndTypes from './CodesAndTypesReducer';
 import employee from './employee';
 import preAdmissions from './PreAdmissionReducer';
 import responseType from './ResponseTypeReducer';
+import program from './programreducer';
+import course from './coursereducer';
+import courseDuration from './courseDurationReducer';
+import batch from './batchReducer';
 
 export default combineReducers({
   locale,
   login,
+  program,
+  course,
+  courseDuration,
+  batch,
   dashboard,
   employee,
   branch,

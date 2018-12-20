@@ -20,8 +20,12 @@ import Building from '../Building/Building';
 import SourceAndAgency from '../SourceAndAgency/SourceAndAgency';
 import TelecallerAllocation from '../Allocation/TelecallerAllocation';
 import EmployeeRegister from '../../screens/Employee/AdminView';
+import Program from '../../screens/Program/AdminView';
+import Course from '../../screens/course/AdminView';
+import Batch from '../../screens/Batch/AdminView';
 import TelecallerAcceptance from '../Allocation/TelecallerAcceptance';
 import Telecalling from '../Allocation/Telecalling';
+import CourseDuration from '../../screens/CourseDuration/AdminView';
 
 class Routes extends React.Component {
   render() {
@@ -83,6 +87,17 @@ class Routes extends React.Component {
             component={TelecallerAllocation}
           />
           <Route
+            path="/program"
+            name="program"
+            component={Program}
+          />
+          <Route
+            path="/batch"
+            name="Batch"
+            component={Batch}
+          />
+          <Route path="/course" name="Course" component={Course} />
+          <Route
             path="/telecallerAcceptance"
             name="Telecaller Acceptance"
             component={TelecallerAcceptance}
@@ -92,6 +107,7 @@ class Routes extends React.Component {
             name="Telecalling"
             component={Telecalling}
           />
+          <Route path="/CourseDuration" name="CourseDuration" component={CourseDuration} />
         </Route>
       </Router>
     );

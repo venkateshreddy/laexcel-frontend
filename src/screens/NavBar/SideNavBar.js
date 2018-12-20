@@ -315,6 +315,54 @@ class SideNavBar extends Component {
                           </Link>
                         </NavText>
                       </NavItem>
+                      <NavItem eventKey="program">
+                        <NavText>
+                          <Link to={'/program'} className="margin-left10">
+                            Program
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="course">
+                        <NavText>
+                          <Link to={'/course'} className="margin-left10">
+                            Course
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="batch">
+                        <NavText>
+                          <Link to={'/batch'} className="margin-left10">
+                            Batch
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="courseduration">
+                        <NavText>
+                          <Link
+                            to={'/CourseDuration'}
+                            className="margin-left10"
+                          >
+                            Course Duration
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="definefeecode">
+                        <NavText>
+                          <Link to={'/DefineFeeCode'} className="margin-left10">
+                            Define Fee Code
+                          </Link>
+                        </NavText>
+                      </NavItem>
+                      <NavItem eventKey="definefeestructure">
+                        <NavText>
+                          <Link
+                            to={'/DefineFeeStructure'}
+                            className="margin-left10"
+                          >
+                            Define Fee Structure
+                          </Link>
+                        </NavText>
+                      </NavItem>
                       <NavItem eventKey="stateandcity">
                         <NavText>
                           <Link to={'stateandcity'} className="margin-left10">
