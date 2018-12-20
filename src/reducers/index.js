@@ -14,6 +14,7 @@ import employee from './employee';
 import preAdmissions from './PreAdmissionReducer';
 import program from './programreducer';
 import course from './coursereducer';
+import courseDuration from './courseDurationReducer';
 import batch from './batchReducer';
 
 export default combineReducers({
@@ -21,6 +22,7 @@ export default combineReducers({
   login,
   program,
   course,
+  courseDuration,
   batch,
   dashboard,
   employee,

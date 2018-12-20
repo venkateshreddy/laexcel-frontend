@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import CourseDuration from './CourseDuration';
 import { LargeModal } from '../../components/Modals';
 import { fetchBatch } from '../../actions/batchactions';
 import { fetchCourse } from '../../actions/courseactions';
+import { fetchCourseDuration } from '../../actions/courseDurationActions';
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -12,12 +14,12 @@ class AdminView extends React.Component {
     this.state = {
       show: false,
       columns: [{ Header: 'Academic Year', accessor: 'academicYear' },
-      { Header: 'Course Name', accessor: 'courseName', Cell: (e) => <span>{this.renderCourse(e.original.course)}</span> },
-      { Header: 'Batch', accessor: 'batch' },
+      { Header: 'Course Name', accessor: 'courseName', Cell: (e) => <span>{this.renderCourse(e.original.courseName)}</span> },
+      { Header: 'Batch', accessor: 'batch', Cell: (e) => <span>{this.renderBatch(e.original.batch)}</span> },
       { Header: 'Course Duration', accessor: 'courseDuration' },
       { Header: 'Months', accessor: 'months' },
-      { Header: 'From Date', accessor: 'fromDate' },
-      { Header: 'To Date', accessor: 'toDate' }
+      { Header: 'From Date', accessor: 'fromDate', Cell: (e) => <span>{this.formatHireDateUserFriendly(e.original.fromDate)}</span> },
+      { Header: 'To Date', accessor: 'toDate', Cell: (e) => <span>{this.formatHireDateUserFriendly(e.original.toDate)}</span> }
       ],
       form: {},
       errors: {}
@@ -26,6 +28,7 @@ class AdminView extends React.Component {
   componentWillMount() {
     this.props.dispatch(fetchBatch());
     this.props.dispatch(fetchCourse());
+    this.props.dispatch(fetchCourseDuration());
   }
 
   closeModal = () => {
@@ -35,11 +38,18 @@ class AdminView extends React.Component {
     this.setState({ show: true });
   }
 
-  renderProgram = (programId) => {
+  formatHireDateUserFriendly(inputDate) {
+    const formattedHireDateDay =
+      inputDate && inputDate !== null
+        ? moment(inputDate).format('MM/DD/YYYY')
+        : null;
+    return formattedHireDateDay;
+  }
+
+  renderBatch = (programId) => {
     const key = '_id';
     let name = '';
-    console.log(this.props.program, programId, 'sfsfsfs');
-    this.props.program.map((program) => {
+    this.props.batch.map((program) => {
       if (program[key].toString() === programId.toString()) {
         name = program.name;
       }
@@ -86,7 +96,7 @@ class AdminView extends React.Component {
       </div>
       <LargeModal
         show={this.state.show}
-        header="Create Prgoram"
+        header="Create Course Duration"
         onHide={this.closeModal}
         onSave={this.onSubmit}
         saveText="Submit"
@@ -99,7 +109,7 @@ class AdminView extends React.Component {
         <CourseDuration closeModal={this.closeModal} />
       </LargeModal>
       <ReactTable
-        data={this.props.batch}
+        data={this.props.courseDuration}
         columns={columns}
         defaultPageSize={10}
       />
@@ -108,7 +118,7 @@ class AdminView extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    program: state.program.program,
+    courseDuration: state.courseDuration.courseDuration,
     course: state.course.course,
     batch: state.batch.batch
   };
