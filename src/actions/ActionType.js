@@ -39,6 +39,21 @@ export const Program = {
   FETCH_PROGRAM: 'FETCH_PROGRAM'
 };
 
+export const FeeCode = {
+  CREATE_FEE_CODE: 'CREATE_FEE_CODE',
+  FETCH_FEE_CODE: 'FETCH_FEE_CODE'
+};
+
+export const gstRates = {
+  CREATE_GST_RATE: 'CREATE_GST_RATE',
+  FETCH_GST_RATE: 'FETCH_GST_RATE'
+};
+
+export const FeeStructure = {
+  CREATE_FEE_STRUCTURE: 'CREATE_FEE_STRUCTURE',
+  FETCH_FEE_STRUCTURE: 'FETCH_FEE_STRUCTURE'
+};
+
 export const Course = {
   CREATE_COURSE: 'CREATE_COURSE',
   FETCH_COURSE: 'FETCH_COURSE'

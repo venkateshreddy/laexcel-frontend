@@ -17,6 +17,9 @@ import program from './programreducer';
 import course from './coursereducer';
 import courseDuration from './courseDurationReducer';
 import batch from './batchReducer';
+import feeCode from './feeCodeReducer';
+import gstRates from './gstRatesReducer';
+import feeStructure from './feeStructureReducer';
 
 export default combineReducers({
   locale,
@@ -24,10 +27,13 @@ export default combineReducers({
   program,
   course,
   courseDuration,
+  feeCode,
   batch,
+  gstRates,
   dashboard,
   employee,
   branch,
+  feeStructure,
   cities,
   states,
   organisations,

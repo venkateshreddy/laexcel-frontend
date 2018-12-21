@@ -26,6 +26,9 @@ import Batch from '../../screens/Batch/AdminView';
 import TelecallerAcceptance from '../Allocation/TelecallerAcceptance';
 import Telecalling from '../Allocation/Telecalling';
 import CourseDuration from '../../screens/CourseDuration/AdminView';
+import FeeCode from '../../screens/DefineFeeCode/AdminView';
+import DefineGstrates from '../../screens/GSTRates/AdminView';
+import DefineFeeStructure from '../../screens/DefineFeeStructure/AdminView';
 
 class Routes extends React.Component {
   render() {
@@ -108,6 +111,9 @@ class Routes extends React.Component {
             component={Telecalling}
           />
           <Route path="/CourseDuration" name="CourseDuration" component={CourseDuration} />
+          <Route path="/DefineFeeCode" name="DefineFeeCode" component={FeeCode} />
+          <Route path="/DefineGstrates" name="DefineGstrates" component={DefineGstrates} />
+          <Route path="/DefineFeeStructure" name="DefineFeeStructure" component={DefineFeeStructure} />
         </Route>
       </Router>
     );
