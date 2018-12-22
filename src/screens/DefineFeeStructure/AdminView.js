@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import { connect } from 'react-redux';
+import { Col } from 'react-bootstrap';
 import DefineFeeStructure from './DefineFeeStructure';
 import { LargeModal } from '../../components/Modals';
 import { fetchBatch } from '../../actions/batchactions';
@@ -8,6 +9,7 @@ import { fetchCourse } from '../../actions/courseactions';
 import { fetchBranches } from '../../actions/BranchActions';
 import { fetchFeeStructure } from '../../actions/feeStructureActions';
 import { fetchFeeCode } from '../../actions/definefeecodeactions';
+import './AdminView.scss';
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -16,7 +18,8 @@ class AdminView extends React.Component {
       show: false,
       columns: [{ Header: 'Academic Year', accessor: 'academicYear' },
       { Header: 'Branch', accessor: 'branch', Cell: (e) => <span>{this.renderBranch(e.original.branch)}</span> },
-      { Header: 'Course Name', accessor: 'courseName', Cell: (e) => <span>{this.renderCourse(e.original.courseName)}</span> }
+      { Header: 'Course Name', accessor: 'courseName', Cell: (e) => <span>{this.renderCourse(e.original.courseName)}</span> },
+      { Header: 'Fee Details', accessor: 'feeStructure', className: 'adminview-cell-height', Cell: (e) => <span>{this.renderFeeStructure(e.original.feeStructure)}</span> }
       ],
       form: {},
       errors: {}
@@ -60,6 +63,13 @@ class AdminView extends React.Component {
     return name;
   }
 
+  renderFeeStructure = (feeStructure) => {
+    const feeString = feeStructure.map((fee) => {
+      console.log(fee);
+      return <Col lg={6} sm={6} md={6}>{fee.type} {fee.amount}</Col>;
+    });
+    return feeString;
+  }
   render() {
     const { columns } = this.state;
     return (<div>
