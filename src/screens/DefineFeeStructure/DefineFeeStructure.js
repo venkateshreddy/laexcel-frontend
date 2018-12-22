@@ -19,6 +19,7 @@ class Batch extends React.Component {
     };
     this.state = {
       textBoxesList: [],
+      dataSet: [],
       form: cloneDeep(initialForm),
       errors: cloneDeep(initialForm)
     };
@@ -59,14 +60,14 @@ class Batch extends React.Component {
       }
       return flag;
     });
-    console.log(hasNoErrors, errors, 'hasNoErrors');
     if (!hasNoErrors) {
       this.setState({ errors });
     }
-    console.log(form);
+    console.log(hasNoErrors, errors, 'hasNoErrors');
     if (hasNoErrors) {
       // this.formatDataAndSave(form);
       errors.password = '';
+      form.feeStructure = this.state.dataSet;
       this.props.dispatch(createFeeStructure(form, this.resetRegisteration));
       this.props.closeModal();
     }
@@ -111,10 +112,17 @@ class Batch extends React.Component {
   checkBoxChange = (feeCode) => {
     const key = '_id';
     const textBoxesList = cloneDeep(this.state.textBoxesList);
-    if (findIndex(this.state.textBoxesList, (each) => each[key] === feeCode[key]) === -1) {
+    const dataSet = cloneDeep(this.state.dataSet);
+    const index = findIndex(this.state.textBoxesList, (each) => each[key] === feeCode[key]);
+    console.log(textBoxesList, dataSet, 'dat set');
+    if (index === -1) {
       textBoxesList.push(feeCode);
+      dataSet.push({ type: feeCode.type, amount: 0 });
+    } else {
+      textBoxesList.splice(index, 1);
+      dataSet.splice(index, 1);
     }
-    this.setState({ textBoxesList });
+    this.setState({ textBoxesList, dataSet });
   }
 
   validateInput = (name, value) =>
@@ -174,6 +182,12 @@ class Batch extends React.Component {
       resolve(errors);
     });
 
+  updateAmount = (e, index) => {
+    const dataSet = cloneDeep(this.state.dataSet);
+    dataSet[index].amount = e.target.value;
+    this.setState({ dataSet });
+  }
+
   render() {
     const { form, errors } = this.state;
     return (<div>
@@ -217,22 +231,32 @@ class Batch extends React.Component {
           />
         </Col>
       </Row>
-      {
-        this.props.feeCode.map((feeCode) => {
-          const key = '_id';
-          return (<Col lg={4} md={4} sm={4} xs={4}>
-            <input type="checkbox" value={feeCode[key]} onChange={() => this.checkBoxChange(feeCode)} />{feeCode.type}
-          </Col>);
-        })
-      }
-      {
-        this.state.textBoxesList.map((feeCode) => {
-          const key = '_id';
-          return (<Col lg={4} md={4} sm={4} xs={4}>
-            <input type="text" value={feeCode[key]} />
-          </Col>);
-        })
-      }
+      <Row>
+        {
+          this.props.feeCode.map((feeCode) => {
+            const key = '_id';
+            return (<Col lg={4} md={4} sm={4} xs={4}>
+              <input type="checkbox" value={feeCode[key]} onChange={() => this.checkBoxChange(feeCode)} />{feeCode.type}
+            </Col>);
+          })
+        }
+      </Row>
+      <Row>
+        {
+          this.state.dataSet.map((feeCode, index) => {
+            console.log(feeCode, index, 'feeCode');
+            return (<div>
+              <Col lg={4} md={4} sm={4} xs={4}><label>Type</label></Col>
+              <Col lg={2} md={2} sm={2} xs={2}>
+                <input type="text" value={feeCode.type} />
+              </Col>
+              <Col lg={2} md={2} sm={2} xs={2}><label>Amount</label></Col>
+              <Col lg={4} md={4} sm={4} xs={4}>
+                <input type="text" value={feeCode.amount} onChange={(e) => this.updateAmount(e, index)} />
+              </Col></div>);
+          })
+        }
+      </Row>
       <Row>
         <Col lg={12} md={12} sm={12} xs={12}>
           <Button value="Submit" onClick={this.onSubmit} />
