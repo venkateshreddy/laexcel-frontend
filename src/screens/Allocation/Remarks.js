@@ -15,7 +15,8 @@ class Remarks extends Component {
   };
 
   componentDidMount() {
-    this.props.dispatch(fetchResponseTypes());
+    const { responseTypes } = this.props;
+    if (responseTypes.length === 0) this.props.dispatch(fetchResponseTypes());
   }
 
   onSubmit = () => {

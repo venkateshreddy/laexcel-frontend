@@ -37,7 +37,7 @@ const columns = [
   { Header: 'Contact Number', accessor: 'ContactNumber' },
   { Header: 'Email', accessor: 'Email' },
   { Header: 'Program', accessor: 'Program' },
-  { Header: 'Branch', accessor: 'others', Cell: row => row.value.branch }
+  { Header: 'Branch', accessor: 'others', Cell: () => '' }
 ];
 
 const initialState = {
@@ -131,11 +131,11 @@ class TelecallerAllocation extends Component {
   resetForm = () =>
     this.setState({
       form: { from: null, to: null, program: '' },
-      employees: [],
+      // employees: [],
       employee: {},
       selectAll: false,
-      selection: [],
-      showTable: false
+      selection: []
+      // showTable: false
     });
 
   toggleSelection = selection => this.setState({ selection });
@@ -166,6 +166,7 @@ class TelecallerAllocation extends Component {
           form={form}
           handleChange={this.handleChange}
           onSearchClick={this.onSearchClick}
+          resetForm={this.resetForm}
         />
         {showTable && (
           <Row className="margin-top">
@@ -193,13 +194,6 @@ class TelecallerAllocation extends Component {
               />
             </Col>
             <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">
-              <Button
-                style={{ marginRight: '15px' }}
-                onClick={this.resetForm}
-                bsStyle="primary"
-              >
-                Reset
-              </Button>
               <Button
                 style={{ marginRight: '15px' }}
                 onClick={this.onAllocate}
