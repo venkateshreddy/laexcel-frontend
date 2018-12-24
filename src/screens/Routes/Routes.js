@@ -122,11 +122,6 @@ class Routes extends React.Component {
             component={FeeCode}
           />
           <Route
-            path="/DefineGstrates"
-            name="DefineGstrates"
-            component={DefineGstrates}
-          />
-          <Route
             path="/DefineFeeStructure"
             name="DefineFeeStructure"
             component={DefineFeeStructure}
