@@ -106,13 +106,11 @@ class Routes extends React.Component {
             name="Telecalling"
             component={Telecalling}
           />
-<<<<<<< HEAD
           <Route path="/CourseDuration" name="CourseDuration" component={CourseDuration} />
           <Route path="/DefineFeeCode" name="DefineFeeCode" component={FeeCode} />
           <Route path="/AssingRn" name="AssingRn" component={AssingRnToOrganisationWithState} />
           <Route path="/DefineGstRate" name="DefineGstRate" component={DefineGstRate} />
           <Route path="/DefineFeeStructure" name="DefineFeeStructure" component={DefineFeeStructure} />
-=======
           <Route
             path="/CourseDuration"
             name="CourseDuration"
@@ -148,7 +146,6 @@ class Routes extends React.Component {
             name="Counselling"
             component={Counselling}
           />
->>>>>>> dev
         </Route>
       </Router>
     );
