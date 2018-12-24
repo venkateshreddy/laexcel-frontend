@@ -15,7 +15,8 @@ class Remarks extends Component {
   };
 
   componentDidMount() {
-    this.props.dispatch(fetchResponseTypes());
+    const { responseTypes } = this.props;
+    if (responseTypes.length === 0) this.props.dispatch(fetchResponseTypes());
   }
 
   onSubmit = () => {
@@ -90,7 +91,7 @@ class Remarks extends Component {
             onClick={this.onSubmit}
             bsStyle="primary"
           >
-            Submit
+            Save
           </Button>
         </Row>
       </div>

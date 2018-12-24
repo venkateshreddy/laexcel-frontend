@@ -62,6 +62,13 @@ class DateRangeSearch extends Component {
         <Row className="text-right">
           <Button
             style={{ marginRight: '15px' }}
+            onClick={this.props.resetForm}
+            bsStyle="primary"
+          >
+            Reset
+          </Button>
+          <Button
+            style={{ marginRight: '15px' }}
             onClick={this.props.onSearchClick}
             bsStyle="primary"
           >

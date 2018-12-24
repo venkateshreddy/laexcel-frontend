@@ -92,6 +92,10 @@ export const allocateEmployeeToEnquires = data => {
   return async dispatch => {
     try {
       const result = await API_POST(url, data);
+      dispatch({
+        type: PreAdmission.ALLOCATE_TO_EMPLOYEE,
+        payload: data.selection
+      });
       return result;
     } catch (error) {
       dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
@@ -109,6 +113,10 @@ export const acceptOrRejectEnquiry = data => {
   return async dispatch => {
     try {
       const result = await API_POST(url, data);
+      dispatch({
+        type: PreAdmission.ACCEPT_OR_REJECT_ENQUIRY,
+        payload: data
+      });
       return result;
     } catch (error) {
       dispatch({ type: ErrorType.ERROR_LOG, message: error.message });

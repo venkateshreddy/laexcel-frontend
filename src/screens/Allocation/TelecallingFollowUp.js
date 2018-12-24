@@ -6,19 +6,22 @@ import { CheckBoxTable } from '../../components/Table';
 import { SnackBar } from '../../components/SnackBar';
 import { LargeModal } from '../../components/Modals/';
 import DateRangeSearch from './DateRangeSearch';
+import { FieldSelect } from '../../components/Form';
 import './Telecaller.scss';
 import {
-  setResponseAndRemarks,
-  fetchAdmissionsByEmp
+  fetchAdmissionsByEmp,
+  setResponseAndRemarks
 } from '../../actions/AdmissionAction';
 import Remarks from './Remarks';
+import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
 
 const initialState = {
   from: null,
   to: null,
-  program: ''
+  program: '',
+  responseType: ''
 };
-class Telecalling extends Component {
+class TelecallingFollowUp extends Component {
   constructor(props) {
     super(props);
     this.columns = [
@@ -48,7 +51,8 @@ class Telecalling extends Component {
       { Header: 'Contact Number', accessor: 'ContactNumber' },
       { Header: 'Email', accessor: 'Email' },
       { Header: 'Program', accessor: 'Program' },
-      { Header: 'Branch', accessor: 'others', Cell: () => '' }
+      { Header: 'Branch', accessor: 'others', Cell: () => '' },
+      { Header: 'Response Type', accessor: 'responseType' }
     ];
     this.state = {
       form: initialState,
@@ -66,15 +70,25 @@ class Telecalling extends Component {
     const { currentOrganisation } = this.props;
     if (!currentOrganisation.id) {
       this.props.router.push('/');
+    } else {
+      const { responseTypes } = this.props;
+      if (responseTypes.length === 0) this.props.dispatch(fetchResponseTypes());
     }
   }
 
   onSearchClick = () => {
     const { loggedInUser } = this.props;
-    const { from, to, program } = this.state.form;
-    if (from !== null && to !== null && program !== '') {
+    const { from, to, program, responseType } = this.state.form;
+    if (from !== null && to !== null && program !== '' && responseType !== '') {
       this.props
-        .dispatch(fetchAdmissionsByEmp(loggedInUser.id, { from, to, program, isAcceptedByEmp: true }))
+        .dispatch(
+          fetchAdmissionsByEmp(loggedInUser.id, {
+            from,
+            to,
+            program,
+            responseType
+          })
+        )
         .then(response => {
           if (response.error !== undefined) {
             if (!response.error) {
@@ -102,19 +116,26 @@ class Telecalling extends Component {
       });
   };
 
+  getOptions = (array, label, value) =>
+    array.map(data => (
+      <option key={data.id} value={data[value]}>
+        {data[label]}
+      </option>
+    ));
+
   openResponseTypeModal = row => () => {
     this.setState({ showModal: true, selectedRow: row });
   };
 
   handleChange = name => value => {
     const { form } = this.state;
-    form[name] = value;
+    form[name] = value.target ? value.target.value : value;
     this.setState({ form });
   };
 
   resetForm = () =>
     this.setState({
-      form: { from: null, to: null, program: '' },
+      form: { from: null, to: null, program: '', responseType: '' },
       selectAll: false,
       selection: [],
       // showTable: false,
@@ -139,8 +160,23 @@ class Telecalling extends Component {
 
   render() {
     const { showTable, form, showFeedback, feedback, showModal } = this.state;
+    const { responseTypes } = this.props;
     return (
       <div className="browse-wrap padding">
+        <Row>
+          <Col lg={6} md={6} sm={6}>
+            <FieldSelect
+              id="responseType"
+              label="Response Type"
+              onChange={this.handleChange('responseType')}
+              value={form.responseType}
+              validationState={null}
+              help={null}
+              options={this.getOptions(responseTypes, 'responseName', 'id')}
+              style={{ height: 'calc(35px - 0.375rem)' }}
+            />
+          </Col>
+        </Row>
         <DateRangeSearch
           form={form}
           handleChange={this.handleChange}
@@ -185,7 +221,8 @@ class Telecalling extends Component {
 const mapStateToProps = state => ({
   loggedInUser: state.login.loggedInUser,
   admissions: state.preAdmissions.admissions,
-  currentOrganisation: state.organisations.currentOrganisation
+  currentOrganisation: state.organisations.currentOrganisation,
+  responseTypes: state.responseType.responseTypes
 });
 
-export default connect(mapStateToProps)(Telecalling);
+export default connect(mapStateToProps)(TelecallingFollowUp);

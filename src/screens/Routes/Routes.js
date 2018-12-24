@@ -30,6 +30,9 @@ import FeeCode from '../../screens/DefineFeeCode/AdminView';
 import AssingRnToOrganisationWithState from '../../screens/AssingRnToOrganisationWithState/AdminView';
 import DefineFeeStructure from '../../screens/DefineFeeStructure/AdminView';
 import DefineGstRate from '../../screens/DefineGstRates/AdminView';
+import TelecallingFollowUp from '../Allocation/TelecallingFollowUp';
+import ForwardToCounselling from '../Allocation/ForwardToCounselling';
+import Counselling from '../Allocation/Counselling';
 
 class Routes extends React.Component {
   render() {
@@ -90,16 +93,8 @@ class Routes extends React.Component {
             name="Telecaller Allocation"
             component={TelecallerAllocation}
           />
-          <Route
-            path="/program"
-            name="program"
-            component={Program}
-          />
-          <Route
-            path="/batch"
-            name="Batch"
-            component={Batch}
-          />
+          <Route path="/program" name="program" component={Program} />
+          <Route path="/batch" name="Batch" component={Batch} />
           <Route path="/course" name="Course" component={Course} />
           <Route
             path="/telecallerAcceptance"
@@ -111,11 +106,49 @@ class Routes extends React.Component {
             name="Telecalling"
             component={Telecalling}
           />
+<<<<<<< HEAD
           <Route path="/CourseDuration" name="CourseDuration" component={CourseDuration} />
           <Route path="/DefineFeeCode" name="DefineFeeCode" component={FeeCode} />
           <Route path="/AssingRn" name="AssingRn" component={AssingRnToOrganisationWithState} />
           <Route path="/DefineGstRate" name="DefineGstRate" component={DefineGstRate} />
           <Route path="/DefineFeeStructure" name="DefineFeeStructure" component={DefineFeeStructure} />
+=======
+          <Route
+            path="/CourseDuration"
+            name="CourseDuration"
+            component={CourseDuration}
+          />
+          <Route
+            path="/DefineFeeCode"
+            name="DefineFeeCode"
+            component={FeeCode}
+          />
+          <Route
+            path="/DefineGstrates"
+            name="DefineGstrates"
+            component={DefineGstrates}
+          />
+          <Route
+            path="/DefineFeeStructure"
+            name="DefineFeeStructure"
+            component={DefineFeeStructure}
+          />
+          <Route
+            path="/telecallingFollowUp"
+            name="Telecalling Follow-up"
+            component={TelecallingFollowUp}
+          />
+          <Route
+            path="/forwardToCounselling"
+            name="Forward To Counselling"
+            component={ForwardToCounselling}
+          />
+          <Route
+            path="/counselling"
+            name="Counselling"
+            component={Counselling}
+          />
+>>>>>>> dev
         </Route>
       </Router>
     );

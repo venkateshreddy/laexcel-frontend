@@ -4,80 +4,96 @@ import { connect } from 'react-redux';
 
 import { CheckBoxTable } from '../../components/Table';
 import { SnackBar } from '../../components/SnackBar';
-import { Select } from '../../components/Dropdown';
 import DateRangeSearch from './DateRangeSearch';
-
+import { FieldSelect } from '../../components/Form';
+import { Select } from '../../components/Dropdown';
+import './Telecaller.scss';
 import {
-  fetchStudentsBasedOnFilter,
+  fetchAssignedAdmissions,
   allocateEmployeeToEnquires
 } from '../../actions/AdmissionAction';
+import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
 import { fetchEmployeesByRole } from '../../actions/employee';
-
-const columns = [
-  {
-    Header: 'Date of Enquiry',
-    accessor: 'others',
-    Cell: row => row.value.dateOfEnquiry
-  },
-  {
-    Header: 'Enquiry Number',
-    accessor: 'id',
-    Cell: row => {
-      if (row.value) {
-        return (
-          <label className="simulate-link">
-            {row ? row.value.substring(15) : ''}
-          </label>
-        );
-      }
-      return '';
-    }
-  },
-  { Header: 'Name of Student', accessor: 'StudentName' },
-  { Header: 'Contact Number', accessor: 'ContactNumber' },
-  { Header: 'Email', accessor: 'Email' },
-  { Header: 'Program', accessor: 'Program' },
-  { Header: 'Branch', accessor: 'others', Cell: () => '' }
-];
 
 const initialState = {
   from: null,
   to: null,
-  program: ''
+  program: '',
+  responseType: ''
 };
-class TelecallerAllocation extends Component {
+
+class ForwardToCounselling extends Component {
   constructor(props) {
     super(props);
+    this.columns = [
+      {
+        Header: 'Date of Enquiry',
+        accessor: 'others',
+        Cell: row => row.value.dateOfEnquiry
+      },
+      {
+        Header: 'Enquiry Number',
+        accessor: 'id',
+        Cell: row => {
+          if (row.value) {
+            return (
+              <label className="simulate-link">
+                {row ? row.value.substring(15) : ''}
+              </label>
+            );
+          }
+          return '';
+        }
+      },
+      { Header: 'Name of Student', accessor: 'StudentName' },
+      { Header: 'Contact Number', accessor: 'ContactNumber' },
+      { Header: 'Email', accessor: 'Email' },
+      { Header: 'Program', accessor: 'Program' },
+      { Header: 'Branch', accessor: 'others', Cell: () => '' },
+      { Header: 'Response Type', accessor: 'responseType' }
+    ];
     this.state = {
       form: initialState,
-      employees: [],
-      employee: {},
       selectAll: false,
       selection: [],
+      employees: [],
+      employee: {},
       showTable: false,
       showFeedback: false,
-      feedback: ''
+      feedback: '',
+      selectedRow: {}
     };
   }
 
   componentDidMount() {
     const { currentOrganisation } = this.props;
-    if (currentOrganisation.id) {
+    if (!currentOrganisation.id) {
+      this.props.router.push('/');
+    } else {
+      const { responseTypes } = this.props;
+      if (responseTypes.length === 0) {
+        this.props.dispatch(fetchResponseTypes());
+      }
       this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
         if (result.error !== undefined && !result.error) {
           this.setState({ employees: result.payload });
         }
       });
-    } else {
-      this.props.router.push('/');
     }
   }
 
   onSearchClick = () => {
-    const { from, to, program } = this.state.form;
-    if (from !== null && to !== null && program !== '') {
+    const { from, to, program, responseType } = this.state.form;
+    if (from !== null && to !== null && program !== '' && responseType !== '') {
       this.props
-        .dispatch(fetchStudentsBasedOnFilter({ from, to, program }))
+        .dispatch(
+          fetchAssignedAdmissions({
+            from,
+            to,
+            program,
+            responseType
+          })
+        )
         .then(response => {
           if (response.error !== undefined) {
             if (!response.error) {
@@ -92,11 +108,21 @@ class TelecallerAllocation extends Component {
     }
   };
 
-  onAllocate = () => {
+  getOptions = (array, label, value) =>
+    array.map(data => (
+      <option key={data.id} value={data[value]}>
+        {data[label]}
+      </option>
+    ));
+
+  getEmployeesList = employees =>
+    employees.map(employee => ({ label: employee.name, value: employee.id }));
+
+  forwardToCounselling = () => {
     const { selection, employee } = this.state;
     if (selection.length === 0) {
-      alert('Please select at least one enqiry to continue!');
-    } else if (!employee.value) {
+      alert('Please select at least one eqnuiry to continue!');
+    } else if (employee === '') {
       alert('Please select an employee to continue!');
     } else {
       this.props
@@ -115,27 +141,24 @@ class TelecallerAllocation extends Component {
     }
   };
 
-  getOptions = employees =>
-    employees.map(employee => ({ label: employee.name, value: employee.id }));
-
   handleChange = name => value => {
     const { form } = this.state;
     if (name === 'employee') {
       this.setState({ [name]: value });
     } else {
-      form[name] = value;
+      form[name] = value.target ? value.target.value : value;
       this.setState({ form });
     }
   };
 
   resetForm = () =>
     this.setState({
-      form: { from: null, to: null, program: '' },
-      // employees: [],
-      employee: {},
+      form: { from: null, to: null, program: '', responseType: '' },
       selectAll: false,
-      selection: []
-      // showTable: false
+      selection: [],
+      employee: {},
+      // showTable: false,
+      selectedRow: {}
     });
 
   toggleSelection = selection => this.setState({ selection });
@@ -155,13 +178,28 @@ class TelecallerAllocation extends Component {
     const {
       showTable,
       form,
-      employees,
-      employee,
       showFeedback,
-      feedback
+      feedback,
+      employees,
+      employee
     } = this.state;
+    const { responseTypes } = this.props;
     return (
       <div className="browse-wrap padding">
+        <Row>
+          <Col lg={6} md={6} sm={6}>
+            <FieldSelect
+              id="responseType"
+              label="Response Type"
+              onChange={this.handleChange('responseType')}
+              value={form.responseType}
+              validationState={null}
+              help={null}
+              options={this.getOptions(responseTypes, 'responseName', 'id')}
+              style={{ height: 'calc(35px - 0.375rem)' }}
+            />
+          </Col>
+        </Row>
         <DateRangeSearch
           form={form}
           handleChange={this.handleChange}
@@ -175,9 +213,9 @@ class TelecallerAllocation extends Component {
                 id="employee"
                 className="custom-select"
                 placeholder="Choose employee"
-                label="Allocate to employee"
+                label="Forward to employee"
                 onChange={this.handleChange('employee')}
-                options={this.getOptions(employees)}
+                options={this.getEmployeesList(employees)}
                 value={employee}
                 multi={false}
               />
@@ -187,7 +225,7 @@ class TelecallerAllocation extends Component {
                 selection={this.state.selection}
                 selectAll={this.state.selectAll}
                 data={this.props.admissions}
-                columns={columns}
+                columns={this.columns}
                 filterable
                 toggleAll={this.toggleAll}
                 toggleSelection={this.toggleSelection}
@@ -196,10 +234,10 @@ class TelecallerAllocation extends Component {
             <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">
               <Button
                 style={{ marginRight: '15px' }}
-                onClick={this.onAllocate}
+                onClick={this.forwardToCounselling}
                 bsStyle="primary"
               >
-                Allocate
+                Submit
               </Button>
             </Col>
           </Row>
@@ -216,7 +254,8 @@ class TelecallerAllocation extends Component {
 
 const mapStateToProps = state => ({
   admissions: state.preAdmissions.admissions,
-  currentOrganisation: state.organisations.currentOrganisation
+  currentOrganisation: state.organisations.currentOrganisation,
+  responseTypes: state.responseType.responseTypes
 });
 
-export default connect(mapStateToProps)(TelecallerAllocation);
+export default connect(mapStateToProps)(ForwardToCounselling);

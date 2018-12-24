@@ -14,10 +14,34 @@ const updatePreAdmission = (state, action) => {
   return { ...state, admissions };
 };
 
+const updatePreAdmissionsList = (state, { payload }) => {
+  const admissions = state.admissions.filter(
+    admission => !payload.includes(admission.id)
+  );
+  return { ...state, admissions };
+};
+
 const deletePreAdmission = (state, action) => {
   const admissions = state.admissions.filter(
     admission => !action.payload.ids.includes(admission.id)
   );
+  return { ...state, admissions };
+};
+
+const acceptOrRejectEnquiry = (state, action) => {
+  if (action.payload.status === 'return') {
+    return updatePreAdmissionsList(state, {
+      payload: action.payload.selection
+    });
+  }
+  const admissions = state.admissions.map(admission => {
+    if (action.payload.selection.includes(admission.id)) {
+      const updatedAdmission = { ...admission };
+      updatedAdmission.isAcceptedByEmp = true;
+      return updatedAdmission;
+    }
+    return admission;
+  });
   return { ...state, admissions };
 };
 
@@ -39,6 +63,14 @@ export default function reducer(state = initialState, action) {
 
     case PreAdmission.DELETE_PREADMISSION: {
       return deletePreAdmission(state, action);
+    }
+
+    case PreAdmission.ALLOCATE_TO_EMPLOYEE: {
+      return updatePreAdmissionsList(state, action);
+    }
+
+    case PreAdmission.ACCEPT_OR_REJECT_ENQUIRY: {
+      return acceptOrRejectEnquiry(state, action);
     }
 
     case PreAdmission.FETCH_STUDENTS_BASEDON_FILTER: {

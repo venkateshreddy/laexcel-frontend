@@ -51,7 +51,7 @@ const initialState = {
   program: ''
 };
 
-class TelecallerAllocation extends Component {
+class TelecallerAcceptance extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -129,7 +129,7 @@ class TelecallerAllocation extends Component {
       form: { from: null, to: null, program: '' },
       selectAll: false,
       selection: [],
-      showTable: false,
+      // showTable: false,
       showFeedback: false,
       feedback: '',
       isAccepted: false
@@ -156,6 +156,7 @@ class TelecallerAllocation extends Component {
           form={form}
           handleChange={this.handleChange}
           onSearchClick={this.onSearchClick}
+          resetForm={this.resetForm}
         />
         {showTable && (
           <Row className="margin-top">
@@ -191,13 +192,6 @@ class TelecallerAllocation extends Component {
             <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">
               <Button
                 style={{ marginRight: '15px' }}
-                onClick={this.resetForm}
-                bsStyle="primary"
-              >
-                Reset
-              </Button>
-              <Button
-                style={{ marginRight: '15px' }}
                 onClick={this.onSubmit}
                 bsStyle="primary"
               >
@@ -222,4 +216,4 @@ const mapStateToProps = state => ({
   currentOrganisation: state.organisations.currentOrganisation
 });
 
-export default connect(mapStateToProps)(TelecallerAllocation);
+export default connect(mapStateToProps)(TelecallerAcceptance);
