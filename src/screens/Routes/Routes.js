@@ -30,6 +30,8 @@ import FeeCode from '../../screens/DefineFeeCode/AdminView';
 import DefineGstrates from '../../screens/GSTRates/AdminView';
 import DefineFeeStructure from '../../screens/DefineFeeStructure/AdminView';
 import TelecallingFollowUp from '../Allocation/TelecallingFollowUp';
+import ForwardToCounselling from '../Allocation/ForwardToCounselling';
+import Counselling from '../Allocation/Counselling';
 
 class Routes extends React.Component {
   render() {
@@ -127,6 +129,16 @@ class Routes extends React.Component {
             path="/telecallingFollowUp"
             name="Telecalling Follow-up"
             component={TelecallingFollowUp}
+          />
+          <Route
+            path="/forwardToCounselling"
+            name="Forward To Counselling"
+            component={ForwardToCounselling}
+          />
+          <Route
+            path="/counselling"
+            name="Counselling"
+            component={Counselling}
           />
         </Route>
       </Router>

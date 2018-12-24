@@ -21,7 +21,7 @@ const initialState = {
   program: '',
   responseType: ''
 };
-class TelecallingFollowUp extends Component {
+class Counselling extends Component {
   constructor(props) {
     super(props);
     this.columns = [
@@ -225,4 +225,4 @@ const mapStateToProps = state => ({
   responseTypes: state.responseType.responseTypes
 });
 
-export default connect(mapStateToProps)(TelecallingFollowUp);
+export default connect(mapStateToProps)(Counselling);

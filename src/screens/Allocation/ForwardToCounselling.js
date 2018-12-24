@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { CheckBoxTable } from '../../components/Table';
 import { SnackBar } from '../../components/SnackBar';
-import { LargeModal } from '../../components/Modals/';
 import DateRangeSearch from './DateRangeSearch';
 import { FieldSelect } from '../../components/Form';
+import { Select } from '../../components/Dropdown';
 import './Telecaller.scss';
 import {
-  fetchAdmissionsByEmp,
-  setResponseAndRemarks
+  fetchAssignedAdmissions,
+  allocateEmployeeToEnquires
 } from '../../actions/AdmissionAction';
-import Remarks from './Remarks';
 import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
+import { fetchEmployeesByRole } from '../../actions/employee';
 
 const initialState = {
   from: null,
@@ -21,7 +21,8 @@ const initialState = {
   program: '',
   responseType: ''
 };
-class TelecallingFollowUp extends Component {
+
+class ForwardToCounselling extends Component {
   constructor(props) {
     super(props);
     this.columns = [
@@ -36,10 +37,7 @@ class TelecallingFollowUp extends Component {
         Cell: row => {
           if (row.value) {
             return (
-              <label
-                className="simulate-link"
-                onClick={this.openResponseTypeModal(row.original)}
-              >
+              <label className="simulate-link">
                 {row ? row.value.substring(15) : ''}
               </label>
             );
@@ -58,10 +56,11 @@ class TelecallingFollowUp extends Component {
       form: initialState,
       selectAll: false,
       selection: [],
+      employees: [],
+      employee: {},
       showTable: false,
       showFeedback: false,
       feedback: '',
-      showModal: false,
       selectedRow: {}
     };
   }
@@ -72,17 +71,23 @@ class TelecallingFollowUp extends Component {
       this.props.router.push('/');
     } else {
       const { responseTypes } = this.props;
-      if (responseTypes.length === 0) this.props.dispatch(fetchResponseTypes());
+      if (responseTypes.length === 0) {
+        this.props.dispatch(fetchResponseTypes());
+      }
+      this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
+        if (result.error !== undefined && !result.error) {
+          this.setState({ employees: result.payload });
+        }
+      });
     }
   }
 
   onSearchClick = () => {
-    const { loggedInUser } = this.props;
     const { from, to, program, responseType } = this.state.form;
     if (from !== null && to !== null && program !== '' && responseType !== '') {
       this.props
         .dispatch(
-          fetchAdmissionsByEmp(loggedInUser.id, {
+          fetchAssignedAdmissions({
             from,
             to,
             program,
@@ -103,19 +108,6 @@ class TelecallingFollowUp extends Component {
     }
   };
 
-  onRemarksSubmit = data => {
-    const { selectedRow } = this.state;
-    this.props
-      .dispatch(setResponseAndRemarks(selectedRow.id, data))
-      .then(response => {
-        if (response.error !== undefined && !response.error) {
-          this.showFeedback('Response type and remarks captured successfully!');
-          setTimeout(this.hideSnackBar, 2000);
-          this.resetForm();
-        }
-      });
-  };
-
   getOptions = (array, label, value) =>
     array.map(data => (
       <option key={data.id} value={data[value]}>
@@ -123,14 +115,40 @@ class TelecallingFollowUp extends Component {
       </option>
     ));
 
-  openResponseTypeModal = row => () => {
-    this.setState({ showModal: true, selectedRow: row });
+  getEmployeesList = employees =>
+    employees.map(employee => ({ label: employee.name, value: employee.id }));
+
+  forwardToCounselling = () => {
+    const { selection, employee } = this.state;
+    if (selection.length === 0) {
+      alert('Please select at least one eqnuiry to continue!');
+    } else if (employee === '') {
+      alert('Please select an employee to continue!');
+    } else {
+      this.props
+        .dispatch(
+          allocateEmployeeToEnquires({ selection, employee: employee.value })
+        )
+        .then(result => {
+          if (result.error !== undefined && !result.error) {
+            this.showFeedback(
+              `Enquires assigned to ${employee.label} successfully!`
+            );
+            setTimeout(this.hideSnackBar, 2000);
+            this.resetForm();
+          }
+        });
+    }
   };
 
   handleChange = name => value => {
     const { form } = this.state;
-    form[name] = value.target ? value.target.value : value;
-    this.setState({ form });
+    if (name === 'employee') {
+      this.setState({ [name]: value });
+    } else {
+      form[name] = value.target ? value.target.value : value;
+      this.setState({ form });
+    }
   };
 
   resetForm = () =>
@@ -138,8 +156,8 @@ class TelecallingFollowUp extends Component {
       form: { from: null, to: null, program: '', responseType: '' },
       selectAll: false,
       selection: [],
+      employee: {},
       // showTable: false,
-      showModal: false,
       selectedRow: {}
     });
 
@@ -156,10 +174,15 @@ class TelecallingFollowUp extends Component {
 
   hideSnackBar = () => this.setState({ showFeedback: false, feedback: '' });
 
-  closeResponseModal = () => this.setState({ showModal: false });
-
   render() {
-    const { showTable, form, showFeedback, feedback, showModal } = this.state;
+    const {
+      showTable,
+      form,
+      showFeedback,
+      feedback,
+      employees,
+      employee
+    } = this.state;
     const { responseTypes } = this.props;
     return (
       <div className="browse-wrap padding">
@@ -186,6 +209,16 @@ class TelecallingFollowUp extends Component {
         {showTable && (
           <Row className="margin-top">
             <Col lg={12} md={12} sm={12} xs={12}>
+              <Select
+                id="employee"
+                className="custom-select"
+                placeholder="Choose employee"
+                label="Forward to employee"
+                onChange={this.handleChange('employee')}
+                options={this.getEmployeesList(employees)}
+                value={employee}
+                multi={false}
+              />
               <CheckBoxTable
                 enableMultiSelect
                 enableSelectAll
@@ -198,16 +231,17 @@ class TelecallingFollowUp extends Component {
                 toggleSelection={this.toggleSelection}
               />
             </Col>
+            <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">
+              <Button
+                style={{ marginRight: '15px' }}
+                onClick={this.forwardToCounselling}
+                bsStyle="primary"
+              >
+                Submit
+              </Button>
+            </Col>
           </Row>
         )}
-        <LargeModal
-          show={showModal}
-          header="Response Type"
-          onHide={this.closeResponseModal}
-          showFooter={false}
-        >
-          <Remarks onSubmit={this.onRemarksSubmit} />
-        </LargeModal>
         <SnackBar
           open={showFeedback}
           onClose={this.hideSnackBar}
@@ -219,10 +253,9 @@ class TelecallingFollowUp extends Component {
 }
 
 const mapStateToProps = state => ({
-  loggedInUser: state.login.loggedInUser,
   admissions: state.preAdmissions.admissions,
   currentOrganisation: state.organisations.currentOrganisation,
   responseTypes: state.responseType.responseTypes
 });
 
-export default connect(mapStateToProps)(TelecallingFollowUp);
+export default connect(mapStateToProps)(ForwardToCounselling);

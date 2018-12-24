@@ -91,7 +91,7 @@ class Remarks extends Component {
             onClick={this.onSubmit}
             bsStyle="primary"
           >
-            Submit
+            Save
           </Button>
         </Row>
       </div>

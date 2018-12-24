@@ -51,7 +51,7 @@ const initialState = {
   program: ''
 };
 
-class TelecallerAllocation extends Component {
+class TelecallerAcceptance extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -216,4 +216,4 @@ const mapStateToProps = state => ({
   currentOrganisation: state.organisations.currentOrganisation
 });
 
-export default connect(mapStateToProps)(TelecallerAllocation);
+export default connect(mapStateToProps)(TelecallerAcceptance);

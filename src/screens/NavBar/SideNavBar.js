@@ -445,6 +445,16 @@ class SideNavBar extends Component {
                         </Link>
                       </NavText>
                     </NavItem>
+                    <NavItem eventKey="forwardToCounselling">
+                      <NavText>
+                        <Link
+                          to={'forwardToCounselling'}
+                          className="margin-left10"
+                        >
+                          Forward To Counselling
+                        </Link>
+                      </NavText>
+                    </NavItem>
                   </NavItem>
                 </SideNav.Nav>
               ) : (
@@ -465,9 +475,7 @@ class SideNavBar extends Component {
                     <NavIcon>
                       <i className="fas fa-user-check" />
                     </NavIcon>
-                    <NavText>
-                        Telecalls
-                    </NavText>
+                    <NavText>Telecalls</NavText>
                     <NavItem eventKey="telecallerAcceptance">
                       <NavText>
                         <Link
@@ -492,6 +500,13 @@ class SideNavBar extends Component {
                           className="margin-left10"
                         >
                           Telecalling Follow-up
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="counselling">
+                      <NavText>
+                        <Link to={'counselling'} className="margin-left10">
+                          Counselling
                         </Link>
                       </NavText>
                     </NavItem>
