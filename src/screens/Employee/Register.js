@@ -1,26 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import { startCase } from 'lodash';
+import { startCase, cloneDeep } from 'lodash';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import Button from '../../components/Button/Button';
-import { createEmployee } from '../../actions/employee';
+import { createEmployee, updateEmployee } from '../../actions/employee';
 
 class Register extends React.Component {
   constructor(props) {
     super(props);
-    const initialForm = {
-      name: '',
-      email: '',
-      password: '',
-      phonenumber: '',
-      address: '',
-      confirmpassword: '',
-      role: ''
-    };
+    let initialForm;
+    if (Object.keys(props.formData).length === 0) {
+      initialForm = {
+        name: '',
+        email: '',
+        password: '',
+        phonenumber: '',
+        address: '',
+        confirmpassword: '',
+        role: ''
+      };
+    } else {
+      const propsUpdate = cloneDeep(props.formData);
+      propsUpdate.confirmpassword = props.formData.password;
+      initialForm = propsUpdate;
+    }
     this.state = {
       form: initialForm,
-      errors: initialForm
+      errors: {
+        name: '',
+        email: '',
+        password: '',
+        phonenumber: '',
+        address: '',
+        confirmpassword: '',
+        role: ''
+      }
     };
   }
 
@@ -50,7 +65,12 @@ class Register extends React.Component {
       // this.formatDataAndSave(form);
       if (form.password === form.confirmpassword) {
         errors.password = '';
-        this.props.dispatch(createEmployee(form, this.resetRegisteration));
+        if (Object.keys(this.props.formData).length === 0) {
+          this.props.dispatch(createEmployee(form, this.resetRegisteration));
+        } else {
+          const key = '_id';
+          this.props.dispatch(updateEmployee(form, this.props.formData[key], this.resetRegisteration));
+        }
         this.props.closeModal();
       } else {
         errors.password = 'password didn\'t match';
@@ -62,7 +82,7 @@ class Register extends React.Component {
   getRoles() {
     return ['Teaching', 'Non teaching', 'Tele caller'].map((each) => <option value={each}>{each}</option>);
   }
-  resetRegisteration = (data) => {
+  resetRegisteration = () => {
     const initialForm = {
       name: '',
       email: '',
@@ -73,7 +93,11 @@ class Register extends React.Component {
       role: ''
     };
     this.setState({ errors: initialForm, form: initialForm });
-    alert(data.message);
+    if (Object.keys(this.props.formData).length === 0) {
+      alert('Registeration successfull');
+    } else {
+      alert('update successfull');
+    }
   }
   validateInput = (name, value) =>
     new Promise(resolve => {
