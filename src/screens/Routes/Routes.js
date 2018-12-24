@@ -27,8 +27,9 @@ import TelecallerAcceptance from '../Allocation/TelecallerAcceptance';
 import Telecalling from '../Allocation/Telecalling';
 import CourseDuration from '../../screens/CourseDuration/AdminView';
 import FeeCode from '../../screens/DefineFeeCode/AdminView';
-import DefineGstrates from '../../screens/GSTRates/AdminView';
+import AssingRnToOrganisationWithState from '../../screens/AssingRnToOrganisationWithState/AdminView';
 import DefineFeeStructure from '../../screens/DefineFeeStructure/AdminView';
+import DefineGstRate from '../../screens/DefineGstRates/AdminView';
 import TelecallingFollowUp from '../Allocation/TelecallingFollowUp';
 import ForwardToCounselling from '../Allocation/ForwardToCounselling';
 import Counselling from '../Allocation/Counselling';
@@ -105,6 +106,11 @@ class Routes extends React.Component {
             name="Telecalling"
             component={Telecalling}
           />
+          <Route path="/CourseDuration" name="CourseDuration" component={CourseDuration} />
+          <Route path="/DefineFeeCode" name="DefineFeeCode" component={FeeCode} />
+          <Route path="/AssingRn" name="AssingRn" component={AssingRnToOrganisationWithState} />
+          <Route path="/DefineGstRate" name="DefineGstRate" component={DefineGstRate} />
+          <Route path="/DefineFeeStructure" name="DefineFeeStructure" component={DefineFeeStructure} />
           <Route
             path="/CourseDuration"
             name="CourseDuration"
@@ -114,11 +120,6 @@ class Routes extends React.Component {
             path="/DefineFeeCode"
             name="DefineFeeCode"
             component={FeeCode}
-          />
-          <Route
-            path="/DefineGstrates"
-            name="DefineGstrates"
-            component={DefineGstrates}
           />
           <Route
             path="/DefineFeeStructure"

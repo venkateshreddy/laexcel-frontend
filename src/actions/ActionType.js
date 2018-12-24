@@ -39,6 +39,11 @@ export const Program = {
   FETCH_PROGRAM: 'FETCH_PROGRAM'
 };
 
+export const masterGstRates = {
+  CREATE_MASTER_GST_RATES: 'CREATE_MASTER_GST_RATES',
+  FETCH_MASTER_GST_RATES: 'FETCH_MASTER_GST_RATES'
+};
+
 export const FeeCode = {
   CREATE_FEE_CODE: 'CREATE_FEE_CODE',
   FETCH_FEE_CODE: 'FETCH_FEE_CODE'

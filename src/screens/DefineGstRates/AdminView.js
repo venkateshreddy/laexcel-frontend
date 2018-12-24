@@ -1,12 +1,12 @@
 import React from 'react';
-import ReactTable from 'react-table';
 import Panel from 'react-bootstrap/lib/Panel';
 import checkboxHOC from 'react-table/lib/hoc/selectTable';
+import ReactTable from 'react-table';
 import { connect } from 'react-redux';
-import Program from './Program';
+import GstRate from './GstRate';
 import { LargeModal } from '../../components/Modals';
-import { fetchProgram, deleteProgram } from '../../actions/programactions';
 import { fetchMasterGstRates } from '../../actions/mastergstrateactions';
+import { fetchOrganisations } from '../../actions/OrganisationActions';
 
 const CheckboxTable = checkboxHOC(ReactTable);
 
@@ -15,31 +15,32 @@ class AdminView extends React.Component {
     super(props);
     this.state = {
       show: false,
-      columns: [{ Header: 'Name', accessor: 'name' },
-      { Header: 'Code', accessor: 'code' },
-      { Header: 'GST Applicable', accessor: 'gstApplicable' },
-      { Header: 'Rate of GST', accessor: 'rateOfGst', Cell: (e) => <span>{this.renderGstRate(e.original.rateOfGst)}</span> }
+      columns: [{ Header: 'Rate of Gst', accessor: 'rateOfGst' },
+      { Header: 'CGST', accessor: 'cgst' },
+      { Header: 'SGST', accessor: 'sgst' },
+      { Header: 'IGST', accessor: 'igst' }
       ],
       form: {},
+      formData: {},
       errors: {},
       selectAll: [],
-      selection: [],
-      formData: {}
+      selection: []
     };
   }
   componentWillMount() {
-    this.props.dispatch(fetchProgram());
     this.props.dispatch(fetchMasterGstRates());
+    this.props.dispatch(fetchOrganisations());
   }
   closeModal = () => {
-    this.setState({ show: false, formData: {} });
+    this.setState({ show: false });
   }
   openRegisterForm = () => {
     this.setState({ show: true });
   }
-  openEditProgram = () => {
+
+  openMasterGstRates = () => {
     const key = '_id';
-    this.props.program.map((data) => {
+    this.props.masterGstRates.map((data) => {
       if (data[key].toString() === this.state.selection[0].toString()) {
         this.setState({ formData: data });
       }
@@ -47,9 +48,7 @@ class AdminView extends React.Component {
     });
     this.setState({ show: true });
   }
-  deleteProgram = () => {
-    this.props.dispatch(deleteProgram(this.state.selection[0]));
-  }
+
   toggleSelection = key => {
     let selection = [...this.state.selection];
     const keyIndex = selection.indexOf(key);
@@ -81,18 +80,6 @@ class AdminView extends React.Component {
 
   isSelected = key => this.state.selection.includes(key);
 
-  renderGstRate = (rateId) => {
-    let name = '';
-    const key = '_id';
-    this.props.masterGstRates.map((each) => {
-      if (each[key].toString() === rateId.toString()) {
-        name = each.rateOfGst;
-      }
-      return null;
-    });
-    return name;
-  }
-
   render() {
     const { toggleSelection, toggleAll, isSelected } = this;
     const { selectAll, selection } = this.state;
@@ -117,7 +104,7 @@ class AdminView extends React.Component {
     return (
       <Panel bsStyle="primary">
         <Panel.Heading>
-          <Panel.Title componentClass="h3">Program</Panel.Title>
+          <Panel.Title componentClass="h3">GST Rate Configuration</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
           <div>
@@ -131,20 +118,20 @@ class AdminView extends React.Component {
                 <i
                   className="fas fa-pencil-alt"
                   title="Edit branch"
-                  onClick={this.openEditProgram}
+                  onClick={this.openMasterGstRates}
                 />
               )}
-              {selection.length === 1 && (
-                <i
-                  className="fas fa-trash"
-                  title="Delete branch"
-                  onClick={this.deleteProgram}
-                />
-              )}
+              {/* {selection.length >= 1 && (
+          <i
+            className="fas fa-trash"
+            title="Delete branch"
+            onClick={this.deleteBranches}
+          />
+        )} */}
             </div>
             <LargeModal
               show={this.state.show}
-              header="Create Prgoram"
+              header="Define GST Rate"
               onHide={this.closeModal}
               onSave={this.onSubmit}
               saveText="Submit"
@@ -154,27 +141,26 @@ class AdminView extends React.Component {
               onReset={this.resetForm}
               style={{ margin: '0 auto' }}
             >
-              <Program closeModal={this.closeModal} formData={this.state.formData} />
+              <GstRate closeModal={this.closeModal} formData={this.state.formData} />
             </LargeModal>
             <CheckboxTable
               ref={r => {
                 this.checkboxTable = r;
               }} // TABLE
-              data={this.props.program}
+              data={this.props.masterGstRates}
               filterable
               columns={columns}
               defaultPageSize={10}
               className="-striped -highlight"
               {...checkboxProps}
             />
-          </div></Panel.Body>
-      </Panel>);
+          </div></Panel.Body></Panel>);
   }
 }
 function mapStateToProps(state) {
   return {
-    program: state.program.program,
-    masterGstRates: state.masterGstRates.masterGstRates
+    masterGstRates: state.masterGstRates.masterGstRates,
+    organisations: state.organisations.organisations
   };
 }
 export default connect(mapStateToProps)(AdminView);

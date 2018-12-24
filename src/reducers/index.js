@@ -20,6 +20,7 @@ import batch from './batchReducer';
 import feeCode from './feeCodeReducer';
 import gstRates from './gstRatesReducer';
 import feeStructure from './feeStructureReducer';
+import masterGstRates from './masterGstRatesReducer';
 
 export default combineReducers({
   locale,
@@ -34,6 +35,7 @@ export default combineReducers({
   employee,
   branch,
   feeStructure,
+  masterGstRates,
   cities,
   states,
   organisations,
