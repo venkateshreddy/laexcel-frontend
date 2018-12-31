@@ -22,6 +22,7 @@ class AdminView extends React.Component {
       ],
       form: {},
       errors: {},
+      filterable: false,
       selectAll: [],
       selection: [],
       formData: {}
@@ -81,6 +82,11 @@ class AdminView extends React.Component {
 
   isSelected = key => this.state.selection.includes(key);
 
+
+  toggleTableFilter = () => {
+    this.setState({ filterable: !this.state.filterable });
+  }
+
   renderGstRate = (rateId) => {
     let name = '';
     const key = '_id';
@@ -127,6 +133,11 @@ class AdminView extends React.Component {
                 title="Register Employee"
                 onClick={this.openRegisterForm}
               />
+              <i
+                className="fas fa-filter"
+                title="Filter Table"
+                onClick={this.toggleTableFilter}
+              />
               {selection.length === 1 && (
                 <i
                   className="fas fa-pencil-alt"
@@ -161,7 +172,7 @@ class AdminView extends React.Component {
                 this.checkboxTable = r;
               }} // TABLE
               data={this.props.program}
-              filterable
+              filterable={this.state.filterable}
               columns={columns}
               defaultPageSize={10}
               className="-striped -highlight"
