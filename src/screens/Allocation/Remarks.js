@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { FieldGroup, FieldSelect } from '../../components/Form';
-import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
+// import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
 
 const initialForm = {
   responseType: '',
