@@ -32,6 +32,8 @@ import DefineFeeStructure from '../../screens/DefineFeeStructure/AdminView';
 import TelecallingFollowUp from '../Allocation/TelecallingFollowUp';
 import ForwardToCounselling from '../Allocation/ForwardToCounselling';
 import Counselling from '../Allocation/Counselling';
+import WalkinClarification from '../Allocation/WalkinClarification';
+import DemoClassesIntimation from '../Allocation/DemoClassesIntimation';
 
 class Routes extends React.Component {
   render() {
@@ -139,6 +141,16 @@ class Routes extends React.Component {
             path="/counselling"
             name="Counselling"
             component={Counselling}
+          />
+          <Route
+            path="/walkinforclarification"
+            name="Walkin for Clarification"
+            component={WalkinClarification}
+          />
+          <Route
+            path="/demoClassesIntimation"
+            name="Demo Classes Intimation"
+            component={DemoClassesIntimation}
           />
         </Route>
       </Router>

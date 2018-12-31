@@ -23,6 +23,8 @@ class Remarks extends Component {
     const { form } = this.state;
     if (form.responseType.length > 0 && form.remarks.length > 0) {
       this.props.onSubmit(form);
+    } else {
+      alert('Please fill all the fields to continue!');
     }
   };
 

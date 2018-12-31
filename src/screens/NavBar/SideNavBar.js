@@ -455,6 +455,26 @@ class SideNavBar extends Component {
                         </Link>
                       </NavText>
                     </NavItem>
+                    <NavItem eventKey="walkinforclarification">
+                      <NavText>
+                        <Link
+                          to={'walkinforclarification'}
+                          className="margin-left10"
+                        >
+                          Walk-in for Clarification
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="demoClassesIntimation">
+                      <NavText>
+                        <Link
+                          to={'demoClassesIntimation'}
+                          className="margin-left10"
+                        >
+                          Demo Classes Intimation
+                        </Link>
+                      </NavText>
+                    </NavItem>
                   </NavItem>
                 </SideNav.Nav>
               ) : (
