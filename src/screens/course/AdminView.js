@@ -7,7 +7,7 @@ import Panel from 'react-bootstrap/lib/Panel';
 import Course from './course';
 import { LargeModal } from '../../components/Modals';
 import { fetchProgram } from '../../actions/programactions';
-import { fetchCourse } from '../../actions/courseactions';
+import { fetchCourse, deleteCourse } from '../../actions/courseactions';
 
 const CheckboxTable = checkboxHOC(ReactTable);
 
@@ -24,7 +24,8 @@ class AdminView extends React.Component {
       selection: [],
       filterable: false,
       form: {},
-      errors: {}
+      errors: {},
+      formData: {}
     };
   }
   componentWillMount() {
@@ -33,12 +34,28 @@ class AdminView extends React.Component {
   }
 
   closeModal = () => {
-    this.setState({ show: false });
+    this.setState({ show: false, formData: {} });
   }
+
+  deleteCourse = () => {
+    this.props.dispatch(deleteCourse(this.state.selection[0])).then(() => {
+      this.setState({ selection: [] });
+    });
+  }
+
   openRegisterForm = () => {
     this.setState({ show: true });
   }
-
+  openCourseEditForm = () => {
+    const key = '_id';
+    this.props.course.map((data) => {
+      if (data[key].toString() === this.state.selection[0].toString()) {
+        this.setState({ formData: data });
+      }
+      return null;
+    });
+    this.setState({ show: true });
+  }
   toggleSelection = key => {
     let selection = [...this.state.selection];
     const keyIndex = selection.indexOf(key);
@@ -130,14 +147,14 @@ class AdminView extends React.Component {
                 <i
                   className="fas fa-pencil-alt"
                   title="Edit branch"
-                // onClick={this.openModal(EDIT)}
+                  onClick={this.openCourseEditForm}
                 />
               )}
               {selection.length === 1 && (
                 <i
                   className="fas fa-trash"
                   title="Delete branch"
-                // onClick={this.deleteBranches}
+                  onClick={this.deleteCourse}
                 />
               )}
             </div>
@@ -153,7 +170,7 @@ class AdminView extends React.Component {
               onReset={this.resetForm}
               style={{ margin: '0 auto' }}
             >
-              <Course closeModal={this.closeModal} />
+              <Course closeModal={this.closeModal} formData={this.state.formData} />
             </LargeModal>
             <Row className="action-wrap">
               <CheckboxTable

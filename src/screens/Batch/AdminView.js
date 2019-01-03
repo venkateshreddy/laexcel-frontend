@@ -6,7 +6,7 @@ import checkboxHOC from 'react-table/lib/hoc/selectTable';
 import { connect } from 'react-redux';
 import Batch from './batch';
 import { LargeModal } from '../../components/Modals';
-import { fetchBatch } from '../../actions/batchactions';
+import { fetchBatch, deleteBatch } from '../../actions/batchactions';
 import { fetchProgram } from '../../actions/programactions';
 import { fetchCourse } from '../../actions/courseactions';
 
@@ -25,7 +25,9 @@ class AdminView extends React.Component {
       form: {},
       errors: {},
       selectAll: [],
-      selection: []
+      selection: [],
+      filterable: false,
+      formData: {}
     };
   }
   componentWillMount() {
@@ -37,10 +39,24 @@ class AdminView extends React.Component {
   closeModal = () => {
     this.setState({ show: false });
   }
+  deleteBatch = () => {
+    this.props.dispatch(deleteBatch(this.state.selection[0])).then(() => {
+      this.setState({ selection: [] });
+    });
+  }
   openRegisterForm = () => {
     this.setState({ show: true });
   }
-
+  openBatchEditForm = () => {
+    const key = '_id';
+    this.props.batch.map((data) => {
+      if (data[key].toString() === this.state.selection[0].toString()) {
+        this.setState({ formData: data });
+      }
+      return null;
+    });
+    this.setState({ show: true });
+  }
   toggleSelection = key => {
     let selection = [...this.state.selection];
     const keyIndex = selection.indexOf(key);
@@ -69,6 +85,10 @@ class AdminView extends React.Component {
     }
     this.setState({ selectAll, selection });
   };
+
+  toggleTableFilter = () => {
+    this.setState({ filterable: !this.state.filterable });
+  }
 
   isSelected = key => this.state.selection.includes(key);
   renderProgram = (programId) => {
@@ -129,24 +149,29 @@ class AdminView extends React.Component {
                 title="Register Employee"
                 onClick={this.openRegisterForm}
               />
+              <i
+                className="fas fa-filter"
+                title="Filter Table"
+                onClick={this.toggleTableFilter}
+              />
               {selection.length <= 1 && (
                 <i
                   className="fas fa-pencil-alt"
                   title="Edit branch"
-                // onClick={this.openModal(EDIT)}
+                  onClick={this.openBatchEditForm}
                 />
               )}
               {selection.length >= 1 && (
                 <i
                   className="fas fa-trash"
                   title="Delete branch"
-                // onClick={this.deleteBranches}
+                  onClick={this.deleteBatch}
                 />
               )}
             </div>
             <LargeModal
               show={this.state.show}
-              header="Create Prgoram"
+              header="Create Batch"
               onHide={this.closeModal}
               onSave={this.onSubmit}
               saveText="Submit"
@@ -156,7 +181,7 @@ class AdminView extends React.Component {
               onReset={this.resetForm}
               style={{ margin: '0 auto' }}
             >
-              <Batch closeModal={this.closeModal} />
+              <Batch closeModal={this.closeModal} formData={this.state.formData} />
             </LargeModal>
             <Row className="action-wrap">
               <CheckboxTable
@@ -164,7 +189,7 @@ class AdminView extends React.Component {
                   this.checkboxTable = r;
                 }} // TABLE
                 data={this.props.batch}
-                filterable
+                filterable={this.state.filterable}
                 columns={columns}
                 defaultPageSize={10}
                 className="-striped -highlight"

@@ -6,20 +6,30 @@ import { FieldGroup, FieldSelect } from '../../components/Form';
 import Button from '../../components/Button/Button';
 import { fetchProgram } from '../../actions/programactions';
 import { fetchCourse } from '../../actions/courseactions';
-import { createBatch } from '../../actions/batchactions';
+import { createBatch, updateBatch } from '../../actions/batchactions';
 
 class Batch extends React.Component {
   constructor(props) {
     super(props);
-    const initialForm = {
-      course: '',
-      program: '',
-      name: '',
-      code: ''
-    };
+    let initialForm = null;
+    if (Object.keys(props.formData).length === 0) {
+      initialForm = {
+        course: '',
+        program: '',
+        name: '',
+        code: ''
+      };
+    } else {
+      initialForm = props.formData;
+    }
     this.state = {
       form: initialForm,
-      errors: initialForm
+      errors: {
+        course: '',
+        program: '',
+        name: '',
+        code: ''
+      }
     };
   }
 
@@ -51,16 +61,15 @@ class Batch extends React.Component {
       this.setState({ errors });
     }
     console.log(form);
+    const key = '_id';
     if (hasNoErrors) {
       // this.formatDataAndSave(form);
-      if (form.password === form.confirmpassword) {
-        errors.password = '';
+      if (Object.keys(this.props.formData).length === 0) {
         this.props.dispatch(createBatch(form, this.resetRegisteration));
-        this.props.closeModal();
       } else {
-        errors.password = 'password didn\'t match';
-        this.setState({ errors });
+        this.props.dispatch(updateBatch(this.props.formData[key], form, this.resetRegisteration));
       }
+      this.props.closeModal();
     }
   };
 
@@ -133,9 +142,9 @@ class Batch extends React.Component {
             label="Course"
             placeholder="Select course"
             onChange={this.onChangeText('course')}
-            value={form.program}
-            validationState={errors.program !== '' ? 'error' : null}
-            help={errors.program !== '' ? errors.program : null}
+            value={form.course}
+            validationState={errors.course !== '' ? 'error' : null}
+            help={errors.course !== '' ? errors.course : null}
             options={this.getCourses()}
           />
         </Col>

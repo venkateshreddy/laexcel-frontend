@@ -9,23 +9,36 @@ import Button from '../../components/Button/Button';
 // import { TextInput } from '../../components/Input/index';
 import { fetchCourse } from '../../actions/courseactions';
 import { fetchBatch } from '../../actions/batchactions';
-import { createCourseDuration } from '../../actions/courseDurationActions';
+import { createCourseDuration, updateCourseDuration } from '../../actions/courseDurationActions';
 
 class Batch extends React.Component {
   constructor(props) {
     super(props);
-    const initialForm = {
-      academicYear: '',
-      courseName: '',
-      batch: '',
-      courseDuration: '',
-      months: '',
-      fromDate: '',
-      toDate: ''
-    };
+    let initialForm = null;
+    if (Object.keys(props.formData).length !== 0) {
+      initialForm = props.formData;
+    } else {
+      initialForm = {
+        academicYear: '',
+        courseName: '',
+        batch: '',
+        courseDuration: '',
+        months: '',
+        fromDate: '',
+        toDate: ''
+      };
+    }
     this.state = {
       form: cloneDeep(initialForm),
-      errors: cloneDeep(initialForm)
+      errors: cloneDeep({
+        academicYear: '',
+        courseName: '',
+        batch: '',
+        courseDuration: '',
+        months: '',
+        fromDate: '',
+        toDate: ''
+      })
     };
     this.state.form.courseDuration = 'In Months';
   }
@@ -71,10 +84,15 @@ class Batch extends React.Component {
     }
     console.log(form);
     if (hasNoErrors) {
+      const key = '_id';
       // this.formatDataAndSave(form);
-      errors.password = '';
-      this.props.dispatch(createCourseDuration(form, this.resetRegisteration));
-      this.props.closeModal();
+      if (Object.keys(this.props.formData).length === 0) {
+        this.props.dispatch(createCourseDuration(form, this.resetRegisteration));
+        this.props.closeModal();
+      } else {
+        this.props.dispatch(updateCourseDuration(this.props.formData[key], form, this.resetRegisteration));
+        this.props.closeModal();
+      }
     }
   };
 

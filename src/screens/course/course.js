@@ -5,20 +5,30 @@ import { startCase } from 'lodash';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import Button from '../../components/Button/Button';
 import { fetchProgram } from '../../actions/programactions';
-import { createCourse } from '../../actions/courseactions';
+import { createCourse, updateCourse } from '../../actions/courseactions';
 
 
 class Program extends React.Component {
   constructor(props) {
     super(props);
-    const initialForm = {
-      name: '',
-      code: '',
-      program: ''
-    };
+    let initialForm = {};
+    if (Object.keys(props.formData).length !== 0) {
+      initialForm = props.formData;
+    } else {
+      initialForm = {
+        name: '',
+        code: '',
+        program: ''
+      };
+    }
+
     this.state = {
       form: initialForm,
-      errors: initialForm
+      errors: {
+        name: '',
+        code: '',
+        program: ''
+      }
     };
   }
 
@@ -36,6 +46,7 @@ class Program extends React.Component {
   };
   onSubmit = () => {
     const { form } = this.state;
+    const key = '_id';
     const errors = { ...this.state.errors };
     Object.keys(form).map(name => {
       if (form[name] === '') {
@@ -48,15 +59,12 @@ class Program extends React.Component {
       this.setState({ errors });
     }
     if (hasNoErrors) {
-      // this.formatDataAndSave(form);
-      if (form.password === form.confirmpassword) {
-        errors.password = '';
+      if (Object.keys(this.props.formData).length === 0) {
         this.props.dispatch(createCourse(form, this.resetRegisteration));
-        this.props.closeModal();
       } else {
-        errors.password = 'password didn\'t match';
-        this.setState({ errors });
+        this.props.dispatch(updateCourse(this.props.formData[key], form, this.resetRegisteration));
       }
+      this.props.closeModal();
     }
   };
 
