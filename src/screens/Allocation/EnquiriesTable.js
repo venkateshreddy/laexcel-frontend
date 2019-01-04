@@ -6,9 +6,11 @@ import { CheckBoxTable } from '../../components/Table';
 import { LargeModal } from '../../components/Modals/';
 import MoreInfo from './MoreInfo';
 import Logs from './Logs';
+import Comments from './Comments';
 
 const MORE_INFO = 'MORE_INFO';
 const LOGS = 'LOGS';
+const COMMENTS = 'COMMENTS';
 
 class EnquiriesTable extends Component {
   constructor(props) {
@@ -64,7 +66,12 @@ class EnquiriesTable extends Component {
 
   componentDidMount() {
     const columns = [...this.state.columns];
-    const { showLogs, showMore, showResponseRemarks } = this.props;
+    const {
+      showLogs,
+      showMore,
+      showResponseRemarks,
+      showComments
+    } = this.props;
     if (showResponseRemarks) {
       const responseTypeColumn = {
         Header: 'Response Type',
@@ -76,6 +83,21 @@ class EnquiriesTable extends Component {
       };
       columns.push(responseTypeColumn);
       columns.push(remarksColumn);
+    }
+    if (showComments) {
+      const commentsColumn = {
+        Header: 'Comments',
+        accessor: 'comments',
+        Cell: row => (
+          <label
+            className="simulate-link"
+            onClick={() => this.showComments(row.original)}
+          >
+            Show comments
+          </label>
+        )
+      };
+      columns.push(commentsColumn);
     }
     if (showMore) {
       const showMoreColumn = {
@@ -117,6 +139,8 @@ class EnquiriesTable extends Component {
       return <MoreInfo data={selectedRow} rowId={selectedRow.id} />;
     } else if (modalType === LOGS) {
       return <Logs data={selectedRow} rowId={selectedRow.id} />;
+    } else if (modalType === COMMENTS) {
+      return <Comments data={selectedRow} rowId={selectedRow.id} />;
     }
     return null;
   };
@@ -134,6 +158,10 @@ class EnquiriesTable extends Component {
 
   showLogs = row => {
     this.toggleModal(true, row, LOGS);
+  };
+
+  showComments = row => {
+    this.toggleModal(true, row, COMMENTS);
   };
 
   closeModal = () => {
@@ -180,7 +208,8 @@ EnquiriesTable.defaultProps = {
   onEnquiryNumberClick: () => null,
   showResponseRemarks: false,
   showMore: true,
-  showLogs: true
+  showLogs: true,
+  showComments: false
 };
 
 EnquiriesTable.propTypes = {
@@ -193,7 +222,8 @@ EnquiriesTable.propTypes = {
   onEnquiryNumberClick: PropTypes.func,
   showMore: PropTypes.bool,
   showLogs: PropTypes.bool,
-  showResponseRemarks: PropTypes.bool
+  showResponseRemarks: PropTypes.bool,
+  showComments: PropTypes.bool
 };
 
 export default EnquiriesTable;

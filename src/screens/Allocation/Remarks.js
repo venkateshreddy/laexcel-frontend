@@ -22,6 +22,8 @@ class Remarks extends Component {
   onSubmit = () => {
     const { form } = this.state;
     if (form.responseType.length > 0 && form.remarks.length > 0) {
+      form.userId = this.props.userId;
+      form.insertedDate = new Date();
       this.props.onSubmit(form);
     } else {
       alert('Please fill all the fields to continue!');
@@ -102,6 +104,7 @@ class Remarks extends Component {
 }
 
 const mapStateToProps = state => ({
+  userId: state.login.loggedInUser.id,
   responseTypes: state.responseType.responseTypes
 });
 

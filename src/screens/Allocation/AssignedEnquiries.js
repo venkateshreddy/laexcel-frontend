@@ -96,6 +96,7 @@ class AssignedEnquiries extends Component {
             toggleSelection={this.toggleSelection}
             showLogs
             showMore
+            showComments
             enquiryNumberClickable={false}
           />
           {/* <CheckBoxTable

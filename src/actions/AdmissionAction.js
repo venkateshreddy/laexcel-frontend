@@ -271,3 +271,37 @@ export const fetchAllAssignedEnquiries = data => {
     }
   };
 };
+
+export const updateResponseTypeAndRemarks = (id, data) => {
+  const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}${id}/employee`;
+  return async dispatch => {
+    try {
+      const result = await API_PUT(url, data);
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};
+
+export const fetchLogsById = id => {
+  const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}${id}/logs`;
+  return async dispatch => {
+    try {
+      const result = await API_GET(url);
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};

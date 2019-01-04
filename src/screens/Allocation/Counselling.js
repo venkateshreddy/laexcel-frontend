@@ -10,7 +10,7 @@ import { FieldSelect } from '../../components/Form';
 import './Telecaller.scss';
 import {
   fetchAdmissionsByEmp,
-  updatePreAdmissionData
+  updateResponseTypeAndRemarks
 } from '../../actions/AdmissionAction';
 import Remarks from './Remarks';
 import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
@@ -76,7 +76,7 @@ class Counselling extends Component {
   onRemarksSubmit = data => {
     const { selectedRow } = this.state;
     this.props
-      .dispatch(updatePreAdmissionData(selectedRow.id, data))
+      .dispatch(updateResponseTypeAndRemarks(selectedRow.id, data))
       .then(response => {
         if (response.error !== undefined && !response.error) {
           this.showFeedback('Response type and remarks captured successfully!');

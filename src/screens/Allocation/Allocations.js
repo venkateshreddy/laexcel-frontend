@@ -6,13 +6,13 @@ import AssignedEnquiries from './AssignedEnquiries';
 
 class Allocations extends Component {
   state = {
-    activeTab: 'UNASSIGNED'
+    activeTab: 'ASSIGNED'
   };
 
   componentDidMount() {
     const { currentOrganisation } = this.props;
     if (!currentOrganisation.id) {
-      this.props.router.push('/');
+      // this.props.router.push('/');
     }
   }
 
