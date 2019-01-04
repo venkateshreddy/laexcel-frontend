@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { CheckBoxTable } from '../../components/Table';
+import EnquiriesTable from './EnquiriesTable';
 import { SnackBar } from '../../components/SnackBar';
 import { LargeModal } from '../../components/Modals/';
 import DateRangeSearch from './DateRangeSearch';
@@ -21,35 +21,6 @@ const initialState = {
 class Telecalling extends Component {
   constructor(props) {
     super(props);
-    this.columns = [
-      {
-        Header: 'Date of Enquiry',
-        accessor: 'createdAt'
-        // Cell: row => row.value.dateOfEnquiry
-      },
-      {
-        Header: 'Enquiry Number',
-        accessor: 'id',
-        Cell: row => {
-          if (row.value) {
-            return (
-              <label
-                className="simulate-link"
-                onClick={this.openResponseTypeModal(row.original)}
-              >
-                {row ? row.value.substring(15) : ''}
-              </label>
-            );
-          }
-          return '';
-        }
-      },
-      { Header: 'Name of Student', accessor: 'StudentName' },
-      { Header: 'Contact Number', accessor: 'ContactNumber' },
-      { Header: 'Email', accessor: 'Email' },
-      { Header: 'Program', accessor: 'Program' },
-      { Header: 'Branch', accessor: 'others', Cell: () => '' }
-    ];
     this.state = {
       form: initialState,
       selectAll: false,
@@ -109,7 +80,7 @@ class Telecalling extends Component {
       });
   };
 
-  openResponseTypeModal = row => () => {
+  openResponseTypeModal = row => {
     this.setState({ showModal: true, selectedRow: row });
   };
 
@@ -157,16 +128,14 @@ class Telecalling extends Component {
         {showTable && (
           <Row className="margin-top">
             <Col lg={12} md={12} sm={12} xs={12}>
-              <CheckBoxTable
-                enableMultiSelect
-                enableSelectAll
+              <EnquiriesTable
                 selection={this.state.selection}
                 selectAll={this.state.selectAll}
                 data={this.props.admissions}
-                columns={this.columns}
-                filterable
                 toggleAll={this.toggleAll}
                 toggleSelection={this.toggleSelection}
+                enquiryNumberClickable
+                onEnquiryNumberClick={this.openResponseTypeModal}
               />
             </Col>
           </Row>

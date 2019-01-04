@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { CheckBoxTable } from '../../components/Table';
+import EnquiriesTable from './EnquiriesTable';
 import { SnackBar } from '../../components/SnackBar';
 import DateRangeSearch from './DateRangeSearch';
 import { FieldSelect } from '../../components/Form';
@@ -23,36 +23,6 @@ const initialState = {
 class DemoClassesIntimation extends Component {
   constructor(props) {
     super(props);
-    this.columns = [
-      {
-        Header: 'Date of Enquiry',
-        accessor: 'createdAt'
-        // Cell: row => row.value.dateOfEnquiry
-      },
-      {
-        Header: 'Enquiry Number',
-        accessor: 'id',
-        Cell: row => {
-          if (row.value) {
-            return (
-              <label
-                className="simulate-link"
-                // onClick={this.openResponseTypeModal(row.original)}
-              >
-                {row ? row.value.substring(15) : ''}
-              </label>
-            );
-          }
-          return '';
-        }
-      },
-      { Header: 'Name of Student', accessor: 'StudentName' },
-      { Header: 'Contact Number', accessor: 'ContactNumber' },
-      { Header: 'Email', accessor: 'Email' },
-      { Header: 'Program', accessor: 'Program' },
-      { Header: 'Branch', accessor: 'others', Cell: () => '' },
-      { Header: 'Response Type', accessor: 'responseType' }
-    ];
     this.state = {
       form: initialState,
       selectAll: false,
@@ -220,16 +190,15 @@ class DemoClassesIntimation extends Component {
               </Row>
             )}
             <Col lg={12} md={12} sm={12} xs={12}>
-              <CheckBoxTable
-                enableMultiSelect
-                enableSelectAll
+              <EnquiriesTable
                 selection={this.state.selection}
                 selectAll={this.state.selectAll}
                 data={this.props.admissions}
                 columns={this.columns}
-                filterable
                 toggleAll={this.toggleAll}
                 toggleSelection={this.toggleSelection}
+                enquiryNumberClickable={false}
+                showResponseRemarks
               />
             </Col>
           </Row>

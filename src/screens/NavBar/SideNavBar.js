@@ -435,17 +435,14 @@ class SideNavBar extends Component {
                         </Link>
                       </NavText>
                     </NavItem>
-                    <NavItem eventKey="telecallerAllocation">
+                    <NavItem eventKey="allocations">
                       <NavText>
-                        <Link
-                          to={'telecallerAllocation'}
-                          className="margin-left10"
-                        >
-                          Telecaller Allocation
+                        <Link to={'allocations'} className="margin-left10">
+                          Allocations
                         </Link>
                       </NavText>
                     </NavItem>
-                    <NavItem eventKey="forwardToCounselling">
+                    {/* <NavItem eventKey="forwardToCounselling">
                       <NavText>
                         <Link
                           to={'forwardToCounselling'}
@@ -454,7 +451,7 @@ class SideNavBar extends Component {
                           Forward To Counselling
                         </Link>
                       </NavText>
-                    </NavItem>
+                    </NavItem> */}
                     <NavItem eventKey="walkinforclarification">
                       <NavText>
                         <Link
@@ -523,13 +520,13 @@ class SideNavBar extends Component {
                         </Link>
                       </NavText>
                     </NavItem>
-                    <NavItem eventKey="counselling">
+                    {/* <NavItem eventKey="counselling">
                       <NavText>
                         <Link to={'counselling'} className="margin-left10">
                           Counselling
                         </Link>
                       </NavText>
-                    </NavItem>
+                    </NavItem> */}
                   </NavItem>
                 </SideNav.Nav>
               )}

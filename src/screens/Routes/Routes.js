@@ -18,7 +18,7 @@ import Campus from '../Campus/Campus';
 import Room from '../Room/Room';
 import Building from '../Building/Building';
 import SourceAndAgency from '../SourceAndAgency/SourceAndAgency';
-import TelecallerAllocation from '../Allocation/TelecallerAllocation';
+import Allocations from '../Allocation/Allocations';
 import EmployeeRegister from '../../screens/Employee/AdminView';
 import Program from '../../screens/Program/AdminView';
 import Course from '../../screens/course/AdminView';
@@ -90,9 +90,9 @@ class Routes extends React.Component {
             component={SourceAndAgency}
           />
           <Route
-            path="/telecallerAllocation"
-            name="Telecaller Allocation"
-            component={TelecallerAllocation}
+            path="/allocations"
+            name="Allocations"
+            component={Allocations}
           />
           <Route path="/program" name="program" component={Program} />
           <Route path="/batch" name="Batch" component={Batch} />

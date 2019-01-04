@@ -285,7 +285,8 @@ export const PreAdmissionURL = {
   FETCH_PREADMISSION_DATA: `${AppConfig.API_BASE_URL}preadmission/`,
   ALLOCATE_EMPLOYEE: `${AppConfig.API_BASE_URL}preadmission/allocate`,
   ACCEPT_REJECT_ENQUIRY: `${AppConfig.API_BASE_URL}preadmission/employee`,
-  SET_DEMO_CLASS: `${AppConfig.API_BASE_URL}preadmission/demoClass`
+  SET_DEMO_CLASS: `${AppConfig.API_BASE_URL}preadmission/demoClass`,
+  FETCH_ALL_ASSIGNED_ENQUIRIES: `${AppConfig.API_BASE_URL}preadmission/assigned/all`
 };
 
 export const ResponseTypeURL = {

@@ -248,3 +248,26 @@ export const setDemoClassDate = data => {
     }
   };
 };
+
+export const fetchAllAssignedEnquiries = data => {
+  const url = `${PreAdmissionURL.FETCH_ALL_ASSIGNED_ENQUIRIES}`;
+  return async dispatch => {
+    try {
+      const result = await API_GET(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: PreAdmission.FETCH_ALL_ASSIGNED_ENQUIRIES,
+          payload: result.result
+        });
+      }
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};

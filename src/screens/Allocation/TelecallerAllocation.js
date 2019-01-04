@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { CheckBoxTable } from '../../components/Table';
+import EnquiriesTable from './EnquiriesTable';
 import { SnackBar } from '../../components/SnackBar';
 import { Select } from '../../components/Dropdown';
 import DateRangeSearch from './DateRangeSearch';
@@ -12,33 +12,6 @@ import {
   allocateEmployeeToEnquires
 } from '../../actions/AdmissionAction';
 import { fetchEmployeesByRole } from '../../actions/employee';
-
-const columns = [
-  {
-    Header: 'Date of Enquiry',
-    accessor: 'createdAt'
-    // Cell: row => row.value.dateOfEnquiry
-  },
-  {
-    Header: 'Enquiry Number',
-    accessor: 'id',
-    Cell: row => {
-      if (row.value) {
-        return (
-          <label className="simulate-link">
-            {row ? row.value.substring(15) : ''}
-          </label>
-        );
-      }
-      return '';
-    }
-  },
-  { Header: 'Name of Student', accessor: 'StudentName' },
-  { Header: 'Contact Number', accessor: 'ContactNumber' },
-  { Header: 'Email', accessor: 'Email' },
-  { Header: 'Program', accessor: 'Program' },
-  { Header: 'Branch', accessor: 'others', Cell: () => '' }
-];
 
 const initialState = {
   from: null,
@@ -61,16 +34,11 @@ class TelecallerAllocation extends Component {
   }
 
   componentDidMount() {
-    const { currentOrganisation } = this.props;
-    if (currentOrganisation.id) {
-      this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
-        if (result.error !== undefined && !result.error) {
-          this.setState({ employees: result.payload });
-        }
-      });
-    } else {
-      this.props.router.push('/');
-    }
+    this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
+      if (result.error !== undefined && !result.error) {
+        this.setState({ employees: result.payload });
+      }
+    });
   }
 
   onSearchClick = () => {
@@ -181,16 +149,15 @@ class TelecallerAllocation extends Component {
                 value={employee}
                 multi={false}
               />
-              <CheckBoxTable
-                enableMultiSelect
-                enableSelectAll
+              <EnquiriesTable
                 selection={this.state.selection}
                 selectAll={this.state.selectAll}
                 data={this.props.admissions}
-                columns={columns}
-                filterable
                 toggleAll={this.toggleAll}
                 toggleSelection={this.toggleSelection}
+                showLogs
+                showMore
+                enquiryNumberClickable={false}
               />
             </Col>
             <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">

@@ -2,7 +2,8 @@ import { findIndex } from 'lodash';
 import { PreAdmission } from '../actions/ActionType';
 
 const initialState = {
-  admissions: []
+  admissions: [],
+  assignedAdmissions: []
 };
 
 const updatePreAdmission = (state, action) => {
@@ -75,6 +76,10 @@ export default function reducer(state = initialState, action) {
 
     case PreAdmission.FETCH_STUDENTS_BASEDON_FILTER: {
       return { ...state, admissions: action.payload };
+    }
+
+    case PreAdmission.FETCH_ALL_ASSIGNED_ENQUIRIES: {
+      return { ...state, assignedAdmissions: action.payload };
     }
     default:
       return state;

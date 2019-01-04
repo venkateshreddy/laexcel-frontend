@@ -3,8 +3,10 @@ import { Row, Col, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import Switch from 'react-switch';
 
-import { CheckBoxTable } from '../../components/Table';
+import EnquiriesTable from './EnquiriesTable';
 import { SnackBar } from '../../components/SnackBar';
+import { LargeModal } from '../../components/Modals/';
+import { FieldGroup } from '../../components/Form';
 import DateRangeSearch from './DateRangeSearch';
 import './Telecaller.scss';
 
@@ -12,38 +14,6 @@ import {
   fetchAdmissionsByEmp,
   acceptOrRejectEnquiry
 } from '../../actions/AdmissionAction';
-
-const columns = [
-  {
-    Header: 'Date of Enquiry',
-    accessor: 'createdAt'
-    // Cell: row => row.value.dateOfEnquiry
-  },
-  {
-    Header: 'Enquiry Number',
-    accessor: 'id',
-    Cell: row => {
-      if (row.value) {
-        return (
-          <label className="simulate-link">
-            {row ? row.value.substring(15) : ''}
-          </label>
-        );
-      }
-      return '';
-    }
-  },
-  { Header: 'Name of Student', accessor: 'StudentName' },
-  { Header: 'Contact Number', accessor: 'ContactNumber' },
-  { Header: 'Email', accessor: 'Email' },
-  { Header: 'Program', accessor: 'Program' },
-  { Header: 'Branch', accessor: 'others', Cell: () => '' },
-  {
-    Header: 'Status',
-    accessor: 'isAcceptedByEmp',
-    Cell: row => (row.value ? <div>Accepted</div> : <div>Pending</div>)
-  }
-];
 
 const initialState = {
   from: null,
@@ -61,7 +31,10 @@ class TelecallerAcceptance extends Component {
       showTable: false,
       showFeedback: false,
       feedback: '',
-      isAccepted: false
+      isAccepted: true,
+      showModal: false,
+      comment: '',
+      commentError: ''
     };
   }
 
@@ -96,19 +69,25 @@ class TelecallerAcceptance extends Component {
     const { selection, isAccepted } = this.state;
     if (selection.length === 0) {
       alert('Please select at least one enqiry to continue!');
-    } else if (
-      !isAccepted &&
-      window.confirm('This action will return enquiries to admin')
-    ) {
-      this.acceptOrRejectEnquiry(selection, 'return');
+    } else if (!isAccepted) {
+      this.askForRejectionReason();
+      // this.acceptOrRejectEnquiry(selection, 'reject');
     } else if (isAccepted) {
       this.acceptOrRejectEnquiry(selection, 'accept');
     }
   };
 
+  askForRejectionReason = () => this.setState({ showModal: true });
+
   acceptOrRejectEnquiry = (selection, actionType) => {
     this.props
-      .dispatch(acceptOrRejectEnquiry({ selection, status: actionType }))
+      .dispatch(
+        acceptOrRejectEnquiry({
+          selection,
+          status: actionType,
+          comment: this.state.comment
+        })
+      )
       .then(result => {
         if (result.error !== undefined && !result.error) {
           this.showFeedback(`Enquires ${actionType}ed successfully!`);
@@ -132,7 +111,10 @@ class TelecallerAcceptance extends Component {
       // showTable: false,
       showFeedback: false,
       feedback: '',
-      isAccepted: false
+      isAccepted: false,
+      showModal: false,
+      comment: '',
+      commentError: ''
     });
 
   toggleSelection = selection => this.setState({ selection });
@@ -146,10 +128,34 @@ class TelecallerAcceptance extends Component {
     });
   };
 
+  submitRejectedEnquiries = () => {
+    const { comment, selection } = this.state;
+    if (comment === '') {
+      this.setState({ commentError: 'Reason for rejection is required!' });
+    } else {
+      this.acceptOrRejectEnquiry(selection, 'reject');
+    }
+  };
+
+  resetModalForm = () => this.setState({ comment: '', commentError: '' });
+
   hideSnackBar = () => this.setState({ showFeedback: false, feedback: '' });
 
+  resetModalForm = () => this.setState({ comment: '', commentError: '' });
+
+  closeModalForm = () =>
+    this.setState({ comment: '', showModal: false, commentError: '' });
+
   render() {
-    const { showTable, form, showFeedback, feedback } = this.state;
+    const {
+      showTable,
+      form,
+      showFeedback,
+      feedback,
+      showModal,
+      comment,
+      commentError
+    } = this.state;
     return (
       <div className="browse-wrap padding">
         <DateRangeSearch
@@ -163,7 +169,7 @@ class TelecallerAcceptance extends Component {
             <Row style={{ margin: '0px 0px 2px 13px' }}>
               <Switch
                 checkedIcon={<div className="accept-toggle">Accept</div>}
-                uncheckedIcon={<div className="return-toggle">Return</div>}
+                uncheckedIcon={<div className="return-toggle">Reject</div>}
                 onChange={value => {
                   this.setState({
                     isAccepted: value
@@ -177,16 +183,13 @@ class TelecallerAcceptance extends Component {
               />
             </Row>
             <Col lg={12} md={12} sm={12} xs={12}>
-              <CheckBoxTable
-                enableMultiSelect
-                enableSelectAll
+              <EnquiriesTable
                 selection={this.state.selection}
                 selectAll={this.state.selectAll}
                 data={this.props.admissions}
-                columns={columns}
-                filterable
                 toggleAll={this.toggleAll}
                 toggleSelection={this.toggleSelection}
+                enquiryNumberClickable={false}
               />
             </Col>
             <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">
@@ -205,6 +208,28 @@ class TelecallerAcceptance extends Component {
           onClose={this.hideSnackBar}
           msg={feedback}
         />
+        <LargeModal
+          show={showModal}
+          header="Comments"
+          onHide={this.closeModalForm}
+          onSave={this.submitRejectedEnquiries}
+          saveText="Submit"
+          closeText="Close"
+          resetText="Reset"
+          onReset={this.resetModalForm}
+          style={{ margin: '0 auto', width: '50%' }}
+        >
+          <FieldGroup
+            id="comment"
+            type="textarea"
+            label="Reason for rejection"
+            placeholder="Please enter a reason for rejection..."
+            onChange={e => this.setState({ comment: e.target.value })}
+            value={comment}
+            validationState={commentError !== '' ? 'error' : null}
+            help={commentError !== '' ? commentError : null}
+          />
+        </LargeModal>
       </div>
     );
   }
