@@ -10,7 +10,7 @@ import { FieldSelect } from '../../components/Form';
 import './Telecaller.scss';
 import {
   fetchAdmissionsByEmp,
-  setResponseAndRemarks
+  updatePreAdmissionData
 } from '../../actions/AdmissionAction';
 import Remarks from './Remarks';
 import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
@@ -27,8 +27,8 @@ class TelecallingFollowUp extends Component {
     this.columns = [
       {
         Header: 'Date of Enquiry',
-        accessor: 'others',
-        Cell: row => row.value.dateOfEnquiry
+        accessor: 'createdAt'
+        // Cell: row => row.value.dateOfEnquiry
       },
       {
         Header: 'Enquiry Number',
@@ -106,7 +106,7 @@ class TelecallingFollowUp extends Component {
   onRemarksSubmit = data => {
     const { selectedRow } = this.state;
     this.props
-      .dispatch(setResponseAndRemarks(selectedRow.id, data))
+      .dispatch(updatePreAdmissionData(selectedRow.id, data))
       .then(response => {
         if (response.error !== undefined && !response.error) {
           this.showFeedback('Response type and remarks captured successfully!');

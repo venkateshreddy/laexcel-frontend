@@ -349,17 +349,17 @@ class SideNavBar extends Component {
                         </Link>
                       </NavText>
                     </NavItem>
-                    <NavItem eventKey="AssingRn">
+                    <NavItem eventKey="gstrates">
                       <NavText>
-                        <Link to={'/AssingRn'} className="margin-left10">
-                          Assign GST RN to Organisation with state
+                        <Link to={'/GstRates'} className="margin-left10">
+                         GST Rates
                         </Link>
                       </NavText>
                     </NavItem>
-                    <NavItem eventKey="defineGstRate">
+                    <NavItem eventKey="gstrates">
                       <NavText>
-                        <Link to={'/DefineGstRate'} className="margin-left10">
-                          Define Gst Rate
+                        <Link to={'/AssingRnToStateAndOrgansiation'} className="margin-left10">
+                         Assign GST Registeratin Number
                         </Link>
                       </NavText>
                     </NavItem>
@@ -459,6 +459,26 @@ class SideNavBar extends Component {
                           className="margin-left10"
                         >
                           Forward To Counselling
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="walkinforclarification">
+                      <NavText>
+                        <Link
+                          to={'walkinforclarification'}
+                          className="margin-left10"
+                        >
+                          Walk-in for Clarification
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="demoClassesIntimation">
+                      <NavText>
+                        <Link
+                          to={'demoClassesIntimation'}
+                          className="margin-left10"
+                        >
+                          Demo Classes Intimation
                         </Link>
                       </NavText>
                     </NavItem>

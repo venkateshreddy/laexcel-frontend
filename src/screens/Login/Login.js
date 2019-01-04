@@ -58,7 +58,7 @@ class Login extends React.Component {
         <div className="grad" />
         <div className="header">
           <div>
-            La Excel
+            La Excellence
             <span>Application</span>
           </div>
           <span style={{ color: 'white' }}>(beta)</span>
@@ -77,12 +77,18 @@ class Login extends React.Component {
             onChange={e => this.setState({ password: e.target.value })}
           />
           <br />
-          <input
-            type="button"
-            value="Login"
+          {/* <input type="button" value="Login" disabled={state.disabled} /> */}
+          <Button
+            bsStyle="success"
             disabled={state.disabled}
             onClick={this.submitLogin}
-          />
+            style={{
+              marginTop: '10px',
+              width: '76%'
+            }}
+          >
+            Login
+          </Button>
           <br />
           {this.state.diplayMsg !== '' ? (
             <Button

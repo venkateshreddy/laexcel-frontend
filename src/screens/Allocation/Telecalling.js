@@ -8,7 +8,7 @@ import { LargeModal } from '../../components/Modals/';
 import DateRangeSearch from './DateRangeSearch';
 import './Telecaller.scss';
 import {
-  setResponseAndRemarks,
+  updatePreAdmissionData,
   fetchAdmissionsByEmp
 } from '../../actions/AdmissionAction';
 import Remarks from './Remarks';
@@ -24,8 +24,8 @@ class Telecalling extends Component {
     this.columns = [
       {
         Header: 'Date of Enquiry',
-        accessor: 'others',
-        Cell: row => row.value.dateOfEnquiry
+        accessor: 'createdAt'
+        // Cell: row => row.value.dateOfEnquiry
       },
       {
         Header: 'Enquiry Number',
@@ -74,7 +74,14 @@ class Telecalling extends Component {
     const { from, to, program } = this.state.form;
     if (from !== null && to !== null && program !== '') {
       this.props
-        .dispatch(fetchAdmissionsByEmp(loggedInUser.id, { from, to, program, isAcceptedByEmp: true }))
+        .dispatch(
+          fetchAdmissionsByEmp(loggedInUser.id, {
+            from,
+            to,
+            program,
+            isAcceptedByEmp: true
+          })
+        )
         .then(response => {
           if (response.error !== undefined) {
             if (!response.error) {
@@ -92,7 +99,7 @@ class Telecalling extends Component {
   onRemarksSubmit = data => {
     const { selectedRow } = this.state;
     this.props
-      .dispatch(setResponseAndRemarks(selectedRow.id, data))
+      .dispatch(updatePreAdmissionData(selectedRow.id, data))
       .then(response => {
         if (response.error !== undefined && !response.error) {
           this.showFeedback('Response type and remarks captured successfully!');

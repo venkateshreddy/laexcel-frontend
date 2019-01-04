@@ -175,11 +175,68 @@ export const fetchAssignedAdmissions = data => {
   };
 };
 
-export const setResponseAndRemarks = (id, data) => {
+export const updatePreAdmissionData = (id, data) => {
   const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}${id}`;
   return async dispatch => {
     try {
       const result = await API_PUT(url, data);
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};
+
+export const fetchEnquiresByStudent = data => {
+  const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}student`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: PreAdmission.FETCH_STUDENTS_BASEDON_FILTER,
+          payload: result.payload
+        });
+      }
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};
+
+export const updateResponseAndEnquiredOn = (id, data) => {
+  const url = `${PreAdmissionURL.FETCH_PREADMISSION_DATA}${id}/clarifications`;
+  return async dispatch => {
+    try {
+      const result = await API_PUT(url, data);
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
+    }
+  };
+};
+
+export const setDemoClassDate = data => {
+  const url = `${PreAdmissionURL.SET_DEMO_CLASS}`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
       return result;
     } catch (error) {
       dispatch({ type: ErrorType.ERROR_LOG, message: error.message });

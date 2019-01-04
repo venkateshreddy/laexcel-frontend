@@ -16,8 +16,8 @@ import {
 const columns = [
   {
     Header: 'Date of Enquiry',
-    accessor: 'others',
-    Cell: row => row.value.dateOfEnquiry
+    accessor: 'createdAt'
+    // Cell: row => row.value.dateOfEnquiry
   },
   {
     Header: 'Enquiry Number',

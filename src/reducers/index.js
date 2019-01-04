@@ -22,6 +22,7 @@ import gstRates from './gstRatesReducer';
 import feeStructure from './feeStructureReducer';
 import masterGstRates from './masterGstRatesReducer';
 
+
 export default combineReducers({
   locale,
   login,

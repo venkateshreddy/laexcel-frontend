@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { startCase, findIndex } from 'lodash';
 import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+// import { DayPickerInput } from '../../components/DatePicker';
 
 import { SnackBar } from '../../components/SnackBar';
 import { FieldGroup, FieldSelect, FieldRadio } from '../../components/Form';
@@ -285,7 +284,7 @@ class PreAdmissionsForm extends Component {
             <form>
               <Row>
                 <Col lg={6} md={6} sm={12} xs={12}>
-                  <div>
+                  {/* <div>
                     <label>Date Of Enquiry</label>
                     <br />
                     <DayPickerInput
@@ -293,7 +292,7 @@ class PreAdmissionsForm extends Component {
                       value={form.dateOfEnquiry}
                       onDayChange={this.onDayChange('dateOfEnquiry')}
                     />
-                  </div>
+                  </div> */}
                   <FieldSelect
                     id="sourceType"
                     label="Source Type"

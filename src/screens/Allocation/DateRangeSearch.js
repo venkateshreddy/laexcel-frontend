@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Row, Col, Button } from 'react-bootstrap';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import 'react-day-picker/lib/style.css';
+import { DayPickerInput } from '../../components/DatePicker';
 import { FieldSelect } from '../../components/Form';
 
 const ProgramOptions = [
@@ -21,7 +20,7 @@ class DateRangeSearch extends Component {
   onChangeText = name => ({ target: { value } }) =>
     this.props.handleChange(name)(value);
   render() {
-    const { form } = this.props;
+    const { form, programLabel } = this.props;
     return (
       <Row>
         <Col lg={6} md={6} sm={6}>
@@ -48,7 +47,7 @@ class DateRangeSearch extends Component {
           <Col lg={6} md={6} sm={12}>
             <FieldSelect
               id="Program"
-              label="Enquiry for Program"
+              label={programLabel}
               placeholder="Select a program"
               onChange={this.onChangeText('program')}
               value={form.program}
@@ -79,5 +78,9 @@ class DateRangeSearch extends Component {
     );
   }
 }
+
+DateRangeSearch.defaultProps = {
+  programLabel: 'Enquiry for Program'
+};
 
 export default DateRangeSearch;

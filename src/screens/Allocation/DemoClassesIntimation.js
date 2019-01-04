@@ -6,14 +6,13 @@ import { CheckBoxTable } from '../../components/Table';
 import { SnackBar } from '../../components/SnackBar';
 import DateRangeSearch from './DateRangeSearch';
 import { FieldSelect } from '../../components/Form';
-import { Select } from '../../components/Dropdown';
+import { DayPickerInput } from '../../components/DatePicker';
 import './Telecaller.scss';
 import {
   fetchAssignedAdmissions,
-  allocateEmployeeToEnquires
+  setDemoClassDate
 } from '../../actions/AdmissionAction';
 import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
-import { fetchEmployeesByRole } from '../../actions/employee';
 
 const initialState = {
   from: null,
@@ -21,8 +20,7 @@ const initialState = {
   program: '',
   responseType: ''
 };
-
-class ForwardToCounselling extends Component {
+class DemoClassesIntimation extends Component {
   constructor(props) {
     super(props);
     this.columns = [
@@ -37,7 +35,10 @@ class ForwardToCounselling extends Component {
         Cell: row => {
           if (row.value) {
             return (
-              <label className="simulate-link">
+              <label
+                className="simulate-link"
+                // onClick={this.openResponseTypeModal(row.original)}
+              >
                 {row ? row.value.substring(15) : ''}
               </label>
             );
@@ -56,12 +57,12 @@ class ForwardToCounselling extends Component {
       form: initialState,
       selectAll: false,
       selection: [],
-      employees: [],
-      employee: {},
       showTable: false,
       showFeedback: false,
       feedback: '',
-      selectedRow: {}
+      showModal: false,
+      selectedRow: {},
+      demoClassDate: ''
     };
   }
 
@@ -71,14 +72,7 @@ class ForwardToCounselling extends Component {
       this.props.router.push('/');
     } else {
       const { responseTypes } = this.props;
-      if (responseTypes.length === 0) {
-        this.props.dispatch(fetchResponseTypes());
-      }
-      this.props.dispatch(fetchEmployeesByRole('Tele caller')).then(result => {
-        if (result.error !== undefined && !result.error) {
-          this.setState({ employees: result.payload });
-        }
-      });
+      if (responseTypes.length === 0) this.props.dispatch(fetchResponseTypes());
     }
   }
 
@@ -115,25 +109,18 @@ class ForwardToCounselling extends Component {
       </option>
     ));
 
-  getEmployeesList = employees =>
-    employees.map(employee => ({ label: employee.name, value: employee.id }));
-
-  forwardToCounselling = () => {
-    const { selection, employee } = this.state;
+  setDemoClassDate = () => {
+    const { demoClassDate, selection } = this.state;
     if (selection.length === 0) {
-      alert('Please select at least one eqnuiry to continue!');
-    } else if (employee === '') {
-      alert('Please select an employee to continue!');
+      alert('Please select at least one enquiry to continue!');
+    } else if (demoClassDate === '') {
+      alert('Please select a date to continue!');
     } else {
       this.props
-        .dispatch(
-          allocateEmployeeToEnquires({ selection, employee: employee.value })
-        )
-        .then(result => {
-          if (result.error !== undefined && !result.error) {
-            this.showFeedback(
-              `Enquires assigned to ${employee.label} successfully!`
-            );
+        .dispatch(setDemoClassDate({ selection, demoClassDate }))
+        .then(response => {
+          if (response.error !== undefined) {
+            this.showFeedback(response.message);
             setTimeout(this.hideSnackBar, 2000);
             this.resetForm();
           }
@@ -143,12 +130,8 @@ class ForwardToCounselling extends Component {
 
   handleChange = name => value => {
     const { form } = this.state;
-    if (name === 'employee') {
-      this.setState({ [name]: value });
-    } else {
-      form[name] = value.target ? value.target.value : value;
-      this.setState({ form });
-    }
+    form[name] = value.target ? value.target.value : value;
+    this.setState({ form });
   };
 
   resetForm = () =>
@@ -156,9 +139,9 @@ class ForwardToCounselling extends Component {
       form: { from: null, to: null, program: '', responseType: '' },
       selectAll: false,
       selection: [],
-      employee: {},
       // showTable: false,
-      selectedRow: {}
+      selectedRow: {},
+      demoClassDate: ''
     });
 
   toggleSelection = selection => this.setState({ selection });
@@ -174,14 +157,18 @@ class ForwardToCounselling extends Component {
 
   hideSnackBar = () => this.setState({ showFeedback: false, feedback: '' });
 
+  closeResponseModal = () => this.setState({ showModal: false });
+
+  handleDateChange = demoClassDate => this.setState({ demoClassDate });
+
   render() {
     const {
       showTable,
       form,
       showFeedback,
       feedback,
-      employees,
-      employee
+      demoClassDate,
+      selection
     } = this.state;
     const { responseTypes } = this.props;
     return (
@@ -202,23 +189,37 @@ class ForwardToCounselling extends Component {
         </Row>
         <DateRangeSearch
           form={form}
+          programLabel="Program"
           handleChange={this.handleChange}
           onSearchClick={this.onSearchClick}
           resetForm={this.resetForm}
         />
         {showTable && (
           <Row className="margin-top">
+            {selection.length > 0 && (
+              <Row>
+                <Col lg={6} md={6} sm={6}>
+                  <label>Demo class date</label>
+                  <br />
+                  <DayPickerInput
+                    style={{ width: '100%' }}
+                    value={demoClassDate}
+                    key={demoClassDate}
+                    onDayChange={this.handleDateChange}
+                  />
+                </Col>
+                <Col lg={6} md={6} sm={6} style={{ marginTop: '18px' }}>
+                  <Button
+                    style={{ marginRight: '15px' }}
+                    onClick={this.setDemoClassDate}
+                    bsStyle="primary"
+                  >
+                    Submit
+                  </Button>
+                </Col>
+              </Row>
+            )}
             <Col lg={12} md={12} sm={12} xs={12}>
-              <Select
-                id="employee"
-                className="custom-select"
-                placeholder="Choose employee"
-                label="Forward to employee"
-                onChange={this.handleChange('employee')}
-                options={this.getEmployeesList(employees)}
-                value={employee}
-                multi={false}
-              />
               <CheckBoxTable
                 enableMultiSelect
                 enableSelectAll
@@ -230,15 +231,6 @@ class ForwardToCounselling extends Component {
                 toggleAll={this.toggleAll}
                 toggleSelection={this.toggleSelection}
               />
-            </Col>
-            <Col lg={12} md={12} sm={12} xs={12} className="margin text-right">
-              <Button
-                style={{ marginRight: '15px' }}
-                onClick={this.forwardToCounselling}
-                bsStyle="primary"
-              >
-                Submit
-              </Button>
             </Col>
           </Row>
         )}
@@ -253,9 +245,10 @@ class ForwardToCounselling extends Component {
 }
 
 const mapStateToProps = state => ({
+  loggedInUser: state.login.loggedInUser,
   admissions: state.preAdmissions.admissions,
   currentOrganisation: state.organisations.currentOrganisation,
   responseTypes: state.responseType.responseTypes
 });
 
-export default connect(mapStateToProps)(ForwardToCounselling);
+export default connect(mapStateToProps)(DemoClassesIntimation);

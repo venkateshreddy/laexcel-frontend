@@ -20,23 +20,6 @@ export const createEmployee = (employee, cb) => dispatch => {
     });
 };
 
-export const updateEmployee = (employee, id, cb) => dispatch => {
-  axios
-    .put(`${AppConfig.API_BASE_URL}employee/${id}`, employee)
-    .then(response => {
-      if (response.status === 200) {
-        dispatch({
-          type: Employee.FETCH_EMPLOYEE,
-          payload: response.data.result
-        });
-        cb(response.data);
-      }
-    })
-    .catch(err => {
-      dispatch({ type: ErrorType.ERROR_LOG, message: err.message });
-    });
-};
-
 export const fetchEmployees = () => dispatch => {
   axios
     .get(`${AppConfig.API_BASE_URL}/employee`)
@@ -68,20 +51,4 @@ export const fetchEmployeesByRole = role => {
       };
     }
   };
-};
-
-export const deleteEmployee = (id) => dispatch => {
-  axios
-    .delete(`${AppConfig.API_BASE_URL}/employee/${id}`)
-    .then(response => {
-      if (response.status === 200) {
-        dispatch({
-          type: Employee.FETCH_EMPLOYEE,
-          payload: response.data.result
-        });
-      }
-    })
-    .catch(err => {
-      dispatch({ type: ErrorType.ERROR_LOG, message: err.message });
-    });
 };
