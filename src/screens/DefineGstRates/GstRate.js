@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 import { startCase } from 'lodash';
-import { FieldGroup, FieldSelect } from '../../components/Form';
+import { FieldGroup } from '../../components/Form';
 import Button from '../../components/Button/Button';
-import { createProgram, updateProgram } from '../../actions/programactions';
-import { fetchMasterGstRates } from '../../actions/mastergstrateactions';
+import { fetchOrganisations } from '../../actions/OrganisationActions';
+import { createMasterGstRates, updateMasterGstRates } from '../../actions/mastergstrateactions';
+
 
 class Program extends React.Component {
   constructor(props) {
@@ -13,10 +14,10 @@ class Program extends React.Component {
     let initialForm;
     if (Object.keys(props.formData).length === 0) {
       initialForm = {
-        name: '',
-        code: '',
-        gstApplicable: '',
-        rateOfGst: ''
+        rateOfGst: '',
+        cgst: '',
+        sgst: '',
+        igst: ''
       };
     } else {
       initialForm = props.formData;
@@ -24,16 +25,16 @@ class Program extends React.Component {
     this.state = {
       form: initialForm,
       errors: {
-        name: '',
-        code: '',
-        gstApplicable: '',
-        rateOfGst: ''
+        rateOfGst: '',
+        cgst: '',
+        sgst: '',
+        igst: ''
       }
     };
   }
 
   componentWillMount() {
-    this.props.dispatch(fetchMasterGstRates());
+    this.props.dispatch(fetchOrganisations());
   }
 
   onChangeText = name => ({ target: { value } }) => {
@@ -45,6 +46,22 @@ class Program extends React.Component {
     );
     this.setState({ form, errors });
   };
+
+  onChangeBlurText = name => ({ target: { value } }) => {
+    const form = { ...this.state.form };
+    const errors = { ...this.state.errors };
+    const array = ['rateOfGst', 'cgst', 'sgst', 'igst'];
+    if (array.includes(name)) {
+      form[name] = Number(value).toFixed(2);
+    } else {
+      form[name] = value;
+    }
+    this.validateInput(name, value).then(newErrors =>
+      this.setState({ errors: newErrors })
+    );
+    this.setState({ form, errors });
+  };
+
   onSubmit = () => {
     const { form } = this.state;
     const errors = { ...this.state.errors };
@@ -62,34 +79,21 @@ class Program extends React.Component {
     if (hasNoErrors) {
       const key = '_id';
       if (Object.keys(this.props.formData).length === 0) {
-        this.props.dispatch(createProgram(form, this.resetRegisteration));
+        this.props.dispatch(createMasterGstRates(form, this.resetRegisteration));
       } else {
-        this.props.dispatch(updateProgram(this.props.formData[key], form, this.resetRegisteration));
+        this.props.dispatch(updateMasterGstRates(this.props.formData[key], form, this.resetRegisteration));
       }
+      this.props.closeModal();
     }
   };
 
-  getGstApplicable() {
-    return ['Yes', 'No'].map((each) => <option value={each}>{each}</option>);
-  }
-  getRateOfGst() {
-    const key = '_id';
-    return this.props.masterGstRates.map((each) => <option value={each[key]}>{each.rateOfGst}</option>);
-  }
-  resetRegisteration = () => {
+  resetRegisteration = (data) => {
     const initialForm = {
-      name: '',
-      code: '',
-      gstApplicable: '',
-      rateOfGst: ''
+      type: '',
+      code: ''
     };
     this.setState({ errors: initialForm, form: initialForm });
-    if (Object.keys(this.props.formData).length === 0) {
-      alert('Program created successfully');
-    } else {
-      alert('Program updated successfully');
-    }
-    this.props.closeModal();
+    alert(data.message);
   }
   validateInput = (name, value) =>
     new Promise(resolve => {
@@ -97,7 +101,7 @@ class Program extends React.Component {
       if (value === '') {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
-        const splCharsAllowed = ['email', 'address'];
+        const splCharsAllowed = ['cgst', 'igst', 'sgst'];
         // eslint-disable-next-line
         const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
         if (!splCharsAllowed.includes(name) && format.test(value)) {
@@ -123,50 +127,54 @@ class Program extends React.Component {
       <Row>
         <Col lg={6} md={6} sm={12} xs={12}>
           <FieldGroup
-            id="name"
+            id="rateOfGst"
             type="text"
-            label="Name"
-            placeholder="Enter name"
-            onChange={this.onChangeText('name')}
-            value={form.name}
-            validationState={errors.name !== '' ? 'error' : null}
-            help={errors.name !== '' ? errors.name : null}
+            label="Rate of GST"
+            placeholder="Enter Rate of GST"
+            onChange={this.onChangeText('rateOfGst')}
+            onBlur={this.onChangeBlurText('rateOfGst')}
+            value={form.rateOfGst}
+            validationState={errors.rateOfGst !== '' ? 'error' : null}
+            help={errors.rateOfGst !== '' ? errors.rateOfGst : null}
           />
         </Col>
         <Col lg={6} md={6} sm={12} xs={12}>
           <FieldGroup
-            id="code"
+            id="cgst"
             type="text"
-            label="Code"
-            placeholder="Enter code"
-            onChange={this.onChangeText('code')}
-            value={form.code}
-            validationState={errors.code !== '' ? 'error' : null}
-            help={errors.code !== '' ? errors.code : null}
+            label="CGST"
+            placeholder="Enter CGST"
+            onChange={this.onChangeText('cgst')}
+            onBlur={this.onChangeBlurText('cgst')}
+            value={form.cgst}
+            validationState={errors.cgst !== '' ? 'error' : null}
+            help={errors.cgst !== '' ? errors.cgst : null}
           />
         </Col>
         <Col lg={6} md={6} sm={12} xs={12}>
-          <FieldSelect
-            id="role"
-            label="Gst Applicable"
-            placeholder="Select gst applicable"
-            onChange={this.onChangeText('gstApplicable')}
-            value={form.gstApplicable}
-            validationState={errors.gstApplicable !== '' ? 'error' : null}
-            help={errors.gstApplicable !== '' ? errors.gstApplicable : null}
-            options={this.getGstApplicable()}
+          <FieldGroup
+            id="sgst"
+            type="text"
+            label="SGST"
+            placeholder="Enter SGST"
+            onChange={this.onChangeText('sgst')}
+            onBlur={this.onChangeBlurText('sgst')}
+            value={form.sgst}
+            validationState={errors.sgst !== '' ? 'error' : null}
+            help={errors.sgst !== '' ? errors.sgst : null}
           />
         </Col>
         <Col lg={6} md={6} sm={12} xs={12}>
-          <FieldSelect
-            id="rateOfGst"
-            label="Rate of Gst"
-            placeholder="Select rate of gst"
-            onChange={this.onChangeText('rateOfGst')}
-            value={form.rateOfGst}
-            validationState={errors.rateOfGst !== '' ? 'error' : null}
-            help={errors.rateOfGst !== '' ? errors.rateOfGst : null}
-            options={this.getRateOfGst()}
+          <FieldGroup
+            id="igst"
+            type="text"
+            label="IGST"
+            placeholder="Enter IGST"
+            onChange={this.onChangeText('igst')}
+            onBlur={this.onChangeBlurText('igst')}
+            value={form.igst}
+            validationState={errors.igst !== '' ? 'error' : null}
+            help={errors.igst !== '' ? errors.igst : null}
           />
         </Col>
         <Col lg={12} md={12} sm={12} xs={12}>
@@ -177,8 +185,6 @@ class Program extends React.Component {
   }
 }
 function mapStateToProps(state) {
-  return {
-    masterGstRates: state.masterGstRates.masterGstRates
-  };
+  return { organisations: state.organisations.organisations };
 }
 export default connect(mapStateToProps)(Program);

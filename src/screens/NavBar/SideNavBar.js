@@ -351,8 +351,15 @@ class SideNavBar extends Component {
                     </NavItem>
                     <NavItem eventKey="gstrates">
                       <NavText>
-                        <Link to={'/DefineGstrates'} className="margin-left10">
-                          Define GST Rates
+                        <Link to={'/GstRates'} className="margin-left10">
+                         GST Rates
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="gstrates">
+                      <NavText>
+                        <Link to={'/AssingRnToStateAndOrgansiation'} className="margin-left10">
+                         Assign GST Registeratin Number
                         </Link>
                       </NavText>
                     </NavItem>

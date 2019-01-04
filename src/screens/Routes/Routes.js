@@ -28,6 +28,7 @@ import Telecalling from '../Allocation/Telecalling';
 import CourseDuration from '../../screens/CourseDuration/AdminView';
 import FeeCode from '../../screens/DefineFeeCode/AdminView';
 import DefineGstrates from '../../screens/GSTRates/AdminView';
+import GstRates from '../../screens/DefineGstRates/AdminView';
 import DefineFeeStructure from '../../screens/DefineFeeStructure/AdminView';
 import TelecallingFollowUp from '../Allocation/TelecallingFollowUp';
 import ForwardToCounselling from '../Allocation/ForwardToCounselling';
@@ -118,9 +119,14 @@ class Routes extends React.Component {
             component={FeeCode}
           />
           <Route
-            path="/DefineGstrates"
-            name="DefineGstrates"
+            path="/AssingRnToStateAndOrgansiation"
+            name="AssingRnToStateAndOrgansiation"
             component={DefineGstrates}
+          />
+          <Route
+            path="/GstRates"
+            name="GstRates"
+            component={GstRates}
           />
           <Route
             path="/DefineFeeStructure"
