@@ -20,6 +20,7 @@ import batch from './batchReducer';
 import feeCode from './feeCodeReducer';
 import gstRates from './gstRatesReducer';
 import feeStructure from './feeStructureReducer';
+import academicYears from './AcademicYearReducer';
 
 export default combineReducers({
   locale,
@@ -42,5 +43,6 @@ export default combineReducers({
   building,
   codesAndTypes,
   preAdmissions,
-  responseType
+  responseType,
+  academicYears
 });

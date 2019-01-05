@@ -35,13 +35,13 @@ class Campus extends Component {
   };
 
   componentDidMount() {
-    const { currentOrganisation } = this.props;
-    if (currentOrganisation.id) {
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (currentOrganisation.id && currentAcademicYear.id) {
       this.props.dispatch(fetchCampuses());
       this.props.dispatch(fetchBranches());
       this.props.dispatch(fetchCities());
     } else {
-      this.props.router.push('/');
+      this.props.router.push('/error');
     }
   }
 
@@ -73,7 +73,8 @@ class Campus extends Component {
 
 const mapStateToProps = state => ({
   campuses: state.campus.campuses,
-  currentOrganisation: state.organisations.currentOrganisation
+  currentOrganisation: state.organisations.currentOrganisation,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(Campus);

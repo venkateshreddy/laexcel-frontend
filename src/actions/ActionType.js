@@ -135,3 +135,8 @@ export const PreAdmission = {
 export const ResponseType = {
   FETCH_RESPONSE_TYPES: 'FETCH_RESPONSE_TYPES'
 };
+
+export const AcademicYear = {
+  FETCH_ACADEMIC_YEARS: 'FETCH_ACADEMIC_YEARS',
+  SET_CURRENT_ACADEMIC_YEAR: 'SET_CURRENT_ACADEMIC_YEAR'
+};

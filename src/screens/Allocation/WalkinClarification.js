@@ -38,9 +38,9 @@ class WalkinClarification extends Component {
   }
 
   componentDidMount() {
-    const { currentOrganisation } = this.props;
-    if (!currentOrganisation.id) {
-      this.props.router.push('/');
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (!currentOrganisation.id || !currentAcademicYear) {
+      this.props.router.push('/error');
     }
   }
 
@@ -291,7 +291,8 @@ class WalkinClarification extends Component {
 const mapStateToProps = state => ({
   admissions: state.preAdmissions.admissions,
   responseTypes: state.responseType.responseTypes,
-  currentOrganisation: state.organisations.currentOrganisation
+  currentOrganisation: state.organisations.currentOrganisation,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(WalkinClarification);

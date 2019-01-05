@@ -34,6 +34,7 @@ import ForwardToCounselling from '../Allocation/ForwardToCounselling';
 import Counselling from '../Allocation/Counselling';
 import WalkinClarification from '../Allocation/WalkinClarification';
 import DemoClassesIntimation from '../Allocation/DemoClassesIntimation';
+import Error from '../Error/Error';
 
 class Routes extends React.Component {
   render() {
@@ -152,6 +153,7 @@ class Routes extends React.Component {
             name="Demo Classes Intimation"
             component={DemoClassesIntimation}
           />
+          <Route path="/error" name="Error" component={Error} />
         </Route>
       </Router>
     );

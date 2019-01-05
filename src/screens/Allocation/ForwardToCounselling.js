@@ -39,9 +39,9 @@ class ForwardToCounselling extends Component {
   }
 
   componentDidMount() {
-    const { currentOrganisation } = this.props;
-    if (!currentOrganisation.id) {
-      this.props.router.push('/');
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (!currentOrganisation.id || !currentAcademicYear) {
+      this.props.router.push('/error');
     } else {
       const { responseTypes } = this.props;
       if (responseTypes.length === 0) {
@@ -226,7 +226,8 @@ class ForwardToCounselling extends Component {
 const mapStateToProps = state => ({
   admissions: state.preAdmissions.admissions,
   currentOrganisation: state.organisations.currentOrganisation,
-  responseTypes: state.responseType.responseTypes
+  responseTypes: state.responseType.responseTypes,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(ForwardToCounselling);

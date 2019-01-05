@@ -39,9 +39,9 @@ class TelecallerAcceptance extends Component {
   }
 
   componentDidMount() {
-    const { currentOrganisation } = this.props;
-    if (!currentOrganisation.id) {
-      this.props.router.push('/');
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (!currentOrganisation.id || !currentAcademicYear) {
+      this.props.router.push('/error');
     }
   }
 
@@ -238,7 +238,8 @@ class TelecallerAcceptance extends Component {
 const mapStateToProps = state => ({
   loggedInUser: state.login.loggedInUser,
   admissions: state.preAdmissions.admissions,
-  currentOrganisation: state.organisations.currentOrganisation
+  currentOrganisation: state.organisations.currentOrganisation,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(TelecallerAcceptance);

@@ -37,9 +37,9 @@ class Counselling extends Component {
   }
 
   componentDidMount() {
-    const { currentOrganisation } = this.props;
-    if (!currentOrganisation.id) {
-      this.props.router.push('/');
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (!currentOrganisation.id || !currentAcademicYear) {
+      this.props.router.push('/error');
     } else {
       const { responseTypes } = this.props;
       if (responseTypes.length === 0) this.props.dispatch(fetchResponseTypes());
@@ -191,7 +191,8 @@ const mapStateToProps = state => ({
   loggedInUser: state.login.loggedInUser,
   admissions: state.preAdmissions.admissions,
   currentOrganisation: state.organisations.currentOrganisation,
-  responseTypes: state.responseType.responseTypes
+  responseTypes: state.responseType.responseTypes,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(Counselling);

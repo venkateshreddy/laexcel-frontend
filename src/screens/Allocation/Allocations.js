@@ -6,13 +6,13 @@ import AssignedEnquiries from './AssignedEnquiries';
 
 class Allocations extends Component {
   state = {
-    activeTab: 'ASSIGNED'
+    activeTab: 'UNASSIGNED'
   };
 
   componentDidMount() {
-    const { currentOrganisation } = this.props;
-    if (!currentOrganisation.id) {
-      // this.props.router.push('/');
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (!currentOrganisation.id || !currentAcademicYear) {
+      this.props.router.push('/error');
     }
   }
 
@@ -42,7 +42,8 @@ class Allocations extends Component {
 }
 
 const mapStateToProps = state => ({
-  currentOrganisation: state.organisations.currentOrganisation
+  currentOrganisation: state.organisations.currentOrganisation,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(Allocations);

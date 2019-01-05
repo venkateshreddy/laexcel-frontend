@@ -33,12 +33,12 @@ class Branch extends Component {
   };
 
   componentDidMount() {
-    const { currentOrganisation } = this.props;
-    if (currentOrganisation.id) {
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (currentOrganisation.id && currentAcademicYear.id) {
       this.props.dispatch(fetchBranches());
       this.props.dispatch(fetchCities());
     } else {
-      this.props.router.push('/');
+      this.props.router.push('/error');
     }
   }
 
@@ -70,7 +70,8 @@ class Branch extends Component {
 
 const mapStateToProps = state => ({
   branches: state.branch.branches,
-  currentOrganisation: state.organisations.currentOrganisation
+  currentOrganisation: state.organisations.currentOrganisation,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(Branch);

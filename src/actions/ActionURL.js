@@ -286,9 +286,15 @@ export const PreAdmissionURL = {
   ALLOCATE_EMPLOYEE: `${AppConfig.API_BASE_URL}preadmission/allocate`,
   ACCEPT_REJECT_ENQUIRY: `${AppConfig.API_BASE_URL}preadmission/employee`,
   SET_DEMO_CLASS: `${AppConfig.API_BASE_URL}preadmission/demoClass`,
-  FETCH_ALL_ASSIGNED_ENQUIRIES: `${AppConfig.API_BASE_URL}preadmission/assigned/all`
+  FETCH_ALL_ASSIGNED_ENQUIRIES: `${
+    AppConfig.API_BASE_URL
+  }preadmission/assigned/all`
 };
 
 export const ResponseTypeURL = {
   FETCH_RESPONSE_TYPES: `${AppConfig.API_BASE_URL}responsetype/`
+};
+
+export const AcademicYearURL = {
+  FETCH_ACADEMIC_YEARS: `${AppConfig.API_BASE_URL}academicyear/`
 };
