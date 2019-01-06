@@ -43,6 +43,7 @@
     "prop-types": "^15.6.2",
     "react": "^16.6.3",
     "react-avatar-edit": "^0.6.0",
+    "react-avatar-editor": "^11.0.4",
     "react-bootstrap": "^0.32.0",
     "react-data-grid": "^4.0.8",
     "react-datepicker": "^1.6.0",

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
 import { SnackBar } from '../../components/SnackBar';
+import Avatar from './Avatar';
 import { handleSnackBar } from '../../actions/DashboardAction';
 // import StateAndCity from './State&City';
 
@@ -17,6 +18,10 @@ class ConfigurationInitialScreen extends Component {
     this.setState({ key });
   };
 
+  submitAvatar = (image) => {
+    console.log(image);
+  }
+
   render() {
     return (
       <div className="position-search-wrap">
@@ -28,6 +33,10 @@ class ConfigurationInitialScreen extends Component {
           >
             <Tab eventKey={1} title="Upload Logo">
               <div>Logo upload will be available - under development</div>
+              <Avatar
+                submit={this.submitAvatar}
+                close={this.uploadImage}
+              />
             </Tab>
             {/* <Tab eventKey={2} title="Devices">
               <div className="browse-wrap padding">
