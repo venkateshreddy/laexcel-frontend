@@ -7,21 +7,30 @@ import Button from '../../components/Button/Button';
 // import { TextInput } from '../../components/Input/index';
 import { fetchCourse } from '../../actions/courseactions';
 import { fetchBranches } from '../../actions/BranchActions';
-import { createFeeStructure } from '../../actions/feeStructureActions';
+import { createFeeStructure, updateFeeStructure } from '../../actions/feeStructureActions';
 
 class Batch extends React.Component {
   constructor(props) {
     super(props);
-    const initialForm = {
-      academicYear: '',
-      courseName: '',
-      branch: ''
-    };
+    let initialForm = null;
+    if (Object.keys(props.formData).length === 0) {
+      initialForm = {
+        academicYear: '',
+        courseName: '',
+        branch: ''
+      };
+    } else {
+      initialForm = props.formData;
+    }
     this.state = {
       textBoxesList: [],
       dataSet: [],
-      form: cloneDeep(initialForm),
-      errors: cloneDeep(initialForm)
+      form: initialForm,
+      errors: {
+        academicYear: '',
+        courseName: '',
+        branch: ''
+      }
     };
   }
 
@@ -68,7 +77,12 @@ class Batch extends React.Component {
       // this.formatDataAndSave(form);
       errors.password = '';
       form.feeStructure = this.state.dataSet;
-      this.props.dispatch(createFeeStructure(form, this.resetRegisteration));
+      if (Object.keys(this.props.formData).length === 0) {
+        this.props.dispatch(createFeeStructure(form, this.resetRegisteration));
+      } else {
+        const key = '_id';
+        this.props.dispatch(updateFeeStructure(this.props.formData[key], form, this.resetRegisteration));
+      }
       this.props.closeModal();
     }
   };

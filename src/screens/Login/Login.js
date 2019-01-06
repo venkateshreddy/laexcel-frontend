@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Button } from 'react-bootstrap';
+import { PropagateLoader } from 'react-spinners';
+import { css } from '@emotion/core';
 // import { Link } from 'react-router';
 // import TextField from '../../components/TextField/TextField';
 // import Button from '../../components/Button/Button';
@@ -15,6 +17,7 @@ class Login extends React.Component {
       email: '',
       password: '',
       disabled: true,
+      showLoader: false,
       diplayMsg: ''
     };
   }
@@ -33,16 +36,29 @@ class Login extends React.Component {
     //   }:: testing-Pls click OK`
     // );
     const loginObj = { email: this.state.email, password: this.state.password };
+    this.setState({ showLoader: true });
     this.props.dispatch(submitLogin(loginObj, this.loginFailed));
   };
   loginFailed = result => {
-    this.setState({
-      // open: true,
-      // snackbarMsg: 'Oops.. verification failed, Pls contact your admin'
-      diplayMsg: result.message
-    });
+    if (result.error) {
+      this.setState({
+        // open: true,
+        // snackbarMsg: 'Oops.. verification failed, Pls contact your admin'
+        diplayMsg: result.message
+      });
+    }
+    this.setState({ showLoader: false });
   };
   render() {
+    const override = css`
+    display: block;
+    margin: 0 auto;
+    border-color: red;
+    position: relative;
+    left: 47%;
+    top: 48%;
+    z-index: 999;
+    `;
     const state = { ...this.state };
     if (state.email !== '' && state.password !== '') {
       state.disabled = false;
@@ -56,6 +72,13 @@ class Login extends React.Component {
       <div className="login-wrapBG">
         <div className="body" />
         <div className="grad" />
+        <PropagateLoader
+          css={override}
+          sizeUnit={'px'}
+          size={20}
+          color={'#2DBE4E'}
+          loading={this.state.showLoader}
+        />
         <div className="header">
           <div>
             La Excellence
@@ -100,7 +123,7 @@ class Login extends React.Component {
             </Button>
           ) : (
             <div />
-          )}
+            )}
         </div>
       </div>
     );

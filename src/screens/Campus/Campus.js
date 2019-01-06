@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Panel from 'react-bootstrap/lib/Panel';
 import { CheckBoxTable } from '../../components/Table';
 import CampusForm from './CampusForm';
 import { fetchBranches } from '../../actions/BranchActions';
@@ -53,20 +54,27 @@ class Campus extends Component {
     const { selection, filterable, selectAll } = this.state;
     const { campuses } = this.props;
     return (
-      <div>
-        <CampusForm selection={selection} />
-        <CheckBoxTable
-          enableMultiSelect={false}
-          enableSelectAll={false}
-          selection={selection}
-          selectAll={selectAll}
-          toggleAll={this.toggleAll}
-          toggleSelection={this.toggleSelection}
-          data={campuses}
-          columns={columns}
-          filterable={filterable}
-        />
-      </div>
+      <Panel bsStyle="primary">
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">Campus</Panel.Title>
+        </Panel.Heading>
+        <Panel.Body>
+          <div>
+            <CampusForm selection={selection} />
+            <CheckBoxTable
+              enableMultiSelect={false}
+              enableSelectAll={false}
+              selection={selection}
+              selectAll={selectAll}
+              toggleAll={this.toggleAll}
+              toggleSelection={this.toggleSelection}
+              data={campuses}
+              columns={columns}
+              filterable={filterable}
+            />
+          </div>
+        </Panel.Body>
+      </Panel >
     );
   }
 }

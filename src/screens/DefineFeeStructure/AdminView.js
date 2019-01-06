@@ -2,14 +2,18 @@ import React from 'react';
 import ReactTable from 'react-table';
 import { connect } from 'react-redux';
 import { Col } from 'react-bootstrap';
+import Panel from 'react-bootstrap/lib/Panel';
+import checkboxHOC from 'react-table/lib/hoc/selectTable';
 import DefineFeeStructure from './DefineFeeStructure';
 import { LargeModal } from '../../components/Modals';
 import { fetchBatch } from '../../actions/batchactions';
 import { fetchCourse } from '../../actions/courseactions';
 import { fetchBranches } from '../../actions/BranchActions';
-import { fetchFeeStructure } from '../../actions/feeStructureActions';
+import { fetchFeeStructure, deleteFeeStructure } from '../../actions/feeStructureActions';
 import { fetchFeeCode } from '../../actions/definefeecodeactions';
 import './AdminView.scss';
+
+const CheckboxTable = checkboxHOC(ReactTable);
 
 class AdminView extends React.Component {
   constructor(props) {
@@ -22,9 +26,14 @@ class AdminView extends React.Component {
       { Header: 'Fee Details', accessor: 'feeStructure', className: 'adminview-cell-height', Cell: (e) => <span>{this.renderFeeStructure(e.original.feeStructure)}</span> }
       ],
       form: {},
-      errors: {}
+      errors: {},
+      selectAll: [],
+      selection: [],
+      filterable: false,
+      formData: {}
     };
   }
+
   componentWillMount() {
     this.props.dispatch(fetchBatch());
     this.props.dispatch(fetchCourse());
@@ -36,8 +45,59 @@ class AdminView extends React.Component {
   closeModal = () => {
     this.setState({ show: false });
   }
+
   openRegisterForm = () => {
     this.setState({ show: true });
+  }
+
+  openEditFeeStructure = () => {
+    const key = '_id';
+    this.props.feeStructure.map((data) => {
+      if (data[key].toString() === this.state.selection[0].toString()) {
+        this.setState({ formData: data });
+      }
+      return null;
+    });
+    this.setState({ show: true });
+  }
+
+  deleteFeeStructure = () => {
+    this.props.dispatch(deleteFeeStructure(this.state.selection[0]));
+  }
+
+  toggleSelection = key => {
+    let selection = [...this.state.selection];
+    const keyIndex = selection.indexOf(key);
+    if (keyIndex >= 0) {
+      selection = [
+        ...selection.slice(0, keyIndex),
+        ...selection.slice(keyIndex + 1)
+      ];
+    } else {
+      selection.push(key);
+    }
+    this.setState({ selection }, () => { });
+  };
+
+  toggleAll = () => {
+    const selectAll = !this.state.selectAll;
+    const selection = [];
+    if (selectAll) {
+      const wrappedInstance = this.checkboxTable.getWrappedInstance();
+      const currentRecords = wrappedInstance.getResolvedState().sortedData;
+      const key1 = '_original';
+      const key2 = '_id';
+      currentRecords.forEach(item => {
+        selection.push(item[key1][key2]);
+      });
+    }
+    this.setState({ selectAll, selection });
+  };
+
+  isSelected = key => this.state.selection.includes(key);
+
+  toggleTableFilter = () => {
+    this.setState({ filterable: !this.state.filterable });
   }
 
   renderCourse = (courseId) => {
@@ -71,49 +131,87 @@ class AdminView extends React.Component {
     return feeString;
   }
   render() {
-    const { columns } = this.state;
-    return (<div>
-      <div className="action-icons">
-        <i
-          className="fas fa-plus"
-          title="Register Employee"
-          onClick={this.openRegisterForm}
-        />
-        {/* {selection.length <= 1 && (
-          <i
-            className="fas fa-pencil-alt"
-            title="Edit branch"
-            onClick={this.openModal(EDIT)}
-          />
-        )} */}
-        {/* {selection.length >= 1 && (
-          <i
-            className="fas fa-trash"
-            title="Delete branch"
-            onClick={this.deleteBranches}
-          />
-        )} */}
-      </div>
-      <LargeModal
-        show={this.state.show}
-        header="Create Course Duration"
-        onHide={this.closeModal}
-        onSave={this.onSubmit}
-        saveText="Submit"
-        closeText="Close"
-        resetText="Reset"
-        showFooter={false}
-        onReset={this.resetForm}
-        style={{ margin: '0 auto' }}
-      >
-        <DefineFeeStructure closeModal={this.closeModal} />
-      </LargeModal>
-      <ReactTable
-        data={this.props.feeStructure}
-        columns={columns}
-        defaultPageSize={10}
-      />
-    </div>);
+    const { toggleSelection, toggleAll, isSelected } = this;
+    const { selectAll } = this.state;
+    const checkboxProps = {
+      selectAll,
+      isSelected,
+      toggleSelection,
+      toggleAll,
+      selectType: 'checkbox',
+      getTrProps: (s, r) => {
+        const temp = 'id';
+        const selected = r && r.original && this.isSelected(r.original[temp]);
+        return {
+          style: {
+            backgroundColor: selected ? '#ccc' : 'inherit'
+            // color: selected ? 'white' : 'inherit',
+          }
+        };
+      }
+    };
+    const { columns, selection } = this.state;
+    return (
+      <Panel bsStyle="primary">
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">Fee Structure</Panel.Title>
+        </Panel.Heading>
+        <Panel.Body>
+          <div>
+            <div className="action-icons">
+              <i
+                className="fas fa-plus"
+                title="Register Employee"
+                onClick={this.openRegisterForm}
+              />
+              <i
+                className="fas fa-filter"
+                title="Filter Table"
+                onClick={this.toggleTableFilter}
+              />
+              {selection.length === 1 && (
+                <i
+                  className="fas fa-pencil-alt"
+                  title="Edit branch"
+                  onClick={this.openEditFeeStructure}
+                />
+              )}
+              {selection.length === 1 && (
+                <i
+                  className="fas fa-trash"
+                  title="Delete branch"
+                  onClick={this.deleteFeeStructure}
+                />
+              )}
+            </div>
+            <LargeModal
+              show={this.state.show}
+              header="Create Course Duration"
+              onHide={this.closeModal}
+              onSave={this.onSubmit}
+              saveText="Submit"
+              closeText="Close"
+              resetText="Reset"
+              showFooter={false}
+              onReset={this.resetForm}
+              style={{ margin: '0 auto' }}
+            >
+              <DefineFeeStructure formData={this.state.formData} closeModal={this.closeModal} />
+            </LargeModal>
+            <CheckboxTable
+              ref={r => {
+                this.checkboxTable = r;
+              }} // TABLE
+              data={this.props.feeStructure}
+              filterable={this.state.filterable}
+              columns={columns}
+              defaultPageSize={10}
+              className="-striped -highlight"
+              {...checkboxProps}
+            />
+          </div>
+        </Panel.Body>
+      </Panel>);
   }
 }
 function mapStateToProps(state) {

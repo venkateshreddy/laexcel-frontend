@@ -6,19 +6,28 @@ import { FieldGroup, FieldSelect } from '../../components/Form';
 import Button from '../../components/Button/Button';
 import { fetchStates } from '../../actions/StateAction';
 import { fetchOrganisations } from '../../actions/OrganisationActions';
-import { createGstRate } from '../../actions/gstRatesActions';
+import { createGstRate, updateGstRate } from '../../actions/gstRatesActions';
 
 class Program extends React.Component {
   constructor(props) {
     super(props);
-    const initialForm = {
-      organization: '',
-      state: '',
-      gstRegisterationNumber: ''
-    };
+    let initialForm = null;
+    if (Object.keys(props.formData).length === 0) {
+      initialForm = {
+        organization: '',
+        state: '',
+        gstRegisterationNumber: ''
+      };
+    } else {
+      initialForm = props.formData;
+    }
     this.state = {
       form: initialForm,
-      errors: initialForm
+      errors: {
+        organization: '',
+        state: '',
+        gstRegisterationNumber: ''
+      }
     };
   }
 
@@ -51,7 +60,12 @@ class Program extends React.Component {
     }
     console.log(form);
     if (hasNoErrors) {
-      this.props.dispatch(createGstRate(form, this.resetRegisteration));
+      if (Object.keys(this.props.formData).length === 0) {
+        this.props.dispatch(createGstRate(form, this.resetRegisteration));
+      } else {
+        const key = '_id';
+        this.props.dispatch(updateGstRate(this.props.formData[key], form, this.resetRegisteration));
+      }
       this.props.closeModal();
     }
   };

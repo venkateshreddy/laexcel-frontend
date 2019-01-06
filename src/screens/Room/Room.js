@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Panel from 'react-bootstrap/lib/Panel';
 import { CheckBoxTable } from '../../components/Table';
 import RoomForm from './RoomForm';
 import { fetchBranches } from '../../actions/BranchActions';
@@ -39,20 +40,27 @@ class Campus extends Component {
     const { selection, filterable, selectAll } = this.state;
     const { rooms } = this.props;
     return (
-      <div>
-        <RoomForm selection={selection} />
-        <CheckBoxTable
-          enableMultiSelect={false}
-          enableSelectAll={false}
-          selection={selection}
-          selectAll={selectAll}
-          toggleAll={this.toggleAll}
-          toggleSelection={this.toggleSelection}
-          data={rooms}
-          columns={columns}
-          filterable={filterable}
-        />
-      </div>
+      <Panel bsStyle="primary">
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">Room</Panel.Title>
+        </Panel.Heading>
+        <Panel.Body>
+          <div>
+            <RoomForm selection={selection} />
+            <CheckBoxTable
+              enableMultiSelect={false}
+              enableSelectAll={false}
+              selection={selection}
+              selectAll={selectAll}
+              toggleAll={this.toggleAll}
+              toggleSelection={this.toggleSelection}
+              data={rooms}
+              columns={columns}
+              filterable={filterable}
+            />
+          </div>
+        </Panel.Body>
+      </Panel >
     );
   }
 }
