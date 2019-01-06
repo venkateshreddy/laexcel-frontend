@@ -51,3 +51,19 @@ export const updateMasterGstRates = (id, data, cb) => dispatch => {
       dispatch({ type: ErrorType.ERROR_LOG, message: err.message });
     });
 };
+
+export const deleteGstRates = (id) => dispatch => {
+  axios
+    .delete(`${AppConfig.API_BASE_URL}/mastergstrates/${id}`)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch({
+          type: masterGstRates.FETCH_MASTER_GST_RATES,
+          payload: response.data.result
+        });
+      }
+    })
+    .catch(err => {
+      dispatch({ type: ErrorType.ERROR_LOG, message: err.message });
+    });
+};

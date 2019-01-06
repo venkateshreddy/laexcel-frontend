@@ -34,3 +34,36 @@ export const fetchFeeCode = () => dispatch => {
       dispatch({ type: ErrorType.ERROR_LOG, message: err.message });
     });
 };
+
+export const updateFeeCode = (id, employee, cb) => dispatch => {
+  axios
+    .put(`${AppConfig.API_BASE_URL}feeCode/${id}`, employee)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch({
+          type: FeeCode.FETCH_FEE_CODE,
+          payload: response.data.result
+        });
+        cb(response.data);
+      }
+    })
+    .catch(err => {
+      dispatch({ type: ErrorType.ERROR_LOG, message: err.message });
+    });
+};
+
+export const deleteFeeCode = (id) => dispatch => {
+  axios
+    .delete(`${AppConfig.API_BASE_URL}/feecode/${id}`)
+    .then(response => {
+      if (response.status === 200) {
+        dispatch({
+          type: FeeCode.FETCH_FEE_CODE,
+          payload: response.data.result
+        });
+      }
+    })
+    .catch(err => {
+      dispatch({ type: ErrorType.ERROR_LOG, message: err.message });
+    });
+};
