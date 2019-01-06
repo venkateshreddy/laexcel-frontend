@@ -34,6 +34,7 @@ import ForwardToCounselling from '../Allocation/ForwardToCounselling';
 import Counselling from '../Allocation/Counselling';
 import WalkinClarification from '../Allocation/WalkinClarification';
 import DemoClassesIntimation from '../Allocation/DemoClassesIntimation';
+import MasterGstRates from '../DefineGstRates/AdminView';
 import Error from '../Error/Error';
 
 class Routes extends React.Component {
@@ -119,9 +120,14 @@ class Routes extends React.Component {
             component={FeeCode}
           />
           <Route
-            path="/DefineGstrates"
-            name="DefineGstrates"
+            path="/RnGstNumber"
+            name="RnGstNumber"
             component={DefineGstrates}
+          />
+          <Route
+            path="/gstRates"
+            name="gstRates"
+            component={MasterGstRates}
           />
           <Route
             path="/DefineFeeStructure"

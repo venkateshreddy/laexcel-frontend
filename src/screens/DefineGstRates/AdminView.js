@@ -1,13 +1,12 @@
 import React from 'react';
+import Panel from 'react-bootstrap/lib/Panel';
+import checkboxHOC from 'react-table/lib/hoc/selectTable';
 import ReactTable from 'react-table';
 import { connect } from 'react-redux';
-import { Row } from 'react-bootstrap';
-import checkboxHOC from 'react-table/lib/hoc/selectTable';
-import Panel from 'react-bootstrap/lib/Panel';
-import Course from './course';
+import GstRate from './GstRate';
 import { LargeModal } from '../../components/Modals';
-import { fetchProgram } from '../../actions/programactions';
-import { fetchCourse, deleteCourse } from '../../actions/courseactions';
+import { fetchMasterGstRates } from '../../actions/mastergstrateactions';
+import { fetchOrganisations } from '../../actions/OrganisationActions';
 
 const CheckboxTable = checkboxHOC(ReactTable);
 
@@ -16,39 +15,32 @@ class AdminView extends React.Component {
     super(props);
     this.state = {
       show: false,
-      columns: [{ Header: 'Program', accessor: 'program', Cell: (e) => <span>{this.renderProgram(e.original.program)}</span> },
-      { Header: 'Course Name', accessor: 'name' },
-      { Header: 'Course Code', accessor: 'code' }
+      columns: [{ Header: 'Rate of Gst', accessor: 'rateOfGst' },
+      { Header: 'CGST', accessor: 'cgst' },
+      { Header: 'SGST', accessor: 'sgst' },
+      { Header: 'IGST', accessor: 'igst' }
       ],
-      selectAll: [],
-      selection: [],
-      filterable: false,
       form: {},
+      formData: {},
       errors: {},
-      formData: {}
+      selectAll: [],
+      selection: []
     };
   }
   componentWillMount() {
-    this.props.dispatch(fetchProgram());
-    this.props.dispatch(fetchCourse());
+    this.props.dispatch(fetchMasterGstRates());
+    this.props.dispatch(fetchOrganisations());
   }
-
   closeModal = () => {
-    this.setState({ show: false, formData: {} });
+    this.setState({ show: false });
   }
-
-  deleteCourse = () => {
-    this.props.dispatch(deleteCourse(this.state.selection[0])).then(() => {
-      this.setState({ selection: [] });
-    });
-  }
-
   openRegisterForm = () => {
     this.setState({ show: true });
   }
-  openCourseEditForm = () => {
+
+  openMasterGstRates = () => {
     const key = '_id';
-    this.props.course.map((data) => {
+    this.props.masterGstRates.map((data) => {
       if (data[key].toString() === this.state.selection[0].toString()) {
         this.setState({ formData: data });
       }
@@ -56,6 +48,7 @@ class AdminView extends React.Component {
     });
     this.setState({ show: true });
   }
+
   toggleSelection = key => {
     let selection = [...this.state.selection];
     const keyIndex = selection.indexOf(key);
@@ -69,7 +62,6 @@ class AdminView extends React.Component {
     }
     this.setState({ selection }, () => { });
   };
-
 
   toggleAll = () => {
     const selectAll = !this.state.selectAll;
@@ -88,25 +80,9 @@ class AdminView extends React.Component {
 
   isSelected = key => this.state.selection.includes(key);
 
-  toggleTableFilter = () => {
-    this.setState({ filterable: !this.state.filterable });
-  }
-
-  renderProgram = (programId) => {
-    const key = '_id';
-    let name = '';
-    this.props.program.map((program) => {
-      if (program[key].toString() === programId.toString()) {
-        name = program.name;
-      }
-      return null;
-    });
-    return name;
-  }
-
   render() {
     const { toggleSelection, toggleAll, isSelected } = this;
-    const { selectAll } = this.state;
+    const { selectAll, selection } = this.state;
     const checkboxProps = {
       selectAll,
       isSelected,
@@ -124,11 +100,11 @@ class AdminView extends React.Component {
         };
       }
     };
-    const { columns, selection } = this.state;
+    const { columns } = this.state;
     return (
       <Panel bsStyle="primary">
         <Panel.Heading>
-          <Panel.Title componentClass="h3">Course</Panel.Title>
+          <Panel.Title componentClass="h3">GST Rate Configuration</Panel.Title>
         </Panel.Heading>
         <Panel.Body>
           <div>
@@ -138,29 +114,24 @@ class AdminView extends React.Component {
                 title="Register Employee"
                 onClick={this.openRegisterForm}
               />
-              <i
-                className="fas fa-filter"
-                title="Filter Table"
-                onClick={this.toggleTableFilter}
-              />
               {selection.length === 1 && (
                 <i
                   className="fas fa-pencil-alt"
                   title="Edit branch"
-                  onClick={this.openCourseEditForm}
+                  onClick={this.openMasterGstRates}
                 />
               )}
-              {selection.length === 1 && (
-                <i
-                  className="fas fa-trash"
-                  title="Delete branch"
-                  onClick={this.deleteCourse}
-                />
-              )}
+              {/* {selection.length >= 1 && (
+          <i
+            className="fas fa-trash"
+            title="Delete branch"
+            onClick={this.deleteBranches}
+          />
+        )} */}
             </div>
             <LargeModal
               show={this.state.show}
-              header="Create Course"
+              header="Define GST Rate"
               onHide={this.closeModal}
               onSave={this.onSubmit}
               saveText="Submit"
@@ -170,27 +141,26 @@ class AdminView extends React.Component {
               onReset={this.resetForm}
               style={{ margin: '0 auto' }}
             >
-              <Course closeModal={this.closeModal} formData={this.state.formData} />
+              <GstRate closeModal={this.closeModal} formData={this.state.formData} />
             </LargeModal>
-            <Row className="action-wrap">
-              <CheckboxTable
-                ref={r => {
-                  this.checkboxTable = r;
-                }} // TABLE
-                data={this.props.course}
-                filterable={this.state.filterable}
-                columns={columns}
-                defaultPageSize={10}
-                className="-striped -highlight"
-                {...checkboxProps}
-              />
-            </Row>
-          </div>
-        </Panel.Body>
-      </Panel>);
+            <CheckboxTable
+              ref={r => {
+                this.checkboxTable = r;
+              }} // TABLE
+              data={this.props.masterGstRates}
+              filterable
+              columns={columns}
+              defaultPageSize={10}
+              className="-striped -highlight"
+              {...checkboxProps}
+            />
+          </div></Panel.Body></Panel>);
   }
 }
 function mapStateToProps(state) {
-  return { course: state.course.course, program: state.program.program };
+  return {
+    masterGstRates: state.masterGstRates.masterGstRates,
+    organisations: state.organisations.organisations
+  };
 }
 export default connect(mapStateToProps)(AdminView);

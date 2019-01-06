@@ -21,6 +21,7 @@ import feeCode from './feeCodeReducer';
 import gstRates from './gstRatesReducer';
 import feeStructure from './feeStructureReducer';
 import academicYears from './AcademicYearReducer';
+import masterGstRates from './masterGstRatesReducer';
 
 export default combineReducers({
   locale,
@@ -35,6 +36,7 @@ export default combineReducers({
   employee,
   branch,
   feeStructure,
+  masterGstRates,
   cities,
   states,
   organisations,
