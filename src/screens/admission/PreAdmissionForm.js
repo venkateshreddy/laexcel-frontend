@@ -18,7 +18,7 @@ import {
   fetchSourceCodes
 } from '../../actions/CodeAndTypeActions';
 import { fetchStates } from '../../actions/StateAction';
-import { createPreAdmission } from '../../actions/AdmissionAction';
+import { createPreAdmission } from '../../actions/PreAdmissionActions';
 
 const initialForm = {
   dateOfEnquiry: '',

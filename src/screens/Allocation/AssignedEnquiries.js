@@ -9,7 +9,7 @@ import { fetchEmployeesByRole } from '../../actions/employee';
 import {
   fetchAllAssignedEnquiries,
   allocateEmployeeToEnquires
-} from '../../actions/AdmissionAction';
+} from '../../actions/PreAdmissionActions';
 
 class AssignedEnquiries extends Component {
   state = {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PaginatedTable } from '../../components/Table';
-import { fetchLogsById } from '../../actions/AdmissionAction';
+import { fetchLogsById } from '../../actions/PreAdmissionActions';
 
 const columns = [
   {

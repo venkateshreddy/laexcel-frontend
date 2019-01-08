@@ -11,7 +11,7 @@ import './Telecaller.scss';
 import {
   fetchAdmissionsByEmp,
   updateResponseTypeAndRemarks
-} from '../../actions/AdmissionAction';
+} from '../../actions/PreAdmissionActions';
 import Remarks from './Remarks';
 import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
 

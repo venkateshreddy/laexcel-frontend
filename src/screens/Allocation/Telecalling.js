@@ -10,7 +10,7 @@ import './Telecaller.scss';
 import {
   updateResponseTypeAndRemarks,
   fetchAdmissionsByEmp
-} from '../../actions/AdmissionAction';
+} from '../../actions/PreAdmissionActions';
 import Remarks from './Remarks';
 
 const initialState = {
