@@ -6,7 +6,7 @@ import Dropzone from 'react-dropzone';
 import XLSX from 'xlsx';
 import { SnackBar } from '../../components/SnackBar';
 import { handleSnackBar } from '../../actions/DashboardAction';
-import { bulkUpload } from '../../actions/AdmissionAction';
+import { bulkUpload } from '../../actions/PreAdmissionActions';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import CheckBoxTable from '../../components/Table/CheckboxTable';
 import PreAdmissionsTable from './PreAdmissionsTable';

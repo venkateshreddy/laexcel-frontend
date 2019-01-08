@@ -12,10 +12,12 @@ class LandingPage extends Component {
   render() {
     return (
       <Row>
-        <Col lg={8} md={8} sm={8}>
+        <Col lg={6} md={6} sm={6}>
+          <h4>Organizations</h4>
           <Organizations />
         </Col>
-        <Col lg={4} md={4} sm={4}>
+        <Col lg={6} md={6} sm={6}>
+          <h4>Academic Years</h4>
           <AcademicYears />
         </Col>
         {/* <div className="landing-page-wrapper">

@@ -11,7 +11,7 @@ import './Telecaller.scss';
 import {
   fetchAssignedAdmissions,
   setDemoClassDate
-} from '../../actions/AdmissionAction';
+} from '../../actions/PreAdmissionActions';
 import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
 
 const initialState = {

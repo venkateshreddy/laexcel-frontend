@@ -3,7 +3,7 @@ import { Row, Col } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
 import { PaginatedTable } from '../../components/Table';
-import { fetchPreAdmissionData } from '../../actions/AdmissionAction';
+import { fetchPreAdmissionData } from '../../actions/PreAdmissionActions';
 
 const columns = [
   { Header: 'Program', accessor: 'Program' },

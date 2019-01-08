@@ -298,3 +298,5 @@ export const ResponseTypeURL = {
 export const AcademicYearURL = {
   FETCH_ACADEMIC_YEARS: `${AppConfig.API_BASE_URL}academicyear/`
 };
+
+export const AdmissionURL = {};
