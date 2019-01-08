@@ -35,6 +35,7 @@ import Counselling from '../Allocation/Counselling';
 import WalkinClarification from '../Allocation/WalkinClarification';
 import DemoClassesIntimation from '../Allocation/DemoClassesIntimation';
 import MasterGstRates from '../DefineGstRates/AdminView';
+import AdmissionsScreenInitialView from '../AdmissionsScreen/InitialView';
 import Error from '../Error/Error';
 
 class Routes extends React.Component {
@@ -158,6 +159,11 @@ class Routes extends React.Component {
             path="/demoClassesIntimation"
             name="Demo Classes Intimation"
             component={DemoClassesIntimation}
+          />
+          <Route
+            path="/admissionsScreen"
+            name="admissionsScreen"
+            component={AdmissionsScreenInitialView}
           />
           <Route path="/error" name="Error" component={Error} />
         </Route>
