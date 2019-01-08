@@ -4,6 +4,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import { SnackBar } from '../../components/SnackBar';
 import Avatar from './Avatar';
 import { handleSnackBar } from '../../actions/DashboardAction';
+import { createLogo } from '../../actions/logosactions';
 // import StateAndCity from './State&City';
 
 class ConfigurationInitialScreen extends Component {
@@ -19,7 +20,11 @@ class ConfigurationInitialScreen extends Component {
   };
 
   submitAvatar = (image) => {
-    console.log(image);
+    const obj = {
+      organisation: null,
+      logo: image
+    };
+    this.props.dispatch(createLogo(obj));
   }
 
   render() {
