@@ -1,4 +1,31 @@
+import { cloneDeep } from 'lodash';
 import { Admission } from '../actions/ActionType';
+
+const initialAddressForm = {
+  inHostel: '',
+  hostel: '',
+  contactNumber: '',
+  Presentline1: '',
+  Presentline2: '',
+  Presentline3: '',
+  Presentstate: '',
+  Presentcity: '',
+  Presentpincode: '',
+  PermanentLine1: '',
+  Permanentline2: '',
+  Permanentline3: '',
+  Permanentstate: '',
+  Permanentcity: '',
+  Permanentpincode: ''
+};
+const initialEduForm = {
+  examinationPassed: '',
+  marksPercent: '',
+  passingYear: '',
+  schoolCollege: '',
+  place: '',
+  board: ''
+};
 
 const initialState = {
   admission: {
@@ -24,8 +51,14 @@ const initialState = {
       institute: '',
       category: ''
     },
-    addressInformation: {},
-    educationalInformation: {},
+    addressInformation: {
+      form: initialAddressForm,
+      errors: initialAddressForm
+    },
+    educationalInformation: {
+      form: initialEduForm,
+      errors: initialEduForm
+    },
     otherInformation: {},
     programInformation: {}
   },
@@ -33,7 +66,7 @@ const initialState = {
 };
 
 const setAdmissionInformation = (state, action) => {
-  const admission = { ...state.admission };
+  const admission = cloneDeep(state.admission);
   const admissionInformation = { ...admission.admissionInformation };
   if (admissionInformation[action.payload.key]) {
     admissionInformation[action.payload.key] = action.payload.value;
@@ -46,7 +79,7 @@ const setAdmissionInformation = (state, action) => {
 };
 
 const setGeneralInformation = (state, action) => {
-  const admission = { ...state.admission };
+  const admission = cloneDeep(state.admission);
   const generalInformation = { ...admission.generalInformation };
   if (generalInformation[action.payload.key]) {
     generalInformation[action.payload.key] = action.payload.value;
@@ -59,7 +92,7 @@ const setGeneralInformation = (state, action) => {
 };
 
 const prefilGeneralInfo = (state, action) => {
-  const admission = { ...state.admission };
+  const admission = cloneDeep(state.admission);
   const generalInformation = { ...admission.generalInformation };
   generalInformation.firstName = action.payload.firstName;
   generalInformation.email = action.payload.email;
@@ -84,6 +117,33 @@ export default function reducer(state = initialState, action) {
 
     case Admission.SET_GENERAL_INFORMATION: {
       return setGeneralInformation(state, action);
+    }
+    case Admission.SETSTATE_ADDRESS_INFORMATION: {
+      const { admission } = state;
+      const admissionClone = cloneDeep(admission);
+      const obj = {};
+      obj.form = action.form;
+      obj.errors = action.errors;
+      admissionClone.addressInformation = obj;
+      return { ...state, admission: admissionClone };
+    }
+    case Admission.SETSTATE_ADDRESS_INFORMATION_ERRORS: {
+      const { admission } = state;
+      const admissionClone = cloneDeep(admission);
+      const obj = {};
+      obj.form = admissionClone.addressInformation.form;
+      obj.errors = action.errors;
+      admissionClone.addressInformation = obj;
+      return { ...state, admission: admissionClone };
+    }
+    case Admission.SETSTATE_EDUCATION_INFORMATION: {
+      const { admission } = state;
+      const admissionClone = cloneDeep(admission);
+      const obj = {};
+      obj.form = action.form;
+      obj.errors = action.errors;
+      admissionClone.educationalInformation = obj;
+      return { ...state, admission: admissionClone };
     }
 
     default:

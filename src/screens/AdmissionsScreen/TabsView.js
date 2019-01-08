@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
 import Address from './tabs/Address';
 import EducationalInformation from './tabs/EducationalInformation';
 import AdmissionInfo from './tabs/AdmissionInfo';
 import GeneralInfo from './tabs/GeneralInfo';
+import { fetchStates } from '../../actions/StateAction';
+import { fetchCities } from '../../actions/CityActions';
 
 class TabsView extends Component {
   constructor() {
@@ -13,6 +16,10 @@ class TabsView extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.dispatch(fetchStates());
+    this.props.dispatch(fetchCities());
+  }
   handleTabChange = key => {
     this.setState({ key });
   };
@@ -42,10 +49,20 @@ class TabsView extends Component {
             />
           </Tab>
           <Tab eventKey={3} title="Address">
-            <Address />
+            <Address
+              previousTab={2}
+              currentTab={3}
+              nextTab={4}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={4} title="Educational Information">
-            <EducationalInformation />
+            <EducationalInformation
+              previousTab={3}
+              currentTab={4}
+              nextTab={5}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={5} title="Tab 5">
             this is tab 5
@@ -59,4 +76,4 @@ class TabsView extends Component {
   }
 }
 
-export default TabsView;
+export default connect()(TabsView);

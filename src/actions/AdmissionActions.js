@@ -35,3 +35,13 @@ export const fetchAllAdmissions = () => {
     }
   };
 };
+
+export const changeAddressInformation = (form, errors) => dispatch =>
+  dispatch({ type: Admission.SETSTATE_ADDRESS_INFORMATION, form, errors });
+export const changeAddressInformationErrors = errors => dispatch =>
+  dispatch({
+    type: Admission.SETSTATE_ADDRESS_INFORMATION_ERRORS,
+    errors
+  });
+export const changeEducationalInformation = (form, errors) => dispatch =>
+  dispatch({ type: Admission.SETSTATE_EDUCATION_INFORMATION, form, errors });

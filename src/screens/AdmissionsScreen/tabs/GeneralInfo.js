@@ -43,7 +43,7 @@ class GeneralInfo extends Component {
     const { generalInformation } = this.props;
     return (
       <Row>
-        <Row>
+        <Row className="margin-top">
           <Col lg={6} md={6} sm={6}>
             <FieldGroup
               id="firstName"
@@ -89,7 +89,7 @@ class GeneralInfo extends Component {
               id="contactNumber"
               type="number"
               label="Contact number"
-              placeholder="Contact number"
+              placeholder="Enter contact number"
               onChange={this.onChange('contactNumber')}
               value={generalInformation.contactNumber}
               validationState={null}
@@ -219,7 +219,7 @@ class GeneralInfo extends Component {
             />
           </Col>
         </Row>
-        <Row>
+        <Row style={{ borderTop: '1px solid gray' }}>
           <PreviousNextButtons
             onPrevious={this.onPrevious}
             onNext={this.onNext}
