@@ -5,69 +5,60 @@ import { Row, Col } from 'react-bootstrap';
 import Button from '../../../components/Button/Button';
 import FieldRadio from '../../../components/Form/FieldRadio';
 import { FieldGroup, FieldSelect } from '../../../components/Form';
+import {
+  changeAddressInformation,
+  changeAddressInformationErrors
+} from '../../../actions/AdmissionActions';
 
 const objectId = '_id';
-const ADD = 'add';
-const EDIT = 'edit';
+// const ADD = 'add';
+// const EDIT = 'edit';
 
-const initialForm = {
-  inHostel: '',
-  hostel: '',
-  contactNumber: '',
-  Presentline1: '',
-  Presentline2: '',
-  Presentline3: '',
-  Presentstate: '',
-  Presentcity: '',
-  Presentpincode: '',
+// const initialForm = {
+//   inHostel: '',
+//   hostel: '',
+//   contactNumber: '',
+//   Presentline1: '',
+//   Presentline2: '',
+//   Presentline3: '',
+//   Presentstate: '',
+//   Presentcity: '',
+//   Presentpincode: '',
 
-  PermanentLine1: '',
-  Permanentline2: '',
-  Permanentline3: '',
-  Permanentstate: '',
-  Permanentcity: '',
-  Permanentpincode: ''
-};
+//   PermanentLine1: '',
+//   Permanentline2: '',
+//   Permanentline3: '',
+//   Permanentstate: '',
+//   Permanentcity: '',
+//   Permanentpincode: ''
+// };
 
 class Address extends Component {
-  state = {
-    form: initialForm,
-    errors: initialForm
-  };
+  // state = {
+  //   form: initialForm,
+  //   errors: initialForm
+  // };
 
   onRadioSelect = key => ({ target: { name, checked } }) => {
-    const form = { ...this.state.form };
-    const errors = { ...this.state.errors };
+    const form = { ...this.props.addressInformation.form };
+    const errors = { ...this.props.addressInformation.errors };
     form[key] = checked ? name : '';
     errors[key] = '';
-    this.setState({ form, errors });
+    this.props.dispatch(changeAddressInformation(form, errors));
+    // this.setState({ form, errors });
   };
 
   onChangeText = name => ({ target: { value } }) => {
-    const form = { ...this.state.form };
-    const errors = { ...this.state.errors };
+    const form = { ...this.props.addressInformation.form };
+    const errors = { ...this.props.addressInformation.errors };
     form[name] = value;
-    this.validateInput(name, value).then(newErrors =>
-      this.setState({ errors: newErrors })
+    this.validateInput(name, value).then(
+      newErrors =>
+        this.props.dispatch(changeAddressInformationErrors(newErrors))
+      // this.setState({ errors: newErrors })
     );
-    this.setState({ form, errors });
-  };
-
-  onSubmit = () => {
-    const { form } = this.state;
-    const errors = { ...this.state.errors };
-    Object.keys(form).map(name => {
-      if (form[name] === '') {
-        errors[name] = `${startCase(name)} cannot be empty!`;
-      }
-      return name;
-    });
-    const hasNoErrors = Object.keys(errors).every(name => errors[name] === '');
-    if (!hasNoErrors) {
-      this.setState({ errors });
-    } else {
-      this.formatDataAndSave(form);
-    }
+    this.props.dispatch(changeAddressInformation(form, errors));
+    // this.setState({ form, errors });
   };
 
   getStates = states =>
@@ -76,11 +67,31 @@ class Address extends Component {
         {stateObj.stateName}
       </option>
     ));
-  getCities = cities => {
-    const { form } = this.state;
+  getCitiesForPresentAddress = cities => {
+    const { form } = this.props.addressInformation;
     if (form.state !== '') {
       return cities.map(city => {
-        if (city.state[objectId] === form.state) {
+        if (city.state[objectId] === form.Presentstate) {
+          return (
+            <option key={city.id} value={city.id}>
+              {city.cityName}
+            </option>
+          );
+        }
+        return null;
+      });
+    }
+    return (
+      <option key="0" value="">
+        --Please Select State First--
+      </option>
+    );
+  };
+  getCitiesForPermanentAddress = cities => {
+    const { form } = this.props.addressInformation;
+    if (form.state !== '') {
+      return cities.map(city => {
+        if (city.state[objectId] === form.Permanentstate) {
           return (
             <option key={city.id} value={city.id}>
               {city.cityName}
@@ -97,35 +108,9 @@ class Address extends Component {
     );
   };
 
-  formatDataAndSave = form => {
-    const { type } = this.state;
-    const data = {
-      legalStatus: form.legalStatus,
-      orgName: form.orgName,
-      orgShortName: form.orgShortName,
-      orgAddress: {
-        line1: form.line1,
-        line2: form.line2,
-        line3: form.line3
-      },
-      state: form.state,
-      city: form.city,
-      orgPAN: form.orgPan,
-      orgPin: form.pincode,
-      createdBy: this.props.loggedInUser.id
-    };
-    if (type === ADD) {
-      // this.props.dispatch(createOrg(data, this.callBack));
-    }
-    if (type === EDIT) {
-      // this.props.dispatch(
-      //   updateOrg(this.props.selectedTableRow.id, data, this.callBack)
-      // );
-    }
-  };
   validateInput = (name, value) =>
     new Promise(resolve => {
-      const errors = { ...this.state.errors };
+      const errors = this.props.addressInformation;
       if (value === '') {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
@@ -160,8 +145,8 @@ class Address extends Component {
     });
 
   render() {
-    console.log('in address', this.state);
-    const { form, errors } = this.state;
+    console.log('in address', this.props);
+    const { form, errors } = this.props.addressInformation;
     const { states, cities } = this.props;
     return (
       <div>
@@ -175,7 +160,7 @@ class Address extends Component {
             validationState={errors.inHostel !== '' ? 'error' : null}
             help={errors.inHostel !== '' ? errors.inHostel : null}
           />
-          {this.state.form.inHostel === 'Yes' ? (
+          {form.inHostel === 'Yes' ? (
             <FieldGroup
               id="hostel"
               type="text"
@@ -192,8 +177,8 @@ class Address extends Component {
           <FieldGroup
             id="contactNumber"
             type="text"
-            label="Organisation Short Name"
-            placeholder="Enter Organisation Short name"
+            label="Contact Number"
+            placeholder="Enter Contact Number"
             onChange={this.onChangeText('contactNumber')}
             value={form.contactNumber}
             validationState={errors.contactNumber !== '' ? 'error' : null}
@@ -253,7 +238,7 @@ class Address extends Component {
                   value={form.Presentcity}
                   validationState={errors.Presentcity !== '' ? 'error' : null}
                   help={errors.Presentcity !== '' ? errors.Presentcity : null}
-                  options={this.getCities(cities)}
+                  options={this.getCitiesForPresentAddress(cities)}
                 />
                 <FieldGroup
                   id="Presentpincode"
@@ -340,7 +325,7 @@ class Address extends Component {
                   help={
                     errors.Permanentcity !== '' ? errors.Permanentcity : null
                   }
-                  options={this.getCities(cities)}
+                  options={this.getCitiesForPermanentAddress(cities)}
                 />
                 <FieldGroup
                   id="Permanentpincode"
@@ -364,7 +349,14 @@ class Address extends Component {
         </form>
         <Row>
           <Col lg={12} md={12} sm={12} xs={12}>
-            <Button value="Next >>" onClick={this.onSubmit} />
+            <Button
+              value="<< Previous"
+              onClick={() => this.props.onChange(this.props.previousTab)}
+            />
+            <Button
+              value="Save &amp; Next >>"
+              onClick={() => this.props.onChange(this.props.nextTab)}
+            />
           </Col>
         </Row>
       </div>
@@ -375,7 +367,8 @@ class Address extends Component {
 const mapStateToProps = state => ({
   loggedInUser: state.login.loggedInUser,
   states: state.states.states,
-  cities: state.cities.cities
+  cities: state.cities.cities,
+  addressInformation: state.admissions.admission.addressInformation
 });
 
 export default connect(mapStateToProps)(Address);

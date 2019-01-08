@@ -37,10 +37,20 @@ class TabsView extends Component {
             this is tab 2
           </Tab>
           <Tab eventKey={3} title="Address">
-            <Address />
+            <Address
+              previousTab={2}
+              currentTab={3}
+              nextTab={4}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={4} title="Educational Information">
-            <EducationalInformation />
+            <EducationalInformation
+              previousTab={3}
+              currentTab={4}
+              nextTab={5}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={5} title="Tab 5">
             this is tab 5
