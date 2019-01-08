@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
 import Address from './tabs/Address';
 import EducationalInformation from './tabs/EducationalInformation';
+import { fetchStates } from '../../actions/StateAction';
+import { fetchCities } from '../../actions/CityActions';
 
 class TabsView extends Component {
   constructor() {
@@ -11,6 +14,10 @@ class TabsView extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.dispatch(fetchStates());
+    this.props.dispatch(fetchCities());
+  }
   handleTabChange = key => {
     this.setState({ key });
   };
@@ -47,4 +54,4 @@ class TabsView extends Component {
   }
 }
 
-export default TabsView;
+export default connect()(TabsView);
