@@ -10,7 +10,7 @@ import DateRangeSearch from './DateRangeSearch';
 import {
   fetchStudentsBasedOnFilter,
   allocateEmployeeToEnquires
-} from '../../actions/AdmissionAction';
+} from '../../actions/PreAdmissionActions';
 import { fetchEmployeesByRole } from '../../actions/employee';
 
 const initialState = {

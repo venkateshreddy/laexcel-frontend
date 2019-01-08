@@ -149,3 +149,7 @@ export const AcademicYear = {
 export const Logos = {
   FETCH_LOGOS: 'FETCH_LOGOS'
 };
+
+export const Admission = {
+  CREATE_ADMISSION: 'CREATE_ADMISSION'
+};

@@ -11,7 +11,7 @@ import './Telecaller.scss';
 import {
   fetchEnquiresByStudent,
   updateResponseAndEnquiredOn
-} from '../../actions/AdmissionAction';
+} from '../../actions/PreAdmissionActions';
 import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
 
 const initialState = {
