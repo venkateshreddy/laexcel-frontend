@@ -299,4 +299,6 @@ export const AcademicYearURL = {
   FETCH_ACADEMIC_YEARS: `${AppConfig.API_BASE_URL}academicyear/`
 };
 
-export const AdmissionURL = {};
+export const AdmissionURL = {
+  FETCH_ALL_ADMISSIONS: `${AppConfig.API_BASE_URL}admissions/`
+};

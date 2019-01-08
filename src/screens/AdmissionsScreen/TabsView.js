@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import Address from './tabs/Address';
 import EducationalInformation from './tabs/EducationalInformation';
+import AdmissionInfo from './tabs/AdmissionInfo';
+import GeneralInfo from './tabs/GeneralInfo';
 
 class TabsView extends Component {
   constructor() {
@@ -23,11 +25,21 @@ class TabsView extends Component {
           onSelect={this.handleTabChange}
           id="controlled-tab-example"
         >
-          <Tab eventKey={1} title="Tab 1">
-            this is tab 1
+          <Tab eventKey={1} title="Admission Information">
+            <AdmissionInfo
+              previousTab={null}
+              currentTab={1}
+              nextTab={2}
+              onChange={this.handleTabChange}
+            />
           </Tab>
-          <Tab eventKey={2} title="Tab 2">
-            this is tab 2
+          <Tab eventKey={2} title="General Information">
+            <GeneralInfo
+              previousTab={1}
+              currentTab={2}
+              nextTab={3}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={3} title="Address">
             <Address />
