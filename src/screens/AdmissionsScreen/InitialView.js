@@ -2,6 +2,7 @@ import React from 'react';
 import ReactTable from 'react-table';
 import { connect } from 'react-redux';
 import Panel from 'react-bootstrap/lib/Panel';
+import moment from 'moment';
 import checkboxHOC from 'react-table/lib/hoc/selectTable';
 import { LargeModal } from '../../components/Modals';
 
@@ -33,7 +34,8 @@ class AdmissionsScreenInitialView extends React.Component {
         { Header: 'Contact Number', accessor: 'contactNumber' },
         {
           Header: 'DoB',
-          accessor: 'dob'
+          accessor: 'dob',
+          Cell: row => (row.value ? moment(row.value).format('DD-MM-YYYY') : '')
         }
       ],
       form: {},
@@ -56,10 +58,10 @@ class AdmissionsScreenInitialView extends React.Component {
         fullName += row.original.firstName;
       }
       if (row.original.middleName) {
-        fullName += row.original.middleName;
+        fullName += ` ${row.original.middleName}`;
       }
       if (row.original.lastName) {
-        fullName += row.original.lastName;
+        fullName += ` ${row.original.lastName}`;
       }
     } else {
       fullName = row.value;
