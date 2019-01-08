@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import { startCase, cloneDeep } from 'lodash';
+import { startCase } from 'lodash';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 import 'react-day-picker/lib/style.css';
 import { FieldGroup, FieldSelect } from '../../components/Form';
@@ -9,23 +9,37 @@ import Button from '../../components/Button/Button';
 // import { TextInput } from '../../components/Input/index';
 import { fetchCourse } from '../../actions/courseactions';
 import { fetchBatch } from '../../actions/batchactions';
-import { createCourseDuration } from '../../actions/courseDurationActions';
+import { createCourseDuration, updateCourseDuration } from '../../actions/courseDurationActions';
 
 class Batch extends React.Component {
   constructor(props) {
     super(props);
-    const initialForm = {
-      academicYear: '',
-      courseName: '',
-      batch: '',
-      courseDuration: '',
-      months: '',
-      fromDate: '',
-      toDate: ''
-    };
+    let initialForm = null;
+    if (Object.keys(this.props.formData).length === 0) {
+      initialForm = {
+        academicYear: '',
+        courseName: '',
+        batch: '',
+        courseDuration: '',
+        months: '',
+        fromDate: '',
+        toDate: ''
+      };
+    } else {
+      initialForm = props.formData;
+    }
+
     this.state = {
-      form: cloneDeep(initialForm),
-      errors: cloneDeep(initialForm)
+      form: initialForm,
+      errors: {
+        academicYear: '',
+        courseName: '',
+        batch: '',
+        courseDuration: '',
+        months: '',
+        fromDate: '',
+        toDate: ''
+      }
     };
     this.state.form.courseDuration = 'In Months';
   }
@@ -72,8 +86,12 @@ class Batch extends React.Component {
     console.log(form);
     if (hasNoErrors) {
       // this.formatDataAndSave(form);
-      errors.password = '';
-      this.props.dispatch(createCourseDuration(form, this.resetRegisteration));
+      if (Object.keys(this.props.formData).length === 0) {
+        this.props.dispatch(createCourseDuration(form, this.resetRegisteration));
+      } else {
+        const key = '_id';
+        this.props.dispatch(updateCourseDuration(this.props.formData[key], form, this.resetRegisteration));
+      }
       this.props.closeModal();
     }
   };

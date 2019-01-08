@@ -5,7 +5,7 @@ import ReactTable from 'react-table';
 import { connect } from 'react-redux';
 import GstRate from './GstRate';
 import { LargeModal } from '../../components/Modals';
-import { fetchMasterGstRates } from '../../actions/mastergstrateactions';
+import { fetchMasterGstRates, deleteGstRates } from '../../actions/mastergstrateactions';
 import { fetchOrganisations } from '../../actions/OrganisationActions';
 
 const CheckboxTable = checkboxHOC(ReactTable);
@@ -24,7 +24,8 @@ class AdminView extends React.Component {
       formData: {},
       errors: {},
       selectAll: [],
-      selection: []
+      selection: [],
+      filterable: false
     };
   }
   componentWillMount() {
@@ -47,6 +48,10 @@ class AdminView extends React.Component {
       return null;
     });
     this.setState({ show: true });
+  }
+
+  deleteGstRates = () => {
+    this.props.dispatch(deleteGstRates(this.state.selection[0]));
   }
 
   toggleSelection = key => {
@@ -79,6 +84,10 @@ class AdminView extends React.Component {
   };
 
   isSelected = key => this.state.selection.includes(key);
+
+  toggleTableFilter = () => {
+    this.setState({ filterable: !this.state.filterable });
+  }
 
   render() {
     const { toggleSelection, toggleAll, isSelected } = this;
@@ -114,6 +123,11 @@ class AdminView extends React.Component {
                 title="Register Employee"
                 onClick={this.openRegisterForm}
               />
+              <i
+                className="fas fa-filter"
+                title="Filter Table"
+                onClick={this.toggleTableFilter}
+              />
               {selection.length === 1 && (
                 <i
                   className="fas fa-pencil-alt"
@@ -121,13 +135,13 @@ class AdminView extends React.Component {
                   onClick={this.openMasterGstRates}
                 />
               )}
-              {/* {selection.length >= 1 && (
-          <i
-            className="fas fa-trash"
-            title="Delete branch"
-            onClick={this.deleteBranches}
-          />
-        )} */}
+              {selection.length === 1 && (
+                <i
+                  className="fas fa-trash"
+                  title="Delete branch"
+                  onClick={this.deleteGstRates}
+                />
+              )}
             </div>
             <LargeModal
               show={this.state.show}
@@ -148,7 +162,7 @@ class AdminView extends React.Component {
                 this.checkboxTable = r;
               }} // TABLE
               data={this.props.masterGstRates}
-              filterable
+              filterable={this.state.filterable}
               columns={columns}
               defaultPageSize={10}
               className="-striped -highlight"

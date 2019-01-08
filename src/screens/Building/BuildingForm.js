@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { startCase, cloneDeep } from 'lodash';
 import { connect } from 'react-redux';
-
+import { Row, Col } from 'react-bootstrap';
 // import { FormGroup, ControlLabel, Radio } from 'react-bootstrap';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
@@ -317,8 +317,8 @@ class BuildingForm extends Component {
                 />
               </li>
             ) : (
-              ''
-            )}
+                ''
+              )}
             {this.props.selectedOrganisations.length > 0 ? (
               <li
                 style={{
@@ -335,8 +335,8 @@ class BuildingForm extends Component {
                 />
               </li>
             ) : (
-              ''
-            )}
+                ''
+              )}
             <li
               style={{
                 display: 'inline',
@@ -365,37 +365,57 @@ class BuildingForm extends Component {
             style={{ width: '450px', margin: '0 auto' }}
           >
             <form>
-              <FieldGroup
-                id="name"
-                type="text"
-                label="Building Name"
-                placeholder="Enter building name"
-                onChange={this.onChangeText('name')}
-                value={form.name}
-                validationState={errors.name !== '' ? 'error' : null}
-                help={errors.name !== '' ? errors.name : null}
-              />
-              <FieldGroup
-                id="code"
-                type="text"
-                label="Building Code"
-                placeholder="Building code 3 - 4 digits"
-                onChange={this.onChangeText('code')}
-                value={form.code}
-                validationState={errors.code !== '' ? 'error' : null}
-                help={errors.code !== '' ? errors.code : null}
-              />
-              <FieldSelect
-                id="campus"
-                type="text"
-                label="Campus"
-                placeholder="Select Campus"
-                onChange={this.onChangeText('campus')}
-                value={form.campus}
-                validationState={errors.campus !== '' ? 'error' : null}
-                help={errors.campus !== '' ? errors.campus : null}
-                options={this.getCampuses(campuses)}
-              />
+              <Row>
+                <Col lg={6} md={6} sm={6}>
+                  <FieldGroup
+                    id="name"
+                    type="text"
+                    label="Building Name"
+                    placeholder="Enter building name"
+                    onChange={this.onChangeText('name')}
+                    value={form.name}
+                    validationState={errors.name !== '' ? 'error' : null}
+                    help={errors.name !== '' ? errors.name : null}
+                  />
+                </Col>
+                <Col lg={6} md={6} sm={6}>
+                  <FieldGroup
+                    id="code"
+                    type="text"
+                    label="Building Code"
+                    placeholder="Building code 3 - 4 digits"
+                    onChange={this.onChangeText('code')}
+                    value={form.code}
+                    validationState={errors.code !== '' ? 'error' : null}
+                    help={errors.code !== '' ? errors.code : null}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={6} md={6} sm={6}>
+                  <FieldSelect
+                    id="campus"
+                    type="text"
+                    label="Campus"
+                    placeholder="Select Campus"
+                    onChange={this.onChangeText('campus')}
+                    value={form.campus}
+                    validationState={errors.campus !== '' ? 'error' : null}
+                    help={errors.campus !== '' ? errors.campus : null}
+                    options={this.getCampuses(campuses)}
+                  />
+                </Col>
+                <Col lg={6} md={6} sm={6}>
+                  <FieldRadio
+                    id="rented"
+                    checked={form.rented}
+                    values={['Yes', 'No']}
+                    onChange={this.onRadioSelect('rented')}
+                    validationState={errors.rented !== '' ? 'error' : null}
+                    help={errors.rented !== '' ? errors.rented : null}
+                  />
+                </Col>
+              </Row>
               {/* <label>Campus Address</label> */}
               {/* <FieldGroup
                 id="line1"
@@ -458,54 +478,58 @@ class BuildingForm extends Component {
                   No
                 </Radio>
               </FormGroup> */}
-              <FieldRadio
-                id="rented"
-                checked={form.rented}
-                values={['Yes', 'No']}
-                onChange={this.onRadioSelect('rented')}
-                validationState={errors.rented !== '' ? 'error' : null}
-                help={errors.rented !== '' ? errors.rented : null}
-              />
-              <FieldGroup
-                id="totalArea"
-                type="number"
-                label="Total Area(in Sft)"
-                placeholder="Enter Total Area"
-                onChange={this.onChangeText('totalArea')}
-                value={form.totalArea}
-                validationState={errors.totalArea !== '' ? 'error' : null}
-                help={errors.totalArea !== '' ? errors.totalArea : null}
-              />
-              <FieldGroup
-                id="floorArea"
-                type="number"
-                label="Floor Area(in Sft)"
-                placeholder="Enter Floor Area"
-                onChange={this.onChangeText('floorArea')}
-                value={form.floorArea}
-                validationState={errors.floorArea !== '' ? 'error' : null}
-                help={errors.floorArea !== '' ? errors.floorArea : null}
-              />
-              <FieldGroup
-                id="carpetArea"
-                type="number"
-                label="Carpet Area(in Sft)"
-                placeholder="Enter Carpet Area"
-                onChange={this.onChangeText('carpetArea')}
-                value={form.carpetArea}
-                validationState={errors.carpetArea !== '' ? 'error' : null}
-                help={errors.carpetArea !== '' ? errors.carpetArea : null}
-              />
-              <FieldGroup
-                id="floorsQty"
-                type="number"
-                label="Number of Floors"
-                placeholder="Enter Number of Floors"
-                onChange={this.onChangeText('floorsQty')}
-                value={form.floorsQty}
-                validationState={errors.floorsQty !== '' ? 'error' : null}
-                help={errors.floorsQty !== '' ? errors.floorsQty : null}
-              />
+              <Row>
+                <Col lg={6} md={6} sm={6}>
+                  <FieldGroup
+                    id="totalArea"
+                    type="number"
+                    label="Total Area(in Sft)"
+                    placeholder="Enter Total Area"
+                    onChange={this.onChangeText('totalArea')}
+                    value={form.totalArea}
+                    validationState={errors.totalArea !== '' ? 'error' : null}
+                    help={errors.totalArea !== '' ? errors.totalArea : null}
+                  />
+                </Col>
+                <Col lg={6} md={6} sm={6}>
+                  <FieldGroup
+                    id="floorArea"
+                    type="number"
+                    label="Floor Area(in Sft)"
+                    placeholder="Enter Floor Area"
+                    onChange={this.onChangeText('floorArea')}
+                    value={form.floorArea}
+                    validationState={errors.floorArea !== '' ? 'error' : null}
+                    help={errors.floorArea !== '' ? errors.floorArea : null}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col lg={6} md={6} sm={6}>
+                  <FieldGroup
+                    id="carpetArea"
+                    type="number"
+                    label="Carpet Area(in Sft)"
+                    placeholder="Enter Carpet Area"
+                    onChange={this.onChangeText('carpetArea')}
+                    value={form.carpetArea}
+                    validationState={errors.carpetArea !== '' ? 'error' : null}
+                    help={errors.carpetArea !== '' ? errors.carpetArea : null}
+                  />
+                </Col>
+                <Col lg={6} md={6} sm={6}>
+                  <FieldGroup
+                    id="floorsQty"
+                    type="number"
+                    label="Number of Floors"
+                    placeholder="Enter Number of Floors"
+                    onChange={this.onChangeText('floorsQty')}
+                    value={form.floorsQty}
+                    validationState={errors.floorsQty !== '' ? 'error' : null}
+                    help={errors.floorsQty !== '' ? errors.floorsQty : null}
+                  />
+                </Col>
+              </Row>
               {this.getFloorNumberAndAreaForm(form.floors)}
             </form>
           </LargeModal>

@@ -54,6 +54,9 @@ export const submitLogin = ({ email, password }, callBack) => {
           type: LoginType.LOGIN_SUCCESSFUL,
           payload: result.data.payload.user
         });
+        callBack({
+          error: false
+        });
       }
       return result;
     } catch (error) {

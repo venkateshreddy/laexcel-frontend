@@ -22,6 +22,7 @@ import gstRates from './gstRatesReducer';
 import feeStructure from './feeStructureReducer';
 import academicYears from './AcademicYearReducer';
 import masterGstRates from './masterGstRatesReducer';
+import Logos from './logosReducer';
 
 export default combineReducers({
   locale,
@@ -46,5 +47,6 @@ export default combineReducers({
   codesAndTypes,
   preAdmissions,
   responseType,
-  academicYears
+  academicYears,
+  Logos
 });

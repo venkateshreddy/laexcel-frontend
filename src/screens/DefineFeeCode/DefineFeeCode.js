@@ -4,18 +4,26 @@ import { Row, Col } from 'react-bootstrap';
 import { startCase } from 'lodash';
 import { FieldGroup } from '../../components/Form';
 import Button from '../../components/Button/Button';
-import { createFeeCode } from '../../actions/definefeecodeactions';
+import { createFeeCode, updateFeeCode } from '../../actions/definefeecodeactions';
 
 class Program extends React.Component {
   constructor(props) {
     super(props);
-    const initialForm = {
-      type: '',
-      code: ''
-    };
+    let initialForm = null;
+    if (Object.keys(props.formData).length === 0) {
+      initialForm = {
+        type: '',
+        code: ''
+      };
+    } else {
+      initialForm = props.formData;
+    }
     this.state = {
       form: initialForm,
-      errors: initialForm
+      errors: {
+        type: '',
+        code: ''
+      }
     };
   }
 
@@ -43,7 +51,12 @@ class Program extends React.Component {
     }
     console.log(form);
     if (hasNoErrors) {
-      this.props.dispatch(createFeeCode(form, this.resetRegisteration));
+      if (Object.keys(this.props.formData).length === 0) {
+        this.props.dispatch(createFeeCode(form, this.resetRegisteration));
+      } else {
+        const key = '_id';
+        this.props.dispatch(updateFeeCode(this.props.formData[key], form, this.resetRegisteration));
+      }
       this.props.closeModal();
     }
   };

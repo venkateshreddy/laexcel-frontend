@@ -249,7 +249,7 @@ class CityForm extends Component {
                 label="City Code"
                 minLength="3"
                 maxLength="4"
-                placeholder="Enter state Code 3 - 4 digits"
+                placeholder="Enter City Code 3 - 4 digits"
                 onChange={this.onChangeText('code')}
                 value={form.code}
                 validationState={errors.code !== '' ? 'error' : null}

@@ -229,10 +229,10 @@ class SourceCodeForm extends Component {
               <FieldGroup
                 id="sourceCode"
                 type="text"
-                label="State Code"
+                label="Source Code"
                 minLength="1"
                 maxLength="2"
-                placeholder="Enter state Code - Max 2 digits"
+                placeholder="Enter Source Code - Max 2 digits"
                 onChange={this.onChangeText('code')}
                 value={form.code}
                 validationState={errors.code !== '' ? 'error' : null}

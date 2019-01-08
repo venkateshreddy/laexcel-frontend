@@ -1,0 +1,222 @@
+.select-width {
+  width: 90% !important;
+}
+.display-flex {
+  display: flex;
+  padding: 5px;
+  .custom-submit {
+    width: auto;
+    height: auto;
+    margin: 0px 5px;
+    padding: 5px 10px;
+    font-size: 13px;
+  }
+}
+
+.Select-control {
+  height: 25px;
+
+  .Select-placeholder {
+    line-height: 22px;
+    font-size: 13px;
+  }
+
+  .Select-value {
+    line-height: 22px !important;
+    margin-top: 2px;
+    margin-bottom: 2px;
+
+    .Select-value-label {
+      line-height: 22px;
+    }
+  }
+
+  .Select-input {
+    height: 22px;
+  }
+}
+.Select-menu-outer {
+  font-size: 13px;
+}
+.Select--multi .Select-value-icon,
+.Select--multi .Select-value-label {
+  font-size: 13px;
+}
+.form-control:focus {
+  background-color: #0275d8;
+  border-color: #0275d8;
+  color: #fff;
+}
+
+.free-scroll {
+  overflow: auto !important;
+}
+.swisspayRollWrap {
+  font-size: 13px;
+  font-weight: bold;
+  color: #457db1;
+}
+.js-show-add-employee span svg {
+  margin-top: 0px !important;
+}
+.incomeTaxRateBox {
+  width: 90% !important;
+  margin-right: 5px;
+}
+.field-label {
+  font-size: 13px;
+  font-weight: bold;
+  color: #014c8c;
+}
+.compare-user-name {
+  font-size: 13px;
+}
+.compare-user-name label {
+  margin-right: 8px;
+  padding-right: 8px;
+  border-right: 1px solid #014c8c;
+}
+.compare-single {
+  padding: 8px;
+  display: block;
+}
+.navbar-search-input {
+  margin-bottom: 0px !important;
+}
+.compare-more-info {
+  width: 20px;
+  height: 20px;
+  background: #175d9d;
+  color: #fff;
+  text-align: center;
+  border-radius: 50px;
+  font-size: 18px;
+  line-height: 17px;
+  position: initial;
+  float: right;
+  margin-top: 4px;
+}
+.r-ss-trigger {
+  padding: 0.25rem 15px 0.25rem 0.25rem !important;
+}
+.r-ss-trigger .carat {
+  right: 0.3rem !important;
+}
+.ELD-wrap .person-photo {
+  position: absolute;
+  top: -15px;
+  left: 30px;
+  max-width: 80px;
+  z-index: 99;
+}
+.ELD-wrap .box-heading.active {
+  padding-left: 110px;
+}
+#empName span {
+  padding-right: 10px;
+  margin-right: 10px;
+  border-right: 1px solid #fff;
+}
+.svg-inline--fa.fa-w-14 {
+  width: 0.65em;
+}
+.payroll-btn {
+  font-size: 13px;
+}
+.table tr td:first-of-type {
+  padding-left: auto;
+}
+.r-ss-search-inner {
+  height: 28px !important;
+  font-size: 12px;
+}
+.r-ss-search-inner input {
+  height: 25px !important;
+}
+.compareUserGrid {
+  width: 100%;
+}
+.compareUserGrid tr td {
+  padding: 5px 7px;
+  font-size: 12.5px;
+  color: #014c8c;
+  font-weight: normal;
+}
+.compareUserGrid tr td:first-child {
+  font-weight: bold;
+}
+.compare-user-info {
+  width: 100%;
+}
+.compare-single-wrapper input[type='text'],
+.compare-single-wrapper select,
+.compare-single-wrapper .r-ss-trigger {
+  border: none;
+  border-bottom: 1px solid #bfd2e5;
+  background-color: transparent;
+  margin: 0px;
+}
+.compare-single-wrapper input[type='text']:disabled {
+  border: none;
+}
+.box-title table {
+  border: none;
+}
+.box-title table tr td {
+  color: #fff;
+}
+.person-photo img {
+  width: 100%;
+  border-radius: 50%;
+}
+.box-icon--close {
+  position: absolute;
+  right: 30px;
+  width: 16px;
+  margin-top: 10px;
+}
+.alertButtons .btn-primary {
+  width: auto;
+  float: none;
+  display: inline-block;
+  padding: 5px 20px;
+}
+.slider {
+  width: 60%;
+}
+.rotate-arrows img {
+  width: 30px;
+  margin-right: 10px;
+  cursor: pointer;
+}
+.btn-primary {
+  float: none;
+  margin: 0px auto;
+}
+// .companysearch .r-ss-search-inner input {
+//   width: 75%;
+// }
+// .companysearch .r-ss-search-inner .r-ss-search-aria-label {
+//   margin-right: 2px;
+// }
+.select-employee-search .r-ss-search-inner input {
+  width: 84%;
+}
+.snack-style div span,
+.snack-style div span svg {
+  color: #fff !important;
+}
+.ql-editor {
+  max-height: 195px;
+  height: 195px !important;
+}
+.Select--multi .Select-value {
+  margin-top: 0px;
+}
+.Select-control .Select-placeholder {
+  margin-top: 8px;
+}
+.Select-placeholder,
+.Select--single > .Select-control .Select-value {
+  font-size: 13px;
+}

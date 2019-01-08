@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-
+import Panel from 'react-bootstrap/lib/Panel';
 import { SnackBar } from '../../components/SnackBar';
 import { handleSnackBar } from '../../actions/DashboardAction';
 import CheckBoxTable from '../../components/Table/CheckboxTable';
@@ -74,94 +74,101 @@ class CodesAndTypes extends Component {
       selectAllAgencyCodes = false;
     }
     return (
-      <div className="browse-wrap padding">
-        <Row>
-          <Col lg={6} md={6} sm={6}>
-            <SourceCodeForm
-              selectedSourceCodes={this.state.selectedSourceCodes}
-              toggleThisTableFilter={this.toggleFilterSourceCodeTable}
-              changeParentState={this.changeParentState}
-              selectedThisTableRow={this.state.selectedSourceCodeRow}
-            />
-          </Col>
-          <Col lg={6} md={6} sm={6}>
-            {/* <CityForm
+      <Panel bsStyle="primary">
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">Source And Agency</Panel.Title>
+        </Panel.Heading>
+        <Panel.Body>
+          <div className="browse-wrap padding">
+            <Row>
+              <Col lg={6} md={6} sm={6}>
+                <SourceCodeForm
+                  selectedSourceCodes={this.state.selectedSourceCodes}
+                  toggleThisTableFilter={this.toggleFilterSourceCodeTable}
+                  changeParentState={this.changeParentState}
+                  selectedThisTableRow={this.state.selectedSourceCodeRow}
+                />
+              </Col>
+              <Col lg={6} md={6} sm={6}>
+                {/* <CityForm
               selectedCities={this.state.selectedCities}
               toggleCitiesTableFilter={this.toggleCitiesTableFilter}
               changeParentState={this.changeParentState}
               selectedCityTableRow={this.state.selectedCityRow}
             /> */}
-            <AgencyCodeForm
-              selectedAgencyCodes={this.state.selectedAgencyCodes}
-              toggleThisTableFilter={this.toggleFilterAgencyTable}
-              changeParentState={this.changeParentState}
-              selectedThisTableRow={this.state.selectedAgencyRow}
-            />
-          </Col>
-        </Row>
-        <Row>
-          <Col lg={6} md={6} sm={6}>
-            <CheckBoxTable
-              enableMultiSelect
-              enableSelectAll
-              selection={this.state.selectedSourceCodes}
-              selectAll={selectAllSourceCodes}
-              toggleAll={(selectAll, selection) =>
-                this.setState({
-                  selectAllSourceCodes: selectAll,
-                  selectedSourceCodes: selection
-                })
-              }
-              toggleSelection={selection =>
-                this.toggleSelectionSCTable(selection, sourceCodeTableData)
-              }
-              data={sourceCodeTableData}
-              columns={[
-                { Header: 'Source Name', accessor: 'sourceName' },
-                { Header: 'Source Code', accessor: 'sourceCode' }
-              ]}
-              filterable={this.state.enableFilter_sourceTable}
-            />
-          </Col>
-          <Col lg={6} md={6} sm={6}>
-            <CheckBoxTable
-              enableMultiSelect
-              enableSelectAll
-              selection={this.state.selectedAgencyCodes}
-              selectAll={selectAllAgencyCodes}
-              toggleAll={(selectAll, selection) =>
-                this.setState({
-                  selectAllAgencyCodes: selectAll,
-                  selectedAgencyCodes: selection
-                })
-              }
-              toggleSelection={selection =>
-                this.toggleSelectionAgencyTable(selection, agencyCodesTableData)
-              }
-              data={agencyCodesTableData}
-              columns={[
-                { Header: 'Agency Name', accessor: 'agencyName' },
-                { Header: 'Agency Code', accessor: 'agencyCode' },
-                { Header: 'Source Name', accessor: 'sourceName' }
-              ]}
-              filterable={this.state.enableFilter_agencyTable}
-            />
-          </Col>
-        </Row>
+                <AgencyCodeForm
+                  selectedAgencyCodes={this.state.selectedAgencyCodes}
+                  toggleThisTableFilter={this.toggleFilterAgencyTable}
+                  changeParentState={this.changeParentState}
+                  selectedThisTableRow={this.state.selectedAgencyRow}
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col lg={6} md={6} sm={6}>
+                <CheckBoxTable
+                  enableMultiSelect
+                  enableSelectAll
+                  selection={this.state.selectedSourceCodes}
+                  selectAll={selectAllSourceCodes}
+                  toggleAll={(selectAll, selection) =>
+                    this.setState({
+                      selectAllSourceCodes: selectAll,
+                      selectedSourceCodes: selection
+                    })
+                  }
+                  toggleSelection={selection =>
+                    this.toggleSelectionSCTable(selection, sourceCodeTableData)
+                  }
+                  data={sourceCodeTableData}
+                  columns={[
+                    { Header: 'Source Name', accessor: 'sourceName' },
+                    { Header: 'Source Code', accessor: 'sourceCode' }
+                  ]}
+                  filterable={this.state.enableFilter_sourceTable}
+                />
+              </Col>
+              <Col lg={6} md={6} sm={6}>
+                <CheckBoxTable
+                  enableMultiSelect
+                  enableSelectAll
+                  selection={this.state.selectedAgencyCodes}
+                  selectAll={selectAllAgencyCodes}
+                  toggleAll={(selectAll, selection) =>
+                    this.setState({
+                      selectAllAgencyCodes: selectAll,
+                      selectedAgencyCodes: selection
+                    })
+                  }
+                  toggleSelection={selection =>
+                    this.toggleSelectionAgencyTable(selection, agencyCodesTableData)
+                  }
+                  data={agencyCodesTableData}
+                  columns={[
+                    { Header: 'Agency Name', accessor: 'agencyName' },
+                    { Header: 'Agency Code', accessor: 'agencyCode' },
+                    { Header: 'Source Name', accessor: 'sourceName' }
+                  ]}
+                  filterable={this.state.enableFilter_agencyTable}
+                />
+              </Col>
+            </Row>
 
-        {/* Snackbar is given below */}
-        <div>
-          <SnackBar
-            open={this.props.snackBarOpen}
-            onClose={() =>
-              this.props.dispatch(
-                handleSnackBar({ snackBarOpen: false, snackBarMsg: '' })
-              )
-            }
-            msg={this.props.snackBarMsg}
-          />
-        </div>
-      </div>
+            {/* Snackbar is given below */}
+            <div>
+              <SnackBar
+                open={this.props.snackBarOpen}
+                onClose={() =>
+                  this.props.dispatch(
+                    handleSnackBar({ snackBarOpen: false, snackBarMsg: '' })
+                  )
+                }
+                msg={this.props.snackBarMsg}
+              />
+            </div>
+          </div>
+        </Panel.Body>
+      </Panel >
     );
   }
 }

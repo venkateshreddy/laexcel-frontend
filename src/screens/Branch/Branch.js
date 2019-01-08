@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import Panel from 'react-bootstrap/lib/Panel';
 import { CheckBoxTable } from '../../components/Table';
 import BranchForm from './BranchForm';
 import { fetchBranches } from '../../actions/BranchActions';
@@ -50,20 +51,27 @@ class Branch extends Component {
     const { selection, filterable, selectAll } = this.state;
     const { branches } = this.props;
     return (
-      <div>
-        <BranchForm selection={selection} />
-        <CheckBoxTable
-          enableMultiSelect={false}
-          enableSelectAll={false}
-          selection={selection}
-          selectAll={selectAll}
-          toggleAll={this.toggleAll}
-          toggleSelection={this.toggleSelection}
-          data={branches}
-          columns={columns}
-          filterable={filterable}
-        />
-      </div>
+      <Panel bsStyle="primary">
+        <Panel.Heading>
+          <Panel.Title componentClass="h3">Branch</Panel.Title>
+        </Panel.Heading>
+        <Panel.Body>
+          <div>
+            <BranchForm selection={selection} />
+            <CheckBoxTable
+              enableMultiSelect={false}
+              enableSelectAll={false}
+              selection={selection}
+              selectAll={selectAll}
+              toggleAll={this.toggleAll}
+              toggleSelection={this.toggleSelection}
+              data={branches}
+              columns={columns}
+              filterable={filterable}
+            />
+          </div>
+        </Panel.Body>
+      </Panel >
     );
   }
 }
