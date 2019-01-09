@@ -17,8 +17,8 @@ class AdminView extends React.Component {
     this.state = {
       show: false,
       columns: [{ Header: 'Organization', accessor: 'organization', Cell: (e) => <span>{this.renderOrganisation(e.original.organization)}</span> },
-      { Header: 'State', accessor: 'state', Cell: (e) => <span>{this.renderState(e.original.state)}</span> },
-      { Header: 'Gst Registeration Number', accessor: 'gstRegisterationNumber' }
+        { Header: 'State', accessor: 'state', Cell: (e) => <span>{this.renderState(e.original.state)}</span> },
+        { Header: 'Gst Registeration Number', accessor: 'gstRegisterationNumber' }
       ],
       form: {},
       errors: {},

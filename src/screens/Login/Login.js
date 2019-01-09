@@ -123,7 +123,7 @@ class Login extends React.Component {
             </Button>
           ) : (
             <div />
-            )}
+          )}
         </div>
       </div>
     );

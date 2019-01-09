@@ -24,8 +24,8 @@ class Organizations extends Component {
         active={organisation.id === currentOrganisation.id}
         onClick={this.setCurrentOrganisation(organisation)}
       >{`${organisation.orgName}, ${organisation.state.stateName}, ${
-        organisation.city.cityName
-      }`}</ListGroupItem>
+          organisation.city.cityName
+        }`}</ListGroupItem>
     ));
   };
 
