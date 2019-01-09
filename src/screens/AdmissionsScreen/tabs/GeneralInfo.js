@@ -4,8 +4,13 @@ import { connect } from 'react-redux';
 import { FieldGroup, FieldSelect } from '../../../components/Form';
 import PreviousNextButtons from '../PreviousNextButtons';
 import { setGeneralInformation } from '../../../actions/AdmissionActions';
+import { fetchBranches } from '../../../actions/BranchActions';
+
 
 class GeneralInfo extends Component {
+  componentDidMount() {
+    this.props.dispatch(fetchBranches());
+  }
   onPrevious = () => {
     const { previousTab, onChange } = this.props;
     if (previousTab) {
@@ -39,12 +44,27 @@ class GeneralInfo extends Component {
     </option>
   ];
 
+  getBatch = () => {
+    const key = '_id';
+    return this.props.branches.map((each) => <option value={each[key]}>{each.name}</option>);
+  }
+
   render() {
     const { generalInformation } = this.props;
     return (
       <Row>
         <Row className="margin-top">
           <Col lg={6} md={6} sm={6}>
+            <FieldSelect
+              id="branch"
+              label="Branch"
+              placeholder="Select Branch"
+              onChange={this.onChange('branch')}
+              value={generalInformation.branch}
+              validationState={null}
+              help={null}
+              options={this.getBatch()}
+            />
             <FieldGroup
               id="firstName"
               type="text"
@@ -231,7 +251,7 @@ class GeneralInfo extends Component {
 }
 
 const mapStateToProps = state => ({
-  generalInformation: state.admissions.admission.generalInformation
+  generalInformation: state.admissions.admission.generalInformation, branches: state.branch.branches
 });
 
 export default connect(mapStateToProps)(GeneralInfo);

@@ -8,14 +8,14 @@ const initialAddressForm = {
   Presentline1: '',
   Presentline2: '',
   Presentline3: '',
-  Presentstate: '',
-  Presentcity: '',
+  Presentstate: null,
+  Presentcity: null,
   Presentpincode: '',
   PermanentLine1: '',
   Permanentline2: '',
   Permanentline3: '',
-  Permanentstate: '',
-  Permanentcity: '',
+  Permanentstate: null,
+  Permanentcity: null,
   Permanentpincode: ''
 };
 const initialEduForm = {
@@ -37,6 +37,8 @@ const initialState = {
       middleName: '',
       lastName: '',
       dob: '',
+      branch: null,
+      branchCode: '',
       contactNumber: '',
       email: '',
       fatherFirstName: '',
@@ -59,8 +61,26 @@ const initialState = {
       form: initialEduForm,
       errors: initialEduForm
     },
-    otherInformation: {},
-    programInformation: {}
+    otherInformation: {
+      isEmployee: true,
+      employerName: '',
+      upscAttempted: true,
+      noOfAttempts: '',
+      particulars: ''
+    },
+    programInformation: {
+      program: null,
+      courses: [],
+      installmentsDetails: [],
+      isResidential: true,
+      grossFee: 0,
+      installmentDueDate: null,
+      concessionAllowed: '',
+      commitedFee: '',
+      gstAmount: '',
+      installmentsCount: '',
+      totalFee: ''
+    }
   },
   admissions: []
 };
@@ -98,6 +118,30 @@ const prefilGeneralInfo = (state, action) => {
   generalInformation.email = action.payload.email;
   generalInformation.contactNumber = action.payload.contactNumber;
   admission.generalInformation = generalInformation;
+  return { ...state, admission };
+};
+
+export const setOtherInformation = (state, action) => {
+  const admission = cloneDeep(state.admission);
+  const otherInformation = { ...admission.otherInformation };
+  if (action.data.name === 'isEmployee' || action.data.name === 'upscAttempted') {
+    otherInformation[action.data.name] = action.data.value === 'true';
+  } else {
+    otherInformation[action.data.name] = action.data.value;
+  }
+  admission.otherInformation = otherInformation;
+  return { ...state, admission };
+};
+
+export const setParticularInformation = (state, action) => {
+  const admission = cloneDeep(state.admission);
+  const programInformation = { ...admission.programInformation };
+  if (action.data.name === 'isEmployee' || action.data.name === 'upscAttempted') {
+    programInformation[action.data.name] = action.data.value === 'true';
+  } else {
+    programInformation[action.data.name] = action.data.value;
+  }
+  admission.programInformation = programInformation;
   return { ...state, admission };
 };
 
@@ -145,6 +189,12 @@ export default function reducer(state = initialState, action) {
       admissionClone.educationalInformation = obj;
       return { ...state, admission: admissionClone };
     }
+
+    case Admission.SET_OTHER_INFORMATION:
+      return setOtherInformation(state, action);
+
+    case Admission.SET_PROGRAM_INFORMATION:
+      return setParticularInformation(state, action);
 
     default:
       return state;

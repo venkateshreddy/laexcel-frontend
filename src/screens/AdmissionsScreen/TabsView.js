@@ -3,6 +3,8 @@ import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
 import Address from './tabs/Address';
 import EducationalInformation from './tabs/EducationalInformation';
+import OtherInformation from './tabs/OtherInformation';
+import ProgramParticulars from './tabs/programparticulars';
 import AdmissionInfo from './tabs/AdmissionInfo';
 import GeneralInfo from './tabs/GeneralInfo';
 import { fetchStates } from '../../actions/StateAction';
@@ -64,11 +66,21 @@ class TabsView extends Component {
               onChange={this.handleTabChange}
             />
           </Tab>
-          <Tab eventKey={5} title="Tab 5">
-            this is tab 5
+          <Tab eventKey={5} title="Other Information">
+            <OtherInformation
+              previousTab={4}
+              currentTab={5}
+              nextTab={6}
+              onChange={this.handleTabChange}
+            />
           </Tab>
-          <Tab eventKey={6} title="Tab 6">
-            this is tab 6
+          <Tab eventKey={6} title="Program Particulars">
+            <ProgramParticulars
+              previousTab={5}
+              currentTab={6}
+              nextTab={null}
+              onChange={this.handleTabChange}
+            />
           </Tab>
         </Tabs>
       </div>

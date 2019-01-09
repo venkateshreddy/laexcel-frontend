@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { startCase } from 'lodash';
 import { Row, Col } from 'react-bootstrap';
-import Button from '../../../components/Button/Button';
+// import Button from '../../../components/Button/Button';
 import FieldRadio from '../../../components/Form/FieldRadio';
+import PreviousNextButtons from '../PreviousNextButtons';
 import { FieldGroup, FieldSelect } from '../../../components/Form';
 import {
   changeAddressInformation,
@@ -59,6 +60,20 @@ class Address extends Component {
     );
     this.props.dispatch(changeAddressInformation(form, errors));
     // this.setState({ form, errors });
+  };
+
+  onPrevious = () => {
+    const { previousTab, onChange } = this.props;
+    if (previousTab) {
+      onChange(previousTab);
+    }
+  };
+
+  onNext = () => {
+    const { nextTab, onChange } = this.props;
+    if (nextTab) {
+      onChange(nextTab);
+    }
   };
 
   getStates = states =>
@@ -172,8 +187,8 @@ class Address extends Component {
               help={errors.hostel !== '' ? errors.hostel : null}
             />
           ) : (
-            ''
-          )}
+              ''
+            )}
           <FieldGroup
             id="contactNumber"
             type="text"
@@ -347,17 +362,11 @@ class Address extends Component {
             </Col>
           </Row>
         </form>
-        <Row>
-          <Col lg={12} md={12} sm={12} xs={12}>
-            <Button
-              value="<< Previous"
-              onClick={() => this.props.onChange(this.props.previousTab)}
-            />
-            <Button
-              value="Save &amp; Next >>"
-              onClick={() => this.props.onChange(this.props.nextTab)}
-            />
-          </Col>
+        <Row style={{ borderTop: '1px solid gray' }}>
+          <PreviousNextButtons
+            onPrevious={this.onPrevious}
+            onNext={this.onNext}
+          />
         </Row>
       </div>
     );

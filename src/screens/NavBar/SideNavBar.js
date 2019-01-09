@@ -339,6 +339,13 @@ class SideNavBar extends Component {
                         </Link>
                       </NavText>
                     </NavItem>
+                    <NavItem eventKey="admissionsScreen">
+                      <NavText>
+                        <Link to={'admissionsScreen'} className="margin-left10">
+                          Admission Screen
+                        </Link>
+                      </NavText>
+                    </NavItem>
                     <NavItem eventKey="program">
                       <NavText>
                         <Link to={'/program'} className="margin-left10">
