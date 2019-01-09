@@ -30,11 +30,6 @@ class Login extends React.Component {
   };
 
   submitLogin = () => {
-    // alert(
-    //   `emai: ${this.state.email}, pass: ${
-    //     this.state.password
-    //   }:: testing-Pls click OK`
-    // );
     const loginObj = { email: this.state.email, password: this.state.password };
     this.setState({ showLoader: true });
     this.props.dispatch(submitLogin(loginObj, this.loginFailed));
@@ -42,8 +37,6 @@ class Login extends React.Component {
   loginFailed = result => {
     if (result.error) {
       this.setState({
-        // open: true,
-        // snackbarMsg: 'Oops.. verification failed, Pls contact your admin'
         diplayMsg: result.message
       });
     }
@@ -72,13 +65,6 @@ class Login extends React.Component {
       <div className="login-wrapBG">
         <div className="body" />
         <div className="grad" />
-        <PropagateLoader
-          css={override}
-          sizeUnit={'px'}
-          size={20}
-          color={'#2DBE4E'}
-          loading={this.state.showLoader}
-        />
         <div className="header">
           <div>
             La Excellence
@@ -101,7 +87,14 @@ class Login extends React.Component {
           />
           <br />
           {/* <input type="button" value="Login" disabled={state.disabled} /> */}
-          <Button
+          { this.state.showLoader && <PropagateLoader
+            css={override}
+            sizeUnit={'px'}
+            size={20}
+            color={'#2DBE4E'}
+            loading={this.state.showLoader}
+          /> }
+          { !this.state.showLoader && <Button
             bsStyle="success"
             disabled={state.disabled}
             onClick={this.submitLogin}
@@ -111,7 +104,7 @@ class Login extends React.Component {
             }}
           >
             Login
-          </Button>
+          </Button> }
           <br />
           {this.state.diplayMsg !== '' ? (
             <Button
