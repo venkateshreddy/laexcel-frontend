@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 // import SideNav from 'react-simple-sidenav';
@@ -120,26 +120,23 @@ class SideNavBar extends Component {
               }}
             >
               {currentOrganisation.orgName ? (
-                <Fragment>
-                  <label>{currentOrganisation.orgName}</label>
-                  <Link
-                    to="/"
-                    style={{
-                      padding: '0px 5px',
-                      color: 'white'
-                    }}
-                  >
-                    <i className="fas fa-exchange-alt" />
-                  </Link>
-                </Fragment>
+                <label>{currentOrganisation.orgName}</label>
               ) : (
-                <label>None</label>
+                <Link
+                  to="/"
+                  style={{
+                    padding: '0px 5px',
+                    color: 'white'
+                  }}
+                >
+                  <label>Choose Organization</label>
+                </Link>
               )}
               <br />
               {currentAcademicYear.academicYear ? (
                 <label>{currentAcademicYear.academicYear}</label>
               ) : (
-                ''
+                'Choose Academic Year'
               )}
             </Col>
             {/* <Col
@@ -460,6 +457,23 @@ class SideNavBar extends Component {
                         Admin Configuration
                       </Link>
                     </NavText>
+                  </NavItem>
+                  <NavItem eventKey="admissions">
+                    <NavIcon>
+                      <i className="fa fa-edit" />
+                    </NavIcon>
+                    <NavText>
+                      Admissions
+                      <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
+                      <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
+                    </NavText>
+                    <NavItem eventKey="admissions">
+                      <NavText>
+                        <Link to={'admissions'} className="margin-left10">
+                          Admissions
+                        </Link>
+                      </NavText>
+                    </NavItem>
                   </NavItem>
                   <NavItem eventKey="preAdmissions">
                     <NavIcon>

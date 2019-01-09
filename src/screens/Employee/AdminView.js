@@ -16,11 +16,11 @@ class AdminView extends React.Component {
     this.state = {
       show: false,
       columns: [{ Header: 'name', accessor: 'name' },
-      { Header: 'Email', accessor: 'email' },
-      { Header: 'Phone Number', accessor: 'phonenumber' },
-      { Header: 'Address', accessor: 'address' },
-      { Header: 'Role', accessor: 'role' },
-      { Header: 'Status', accessor: 'status' }
+        { Header: 'Email', accessor: 'email' },
+        { Header: 'Phone Number', accessor: 'phonenumber' },
+        { Header: 'Address', accessor: 'address' },
+        { Header: 'Role', accessor: 'role' },
+        { Header: 'Status', accessor: 'status' }
       ],
       form: {},
       errors: {},

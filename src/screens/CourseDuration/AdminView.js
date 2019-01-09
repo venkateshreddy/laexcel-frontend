@@ -18,12 +18,12 @@ class AdminView extends React.Component {
     this.state = {
       show: false,
       columns: [{ Header: 'Academic Year', accessor: 'academicYear' },
-      { Header: 'Course Name', accessor: 'courseName', Cell: (e) => <span>{this.renderCourse(e.original.courseName)}</span> },
-      { Header: 'Batch', accessor: 'batch', Cell: (e) => <span>{this.renderBatch(e.original.batch)}</span> },
-      { Header: 'Course Duration', accessor: 'courseDuration' },
-      { Header: 'Months', accessor: 'months' },
-      { Header: 'From Date', accessor: 'fromDate', Cell: (e) => <span>{this.formatHireDateUserFriendly(e.original.fromDate)}</span> },
-      { Header: 'To Date', accessor: 'toDate', Cell: (e) => <span>{this.formatHireDateUserFriendly(e.original.toDate)}</span> }
+        { Header: 'Course Name', accessor: 'courseName', Cell: (e) => <span>{this.renderCourse(e.original.courseName)}</span> },
+        { Header: 'Batch', accessor: 'batch', Cell: (e) => <span>{this.renderBatch(e.original.batch)}</span> },
+        { Header: 'Course Duration', accessor: 'courseDuration' },
+        { Header: 'Months', accessor: 'months' },
+        { Header: 'From Date', accessor: 'fromDate', Cell: (e) => <span>{this.formatHireDateUserFriendly(e.original.fromDate)}</span> },
+        { Header: 'To Date', accessor: 'toDate', Cell: (e) => <span>{this.formatHireDateUserFriendly(e.original.toDate)}</span> }
       ],
       form: {},
       selectAll: [],

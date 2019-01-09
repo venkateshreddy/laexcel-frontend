@@ -15,7 +15,7 @@ class AdminView extends React.Component {
     this.state = {
       show: false,
       columns: [{ Header: 'Type', accessor: 'type' },
-      { Header: 'Code', accessor: 'code' }],
+        { Header: 'Code', accessor: 'code' }],
       form: {},
       selectAll: [],
       selection: [],

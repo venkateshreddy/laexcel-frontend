@@ -32,10 +32,10 @@ class ReactSelect extends React.Component {
         />
         {!!this.props.error &&
           this.props.touched && (
-            <div style={{ color: 'red', marginTop: '.5rem' }}>
-              {this.props.error}
-            </div>
-          )}
+          <div style={{ color: 'red', marginTop: '.5rem' }}>
+            {this.props.error}
+          </div>
+        )}
       </div>
     );
   }

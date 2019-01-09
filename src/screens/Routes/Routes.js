@@ -161,7 +161,7 @@ class Routes extends React.Component {
             component={DemoClassesIntimation}
           />
           <Route
-            path="/admissionsScreen"
+            path="/admissions"
             name="admissionsScreen"
             component={AdmissionsScreenInitialView}
           />
