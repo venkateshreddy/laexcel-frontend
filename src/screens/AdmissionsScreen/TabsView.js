@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
 import Address from './tabs/Address';
 import EducationalInformation from './tabs/EducationalInformation';
+import OtherInformation from './tabs/OtherInformation';
+import ProgramParticulars from './tabs/programparticulars';
 
 class TabsView extends Component {
   constructor() {
@@ -35,11 +37,11 @@ class TabsView extends Component {
           <Tab eventKey={4} title="Educational Information">
             <EducationalInformation />
           </Tab>
-          <Tab eventKey={5} title="Tab 5">
-            this is tab 5
+          <Tab eventKey={5} title="Other Information">
+            <OtherInformation />
           </Tab>
-          <Tab eventKey={6} title="Tab 6">
-            this is tab 6
+          <Tab eventKey={6} title="Program Particulars">
+            <ProgramParticulars />
           </Tab>
         </Tabs>
       </div>
