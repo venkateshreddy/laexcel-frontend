@@ -67,10 +67,20 @@ class TabsView extends Component {
             />
           </Tab>
           <Tab eventKey={5} title="Other Information">
-            <OtherInformation />
+            <OtherInformation
+              previousTab={4}
+              currentTab={5}
+              nextTab={6}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={6} title="Program Particulars">
-            <ProgramParticulars />
+            <ProgramParticulars
+              previousTab={5}
+              currentTab={6}
+              nextTab={null}
+              onChange={this.handleTabChange}
+            />
           </Tab>
         </Tabs>
       </div>

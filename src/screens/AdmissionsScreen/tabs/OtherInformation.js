@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Row, Col } from 'react-bootstrap';
 import { startCase } from 'lodash';
 import { connect } from 'react-redux';
+import PreviousNextButtons from '../PreviousNextButtons';
+import { Admission } from '../../../actions/ActionType';
 import { FieldGroup, FieldSelect } from '../../../components/Form';
 
 class OtherInofrmation extends Component {
@@ -9,17 +11,17 @@ class OtherInofrmation extends Component {
     super();
     this.state = {
       form: {
-        studentIsInEmployment: 'Yes',
+        isEmployee: 'true',
         employerName: '',
-        attemptedUpscEarler: 'Yes',
-        numberOfAttempts: '',
+        upscAttempted: 'true',
+        noOfAttempts: '',
         particulars: ''
       },
       errors: {
-        studentIsInEmployment: '',
+        isEmployee: '',
         employerName: '',
-        attemptedUpscEarler: '',
-        numberOfAttempts: '',
+        upscAttempted: '',
+        noOfAttempts: '',
         particulars: ''
       }
     };
@@ -29,16 +31,31 @@ class OtherInofrmation extends Component {
     const form = { ...this.state.form };
     const errors = { ...this.state.errors };
     form[name] = value;
+    this.props.dispatch({ type: Admission.SET_OTHER_INFORMATION, data: { name, value } });
     this.validateInput(name, value).then(newErrors =>
       this.setState({ errors: newErrors })
     );
     this.setState({ form, errors });
   };
 
+  onPrevious = () => {
+    const { previousTab, onChange } = this.props;
+    if (previousTab) {
+      onChange(previousTab);
+    }
+  };
+
+  onNext = () => {
+    const { nextTab, onChange } = this.props;
+    if (nextTab) {
+      onChange(nextTab);
+    }
+  };
+
   getYesOrNo = () => {
-    const options = ['Yes', 'No'].map((data) => {
+    const options = [{ label: 'Yes', value: true }, { label: 'No', value: false }].map((data) => {
       console.log(data);
-      return <option value={data}>{data}</option>;
+      return <option value={data.value}>{data.label}</option>;
     });
     return options;
   }
@@ -75,17 +92,17 @@ class OtherInofrmation extends Component {
       <Row>
         <Col lg={6} md={6} sm={12} xs={12}>
           <FieldSelect
-            id="studentIsInEmployment"
+            id="isEmployee"
             label="Whether student is in employment"
             placeholder="Select Whether student is in employment"
-            onChange={this.onChangeText('studentIsInEmployment')}
-            value={form.studentIsInEmployment}
-            validationState={errors.studentIsInEmployment !== '' ? 'error' : null}
-            help={errors.studentIsInEmployment !== '' ? errors.studentIsInEmployment : null}
+            onChange={this.onChangeText('isEmployee')}
+            value={form.isEmployee}
+            validationState={errors.isEmployee !== '' ? 'error' : null}
+            help={errors.isEmployee !== '' ? errors.isEmployee : null}
             options={this.getYesOrNo()}
           />
         </Col>
-        {form.studentIsInEmployment === 'Yes' ? <Col lg={6} md={6} sm={12} xs={12}>
+        {form.isEmployee === 'true' ? <Col lg={6} md={6} sm={12} xs={12}>
           <FieldGroup
             id="employerName"
             type="text"
@@ -102,26 +119,26 @@ class OtherInofrmation extends Component {
       <Row>
         <Col lg={6} md={6} sm={12} xs={12}>
           <FieldSelect
-            id="attemptedUpscEarler"
+            id="upscAttempted"
             label="Attempted Earlier For UPSC Exam"
             placeholder="Select attempted upsc earlier"
-            onChange={this.onChangeText('attemptedUpscEarler')}
-            value={form.attemptedUpscEarler}
-            validationState={errors.attemptedUpscEarler !== '' ? 'error' : null}
-            help={errors.attemptedUpscEarler !== '' ? errors.attemptedUpscEarler : null}
+            onChange={this.onChangeText('upscAttempted')}
+            value={form.upscAttempted}
+            validationState={errors.upscAttempted !== '' ? 'error' : null}
+            help={errors.upscAttempted !== '' ? errors.upscAttempted : null}
             options={this.getYesOrNo()}
           />
         </Col>
-        {form.attemptedUpscEarler === 'Yes' ? <div><Col lg={6} md={6} sm={12} xs={12}>
+        {form.upscAttempted === 'true' ? <div><Col lg={6} md={6} sm={12} xs={12}>
           <FieldGroup
-            id="numberOfAttempts"
+            id="noOfAttempts"
             type="text"
             label="Number of attempts"
             placeholder="Enter number of attempts"
-            onChange={this.onChangeText('numberOfAttempts')}
-            value={form.numberOfAttempts}
-            validationState={errors.numberOfAttempts !== '' ? 'error' : null}
-            help={errors.numberOfAttempts !== '' ? errors.numberOfAttempts : null}
+            onChange={this.onChangeText('noOfAttempts')}
+            value={form.noOfAttempts}
+            validationState={errors.noOfAttempts !== '' ? 'error' : null}
+            help={errors.noOfAttempts !== '' ? errors.noOfAttempts : null}
           />
         </Col>
           <Col lg={6} md={6} sm={12} xs={12}>
@@ -137,6 +154,12 @@ class OtherInofrmation extends Component {
             />
           </Col></div>
           : null}
+      </Row>
+      <Row style={{ borderTop: '1px solid gray' }}>
+        <PreviousNextButtons
+          onPrevious={this.onPrevious}
+          onNext={this.onNext}
+        />
       </Row>
     </div>);
   }

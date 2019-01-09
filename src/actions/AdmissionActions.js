@@ -1,4 +1,4 @@
-import { API_GET } from './APIMethods';
+import { API_GET, API_POST } from './APIMethods';
 import { Admission, ErrorType } from './ActionType';
 import { AdmissionURL } from './ActionURL';
 // import { Configs } from './ActionConfigs';
@@ -32,6 +32,29 @@ export const fetchAllAdmissions = () => {
       }
     } catch (error) {
       dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+    }
+  };
+};
+
+export const createAdmission = data => {
+  const url = `${AdmissionURL.FETCH_ALL_ADMISSIONS}`;
+  return async dispatch => {
+    try {
+      const result = await API_POST(url, data);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: Admission.FETCH_ALL_ADMISSIONS,
+          payload: result.payload
+        });
+      }
+      return result;
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
+      return {
+        error: true,
+        networkError: true,
+        message: 'Internal server error!'
+      };
     }
   };
 };
