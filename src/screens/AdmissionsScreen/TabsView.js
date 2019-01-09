@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import { Tabs, Tab } from 'react-bootstrap';
 import Address from './tabs/Address';
 import EducationalInformation from './tabs/EducationalInformation';
 import OtherInformation from './tabs/OtherInformation';
 import ProgramParticulars from './tabs/programparticulars';
+import AdmissionInfo from './tabs/AdmissionInfo';
+import GeneralInfo from './tabs/GeneralInfo';
+import { fetchStates } from '../../actions/StateAction';
+import { fetchCities } from '../../actions/CityActions';
 
 class TabsView extends Component {
   constructor() {
@@ -13,6 +18,10 @@ class TabsView extends Component {
     };
   }
 
+  componentDidMount() {
+    this.props.dispatch(fetchStates());
+    this.props.dispatch(fetchCities());
+  }
   handleTabChange = key => {
     this.setState({ key });
   };
@@ -25,17 +34,37 @@ class TabsView extends Component {
           onSelect={this.handleTabChange}
           id="controlled-tab-example"
         >
-          <Tab eventKey={1} title="Tab 1">
-            this is tab 1
+          <Tab eventKey={1} title="Admission Information">
+            <AdmissionInfo
+              previousTab={null}
+              currentTab={1}
+              nextTab={2}
+              onChange={this.handleTabChange}
+            />
           </Tab>
-          <Tab eventKey={2} title="Tab 2">
-            this is tab 2
+          <Tab eventKey={2} title="General Information">
+            <GeneralInfo
+              previousTab={1}
+              currentTab={2}
+              nextTab={3}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={3} title="Address">
-            <Address />
+            <Address
+              previousTab={2}
+              currentTab={3}
+              nextTab={4}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={4} title="Educational Information">
-            <EducationalInformation />
+            <EducationalInformation
+              previousTab={3}
+              currentTab={4}
+              nextTab={5}
+              onChange={this.handleTabChange}
+            />
           </Tab>
           <Tab eventKey={5} title="Other Information">
             <OtherInformation />
@@ -49,4 +78,4 @@ class TabsView extends Component {
   }
 }
 
-export default TabsView;
+export default connect()(TabsView);

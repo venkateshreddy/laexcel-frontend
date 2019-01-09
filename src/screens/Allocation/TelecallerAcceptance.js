@@ -13,7 +13,7 @@ import './Telecaller.scss';
 import {
   fetchAdmissionsByEmp,
   acceptOrRejectEnquiry
-} from '../../actions/AdmissionAction';
+} from '../../actions/PreAdmissionActions';
 
 const initialState = {
   from: null,

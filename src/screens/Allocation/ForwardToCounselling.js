@@ -11,7 +11,7 @@ import './Telecaller.scss';
 import {
   fetchAssignedAdmissions,
   allocateEmployeeToEnquires
-} from '../../actions/AdmissionAction';
+} from '../../actions/PreAdmissionActions';
 import { fetchResponseTypes } from '../../actions/ResponseTypeActions';
 import { fetchEmployeesByRole } from '../../actions/employee';
 

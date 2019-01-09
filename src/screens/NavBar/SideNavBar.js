@@ -40,7 +40,11 @@ class SideNavBar extends Component {
   hideNave = () => this.setState({ showNav: false });
 
   render() {
-    const { currentOrganisation, loggedInUser } = this.props;
+    const {
+      currentOrganisation,
+      loggedInUser,
+      currentAcademicYear
+    } = this.props;
     const isAdmin = loggedInUser.roles[0] === 'Admin';
     return (
       <div className="navbar HeaderBar" style={{ backgroundColor: '#0073a8' }}>
@@ -63,22 +67,21 @@ class SideNavBar extends Component {
             </Col>
             <Col lg={2} md={2} sm={2} className="header-logo np-left">
               <Link className="sidebar-logo" to="/">
-                {
-                  this.state.image ?
-                    <img
-                      className="sidebar-logo-image"
-                      src={this.state.image}
-                      alt="Go to index"
-                      title="Go to index"
-                    />
-                    :
-                    <img
-                      className="sidebar-logo-image"
-                      src="../../assets/images/navbar/student-portal-logo.png"
-                      alt="Go to index"
-                      title="Go to index"
-                    />
-                }
+                {this.state.image ? (
+                  <img
+                    className="sidebar-logo-image"
+                    src={this.state.image}
+                    alt="Go to index"
+                    title="Go to index"
+                  />
+                ) : (
+                  <img
+                    className="sidebar-logo-image"
+                    src="../../assets/images/navbar/student-portal-logo.png"
+                    alt="Go to index"
+                    title="Go to index"
+                  />
+                )}
                 <span
                   style={{
                     color: 'white',
@@ -129,10 +132,15 @@ class SideNavBar extends Component {
                     <i className="fas fa-exchange-alt" />
                   </Link>
                 </Fragment>
-              ) :
-                (
-                  <label>None</label>
-                )}
+              ) : (
+                <label>None</label>
+              )}
+              <br />
+              {currentAcademicYear.academicYear ? (
+                <label>{currentAcademicYear.academicYear}</label>
+              ) : (
+                ''
+              )}
             </Col>
             {/* <Col
               lg={2}
@@ -170,128 +178,128 @@ class SideNavBar extends Component {
               expanded={this.state.showNav}
               onSelect={this.hideNave}
               onToggle={this.onToggleNave}
-            // title="LaExcel Application"
-            // items={[
-            //   <Link
-            //     to={'student'}
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Student
-            //   </Link>,
-            //   <Link
-            //     to={'organisation'}
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Organisation
-            //   </Link>,
-            //   <Link
-            //     to={'stateandcity'}
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     State & City
-            //   </Link>,
-            //   <Link
-            //     to="branch"
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Branch
-            //   </Link>,
-            //   <Link
-            //     to="campus"
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Campus
-            //   </Link>,
-            //   <Link
-            //     to="room"
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Room
-            //   </Link>,
-            //   <Link
-            //     to="building"
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Building
-            //   </Link>,
-            //   <Link
-            //     to={'configuration'}
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Admin Configuration
-            //   </Link>
-            // ]}
-            // navStyle={{
-            //   maxWidth: '300px'
-            // }}
-            // titleStyle={{
-            //   backgroundColor: '#0073a8',
-            //   padding: '10px',
-            //   fontSize: '30px',
-            //   lineHeight: '50px'
-            // }}
-            // itemStyle={{
-            //   backgroundColor: '#fff',
-            //   marginLeft: '-40px',
-            //   padding: '0px'
-            // }}
-            // itemHoverStyle={{ backgroundColor: '#ccd9ff' }}
+              // title="LaExcel Application"
+              // items={[
+              //   <Link
+              //     to={'student'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Student
+              //   </Link>,
+              //   <Link
+              //     to={'organisation'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Organisation
+              //   </Link>,
+              //   <Link
+              //     to={'stateandcity'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     State & City
+              //   </Link>,
+              //   <Link
+              //     to="branch"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Branch
+              //   </Link>,
+              //   <Link
+              //     to="campus"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Campus
+              //   </Link>,
+              //   <Link
+              //     to="room"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Room
+              //   </Link>,
+              //   <Link
+              //     to="building"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Building
+              //   </Link>,
+              //   <Link
+              //     to={'configuration'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Admin Configuration
+              //   </Link>
+              // ]}
+              // navStyle={{
+              //   maxWidth: '300px'
+              // }}
+              // titleStyle={{
+              //   backgroundColor: '#0073a8',
+              //   padding: '10px',
+              //   fontSize: '30px',
+              //   lineHeight: '50px'
+              // }}
+              // itemStyle={{
+              //   backgroundColor: '#fff',
+              //   marginLeft: '-40px',
+              //   padding: '0px'
+              // }}
+              // itemHoverStyle={{ backgroundColor: '#ccd9ff' }}
             >
               <SideNav.Toggle />
               {isAdmin ? (
@@ -508,63 +516,62 @@ class SideNavBar extends Component {
                     </NavItem>
                   </NavItem>
                 </SideNav.Nav>
-              ) :
-                (
-                  <SideNav.Nav defaultSelected="home">
-                    <NavItem eventKey="home">
-                      <NavIcon>
-                        <Link to="/">
-                          <i className="fas fa-home fa-fw" />
-                        </Link>
-                      </NavIcon>
-                      <NavText>
-                        <Link to="/" className="margin-left10">
-                          Home
+              ) : (
+                <SideNav.Nav defaultSelected="home">
+                  <NavItem eventKey="home">
+                    <NavIcon>
+                      <Link to="/">
+                        <i className="fas fa-home fa-fw" />
                       </Link>
+                    </NavIcon>
+                    <NavText>
+                      <Link to="/" className="margin-left10">
+                        Home
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="telecallerAcceptance">
+                    <NavIcon>
+                      <i className="fas fa-user-check" />
+                    </NavIcon>
+                    <NavText>Telecalls</NavText>
+                    <NavItem eventKey="telecallerAcceptance">
+                      <NavText>
+                        <Link
+                          to={'telecallerAcceptance'}
+                          className="margin-left10"
+                        >
+                          Telecaller Acceptance
+                        </Link>
                       </NavText>
                     </NavItem>
-                    <NavItem eventKey="telecallerAcceptance">
-                      <NavIcon>
-                        <i className="fas fa-user-check" />
-                      </NavIcon>
-                      <NavText>Telecalls</NavText>
-                      <NavItem eventKey="telecallerAcceptance">
-                        <NavText>
-                          <Link
-                            to={'telecallerAcceptance'}
-                            className="margin-left10"
-                          >
-                            Telecaller Acceptance
+                    <NavItem eventKey="telecalling">
+                      <NavText>
+                        <Link to={'telecalling'} className="margin-left10">
+                          Telecalling
                         </Link>
-                        </NavText>
-                      </NavItem>
-                      <NavItem eventKey="telecalling">
-                        <NavText>
-                          <Link to={'telecalling'} className="margin-left10">
-                            Telecalling
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="telecallingFollowUp">
+                      <NavText>
+                        <Link
+                          to={'telecallingFollowUp'}
+                          className="margin-left10"
+                        >
+                          Telecalling Follow-up
                         </Link>
-                        </NavText>
-                      </NavItem>
-                      <NavItem eventKey="telecallingFollowUp">
-                        <NavText>
-                          <Link
-                            to={'telecallingFollowUp'}
-                            className="margin-left10"
-                          >
-                            Telecalling Follow-up
-                        </Link>
-                        </NavText>
-                      </NavItem>
-                      {/* <NavItem eventKey="counselling">
+                      </NavText>
+                    </NavItem>
+                    {/* <NavItem eventKey="counselling">
                       <NavText>
                         <Link to={'counselling'} className="margin-left10">
                           Counselling
                         </Link>
                       </NavText>
                     </NavItem> */}
-                    </NavItem>
-                  </SideNav.Nav>
-                )}
+                  </NavItem>
+                </SideNav.Nav>
+              )}
             </SideNav>
           </div>
         </div>
@@ -576,7 +583,8 @@ class SideNavBar extends Component {
 const mapStateToProps = state => ({
   loggedInUser: state.login.loggedInUser,
   currentOrganisation: state.organisations.currentOrganisation,
-  Logos: state.Logos.Logos
+  Logos: state.Logos.Logos,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(SideNavBar);

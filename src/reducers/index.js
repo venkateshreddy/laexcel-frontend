@@ -23,6 +23,7 @@ import feeStructure from './feeStructureReducer';
 import academicYears from './AcademicYearReducer';
 import masterGstRates from './masterGstRatesReducer';
 import Logos from './logosReducer';
+import admissions from './AdmissionsReducer';
 
 export default combineReducers({
   locale,
@@ -48,5 +49,6 @@ export default combineReducers({
   preAdmissions,
   responseType,
   academicYears,
-  Logos
+  Logos,
+  admissions
 });
