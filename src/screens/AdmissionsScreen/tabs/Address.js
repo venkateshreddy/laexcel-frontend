@@ -187,8 +187,8 @@ class Address extends Component {
               help={errors.hostel !== '' ? errors.hostel : null}
             />
           ) : (
-              ''
-            )}
+            ''
+          )}
           <FieldGroup
             id="contactNumber"
             type="text"

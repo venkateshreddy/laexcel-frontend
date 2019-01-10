@@ -48,7 +48,12 @@ class AdmissionsScreenInitialView extends React.Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(fetchAllAdmissions());
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (currentOrganisation.id && currentAcademicYear.id) {
+      this.props.dispatch(fetchAllAdmissions());
+    } else {
+      this.props.router.push('/error');
+    }
   }
 
   getFullName = row => {
@@ -190,7 +195,9 @@ class AdmissionsScreenInitialView extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    admissions: state.admissions.admissions
+    admissions: state.admissions.admissions,
+    currentOrganisation: state.organisations.currentOrganisation,
+    currentAcademicYear: state.academicYears.currentAcademicYear
   };
 }
 export default connect(mapStateToProps)(AdmissionsScreenInitialView);

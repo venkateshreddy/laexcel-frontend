@@ -7,7 +7,7 @@ import LandingPage from '../LadingPage/LandingPage';
 import Login from '../Login/Login';
 import UserRoleManager from '../UserRoleManager/UserRoleManager';
 import Registration from '../Registration/Registration';
-
+import AcademicYears from '../academicYears';
 import Student from '../Student/Student';
 import Organisation from '../Organisation/Organisation';
 import PreAdmission from '../admission/PreAdmission';
@@ -51,7 +51,7 @@ class Routes extends React.Component {
         />
         <Route path="/" component={Layout}>
           <IndexRoute component={LandingPage} />
-
+          <Route path="/academic-years" name="academicyears" component={AcademicYears} />
           <Route path="/student" name="student" component={Student} />
           <Route
             path="/EmployeeRegister"

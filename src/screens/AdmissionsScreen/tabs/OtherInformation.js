@@ -52,13 +52,8 @@ class OtherInofrmation extends Component {
     }
   };
 
-  getYesOrNo = () => {
-    const options = [{ label: 'Yes', value: true }, { label: 'No', value: false }].map((data) => {
-      console.log(data);
-      return <option value={data.value}>{data.label}</option>;
-    });
-    return options;
-  }
+  getYesOrNo = () =>
+    [{ label: 'Yes', value: true }, { label: 'No', value: false }].map((data) => <option value={data.value}>{data.label}</option>);
 
   validateInput = (name, value) =>
     new Promise(resolve => {
@@ -129,18 +124,19 @@ class OtherInofrmation extends Component {
             options={this.getYesOrNo()}
           />
         </Col>
-        {form.upscAttempted === 'true' ? <div><Col lg={6} md={6} sm={12} xs={12}>
-          <FieldGroup
-            id="noOfAttempts"
-            type="text"
-            label="Number of attempts"
-            placeholder="Enter number of attempts"
-            onChange={this.onChangeText('noOfAttempts')}
-            value={form.noOfAttempts}
-            validationState={errors.noOfAttempts !== '' ? 'error' : null}
-            help={errors.noOfAttempts !== '' ? errors.noOfAttempts : null}
-          />
-        </Col>
+        {form.upscAttempted === 'true' ? <div>
+          <Col lg={6} md={6} sm={12} xs={12}>
+            <FieldGroup
+              id="noOfAttempts"
+              type="text"
+              label="Number of attempts"
+              placeholder="Enter number of attempts"
+              onChange={this.onChangeText('noOfAttempts')}
+              value={form.noOfAttempts}
+              validationState={errors.noOfAttempts !== '' ? 'error' : null}
+              help={errors.noOfAttempts !== '' ? errors.noOfAttempts : null}
+            />
+          </Col>
           <Col lg={6} md={6} sm={12} xs={12}>
             <FieldGroup
               id="particulars"
@@ -152,7 +148,8 @@ class OtherInofrmation extends Component {
               validationState={errors.particulars !== '' ? 'error' : null}
               help={errors.particulars !== '' ? errors.particulars : null}
             />
-          </Col></div>
+          </Col>
+        </div>
           : null}
       </Row>
       <Row style={{ borderTop: '1px solid gray' }}>

@@ -148,7 +148,19 @@ export const setParticularInformation = (state, action) => {
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case Admission.FETCH_ALL_ADMISSIONS: {
-      return { ...state, admissions: action.payload };
+      return {
+        ...state,
+        admissions: action.payload.map(adm =>
+          (
+            {
+              ...adm,
+              organization: adm.organization.orgName,
+              branch: adm.branch.name,
+              academicYear: adm.academicYear.academicYear
+            }
+          )
+        )
+      };
     }
 
     case Admission.SET_ADMISSION_INFORMATION: {

@@ -120,23 +120,31 @@ class SideNavBar extends Component {
               }}
             >
               {currentOrganisation.orgName ? (
-                <label>{currentOrganisation.orgName}</label>
+                <label style={{ padding: '0px 5px', color: 'white' }}>
+                  {currentOrganisation.orgName}
+                </label>
               ) : (
                 <Link
                   to="/"
-                  style={{
-                    padding: '0px 5px',
-                    color: 'white'
-                  }}
                 >
-                  <label>Choose Organization</label>
+                  <span style={{ padding: '0px 5px', color: 'white', cursor: 'pointer' }}>
+                    Choose Organisation
+                  </span>
                 </Link>
               )}
               <br />
               {currentAcademicYear.academicYear ? (
-                <label>{currentAcademicYear.academicYear}</label>
+                <span style={{ padding: '0px 5px', color: 'white' }}>
+                  {currentAcademicYear.academicYear}
+                </span>
               ) : (
-                'Choose Academic Year'
+                <Link
+                  to="/"
+                >
+                  <span style={{ padding: '0px 5px', color: 'white', cursor: 'pointer' }}>
+                    Choose Academic Year
+                  </span>
+                </Link>
               )}
             </Col>
             {/* <Col
@@ -313,102 +321,19 @@ class SideNavBar extends Component {
                       </Link>
                     </NavText>
                   </NavItem>
-                  <NavItem eventKey="masterDBMaintenance">
+                  <NavItem eventKey="assets">
                     <NavIcon>
-                      <i className="fa fa-database" />
+                      <i className="fa fa-building" />
                     </NavIcon>
                     <NavText>
-                      Master DB Maintenance
+                      Assets Management
                       <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
                       <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
                     </NavText>
-                    <NavItem eventKey="EmployeeRegister">
-                      <NavText>
-                        <Link
-                          to={'/EmployeeRegister'}
-                          className="margin-left10"
-                        >
-                          Employee
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="organisation">
+                    <NavItem eventKey="assets">
                       <NavText>
                         <Link to={'organisation'} className="margin-left10">
                           Organisation
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="admissionsScreen">
-                      <NavText>
-                        <Link to={'admissionsScreen'} className="margin-left10">
-                          Admission Screen
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="program">
-                      <NavText>
-                        <Link to={'/program'} className="margin-left10">
-                          Program
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="course">
-                      <NavText>
-                        <Link to={'/course'} className="margin-left10">
-                          Course
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="batch">
-                      <NavText>
-                        <Link to={'/batch'} className="margin-left10">
-                          Batch
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="courseduration">
-                      <NavText>
-                        <Link to={'/CourseDuration'} className="margin-left10">
-                          Course Duration
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="definefeecode">
-                      <NavText>
-                        <Link to={'/DefineFeeCode'} className="margin-left10">
-                          Define Fee Code
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="mastergstrates">
-                      <NavText>
-                        <Link to={'/gstRates'} className="margin-left10">
-                          GST Configurattion
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="gstrates">
-                      <NavText>
-                        <Link to={'/RnGstNumber'} className="margin-left10">
-                          Define Gst Registeration Number
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="definefeestructure">
-                      <NavText>
-                        <Link
-                          to={'/DefineFeeStructure'}
-                          className="margin-left10"
-                        >
-                          Define Fee Structure
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="stateandcity">
-                      <NavText>
-                        <Link to={'stateandcity'} className="margin-left10">
-                          State & City
                         </Link>
                       </NavText>
                     </NavItem>
@@ -440,6 +365,68 @@ class SideNavBar extends Component {
                         </Link>
                       </NavText>
                     </NavItem>
+                  </NavItem>
+                  <NavItem eventKey="masterDBMaintenance">
+                    <NavIcon>
+                      <i className="fa fa-database" />
+                    </NavIcon>
+                    <NavText>
+                      Master Data Management
+                      <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
+                      <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
+                    </NavText>
+                    <NavItem eventKey="program">
+                      <NavText>
+                        <Link to={'/program'} className="margin-left10">
+                          Program
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="course">
+                      <NavText>
+                        <Link to={'/course'} className="margin-left10">
+                          Course
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="batch">
+                      <NavText>
+                        <Link to={'/batch'} className="margin-left10">
+                          Batch
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="courseduration">
+                      <NavText>
+                        <Link to={'/CourseDuration'} className="margin-left10">
+                          Course Duration
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="definefeecode">
+                      <NavText>
+                        <Link to={'/DefineFeeCode'} className="margin-left10">
+                          Fee Code
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="definefeestructure">
+                      <NavText>
+                        <Link
+                          to={'/DefineFeeStructure'}
+                          className="margin-left10"
+                        >
+                          Fee Structure
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="stateandcity">
+                      <NavText>
+                        <Link to={'stateandcity'} className="margin-left10">
+                          State & City
+                        </Link>
+                      </NavText>
+                    </NavItem>
                     <NavItem eventKey="sourceandagency">
                       <NavText>
                         <Link to={'sourceandagency'} className="margin-left10">
@@ -448,36 +435,70 @@ class SideNavBar extends Component {
                       </NavText>
                     </NavItem>
                   </NavItem>
-                  <NavItem eventKey="configuration">
+                  <NavItem eventKey="gst">
                     <NavIcon>
-                      <i className="fa fa-lock" />
+                      <i className="fa fa-building" />
                     </NavIcon>
                     <NavText>
-                      <Link to={'configuration'} className="margin-left10">
-                        Admin Configuration
-                      </Link>
-                    </NavText>
-                  </NavItem>
-                  <NavItem eventKey="admissions">
-                    <NavIcon>
-                      <i className="fa fa-edit" />
-                    </NavIcon>
-                    <NavText>
-                      Admissions
+                      GST Settings
                       <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
                       <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
                     </NavText>
-                    <NavItem eventKey="admissions">
+                    <NavItem eventKey="mastergstrates">
                       <NavText>
-                        <Link to={'admissions'} className="margin-left10">
-                          Admissions
+                        <Link to={'/gstRates'} className="margin-left10">
+                          GST Configurattion
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="gstrates">
+                      <NavText>
+                        <Link to={'/RnGstNumber'} className="margin-left10">
+                          Gst Registerations
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                  </NavItem>
+                  <NavItem eventKey="configuration">
+                    <NavIcon>
+                      <i className="fas fa-user-tie" />
+                    </NavIcon>
+                    <NavText>
+                      <Link to={'EmployeeRegister'} className="margin-left10">
+                        Employees Management
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="configuration">
+                    <NavIcon>
+                      <i className="fas fa-user" />
+                    </NavIcon>
+                    <NavText>
+                      <Link to={'admissions'} className="margin-left10">
+                        Admissions
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="config">
+                    <NavIcon>
+                      <i className="fas fa-cogs" />
+                    </NavIcon>
+                    <NavText>
+                      Configuration
+                      <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
+                      <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
+                    </NavText>
+                    <NavItem eventKey="preAdmission">
+                      <NavText>
+                        <Link to={'configuration'} className="margin-left10">
+                          Logo Upload
                         </Link>
                       </NavText>
                     </NavItem>
                   </NavItem>
                   <NavItem eventKey="preAdmissions">
                     <NavIcon>
-                      <i className="fa fa-edit" />
+                      <i className="fas fa-headset" />
                     </NavIcon>
                     <NavText>
                       Pre Admissions

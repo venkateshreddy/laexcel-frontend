@@ -13,11 +13,11 @@ class LandingPage extends Component {
     return (
       <Row>
         <Col lg={6} md={6} sm={6}>
-          <h4>Organizations</h4>
+          <h4>Choose Organization</h4>
           <Organizations />
         </Col>
         <Col lg={6} md={6} sm={6}>
-          <h4>Academic Years</h4>
+          <h4>Choose Academic Year</h4>
           <AcademicYears />
         </Col>
         {/* <div className="landing-page-wrapper">
