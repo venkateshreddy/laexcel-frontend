@@ -151,14 +151,12 @@ export default function reducer(state = initialState, action) {
       return {
         ...state,
         admissions: action.payload.map(adm =>
-          (
-            {
-              ...adm,
-              organization: adm.organization.orgName,
-              branch: adm.branch.name,
-              academicYear: adm.academicYear.academicYear
-            }
-          )
+          ({
+            ...adm,
+            organization: adm.organization.orgName,
+            branch: adm.branch.name,
+            academicYear: adm.academicYear.academicYear
+          })
         )
       };
     }
