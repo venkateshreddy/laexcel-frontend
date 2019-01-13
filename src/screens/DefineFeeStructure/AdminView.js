@@ -21,9 +21,9 @@ class AdminView extends React.Component {
     this.state = {
       show: false,
       columns: [{ Header: 'Academic Year', accessor: 'academicYear' },
-      { Header: 'Branch', accessor: 'branch', Cell: (e) => <span>{this.renderBranch(e.original.branch)}</span> },
-      { Header: 'Course Name', accessor: 'courseName', Cell: (e) => <span>{this.renderCourse(e.original.courseName)}</span> },
-      { Header: 'Fee Details', accessor: 'feeStructure', className: 'adminview-cell-height', Cell: (e) => <span>{this.renderFeeStructure(e.original.feeStructure)}</span> }
+        { Header: 'Branch', accessor: 'branch', Cell: (e) => <span>{this.renderBranch(e.original.branch)}</span> },
+        { Header: 'Course Name', accessor: 'courseName', Cell: (e) => <span>{this.renderCourse(e.original.courseName)}</span> },
+        { Header: 'Fee Details', accessor: 'feeStructure', className: 'adminview-cell-height', Cell: (e) => <span>{this.renderFeeStructure(e.original.feeStructure)}</span> }
       ],
       form: {},
       errors: {},

@@ -1,21 +1,14 @@
 import React from 'react';
 import ReactTable from 'react-table';
 import { connect } from 'react-redux';
-import { Col } from 'react-bootstrap';
 import Panel from 'react-bootstrap/lib/Panel';
+import moment from 'moment';
 import checkboxHOC from 'react-table/lib/hoc/selectTable';
-// import DefineFeeStructure from './DefineFeeStructure';
 import { LargeModal } from '../../components/Modals';
-// import { fetchBatch } from '../../actions/batchactions';
-// import { fetchCourse } from '../../actions/courseactions';
-// import { fetchBranches } from '../../actions/BranchActions';
-import {
-  // fetchFeeStructure,
-  deleteFeeStructure
-} from '../../actions/feeStructureActions';
-// import { fetchFeeCode } from '../../actions/definefeecodeactions';
+
 import './AdminView.scss';
 import TabsView from './TabsView';
+import { fetchAllAdmissions } from '../../actions/AdmissionActions';
 
 const CheckboxTable = checkboxHOC(ReactTable);
 
@@ -25,24 +18,24 @@ class AdmissionsScreenInitialView extends React.Component {
     this.state = {
       show: false,
       columns: [
+        { Header: 'Organization', accessor: 'organization' },
         { Header: 'Academic Year', accessor: 'academicYear' },
+        { Header: 'Admission Number', accessor: 'admissionNumber' },
         {
           Header: 'Branch',
-          accessor: 'branch',
-          Cell: e => <span>{this.renderBranch(e.original.branch)}</span>
+          accessor: 'branch'
         },
         {
-          Header: 'Course Name',
-          accessor: 'courseName',
-          Cell: e => <span>{this.renderCourse(e.original.courseName)}</span>
+          Header: 'Name',
+          accessor: 'firstName',
+          Cell: row => this.getFullName(row)
         },
+        { Header: 'Email', accessor: 'email' },
+        { Header: 'Contact Number', accessor: 'contactNumber' },
         {
-          Header: 'Fee Details',
-          accessor: 'feeStructure',
-          className: 'adminview-cell-height',
-          Cell: e => (
-            <span>{this.renderFeeStructure(e.original.feeStructure)}</span>
-          )
+          Header: 'DoB',
+          accessor: 'dob',
+          Cell: row => (row.value ? moment(row.value).format('DD-MM-YYYY') : '')
         }
       ],
       form: {},
@@ -54,13 +47,32 @@ class AdmissionsScreenInitialView extends React.Component {
     };
   }
 
-  componentWillMount() {
-    // this.props.dispatch(fetchBatch());
-    // this.props.dispatch(fetchCourse());
-    // this.props.dispatch(fetchFeeStructure());
-    // this.props.dispatch(fetchBranches());
-    // this.props.dispatch(fetchFeeCode());
+  componentDidMount() {
+    const { currentOrganisation, currentAcademicYear } = this.props;
+    if (currentOrganisation.id && currentAcademicYear.id) {
+      this.props.dispatch(fetchAllAdmissions());
+    } else {
+      this.props.router.push('/error');
+    }
   }
+
+  getFullName = row => {
+    let fullName = '';
+    if (row.original) {
+      if (row.original.firstName) {
+        fullName += row.original.firstName;
+      }
+      if (row.original.middleName) {
+        fullName += ` ${row.original.middleName}`;
+      }
+      if (row.original.lastName) {
+        fullName += ` ${row.original.lastName}`;
+      }
+    } else {
+      fullName = row.value;
+    }
+    return fullName;
+  };
 
   closeModal = () => {
     this.setState({ show: false });
@@ -68,21 +80,6 @@ class AdmissionsScreenInitialView extends React.Component {
 
   openRegisterForm = () => {
     this.setState({ show: true });
-  };
-
-  openEditFeeStructure = () => {
-    const key = '_id';
-    this.props.feeStructure.map(data => {
-      if (data[key].toString() === this.state.selection[0].toString()) {
-        this.setState({ formData: data });
-      }
-      return null;
-    });
-    this.setState({ show: true });
-  };
-
-  deleteFeeStructure = () => {
-    this.props.dispatch(deleteFeeStructure(this.state.selection[0]));
   };
 
   toggleSelection = key => {
@@ -120,40 +117,6 @@ class AdmissionsScreenInitialView extends React.Component {
     this.setState({ filterable: !this.state.filterable });
   };
 
-  renderCourse = courseId => {
-    const key = '_id';
-    let name = '';
-    this.props.course.map(course => {
-      if (course[key].toString() === courseId.toString()) {
-        name = course.name;
-      }
-      return null;
-    });
-    return name;
-  };
-
-  renderBranch = courseId => {
-    let name = '';
-    this.props.branches.map(course => {
-      if (course.id.toString() === courseId.toString()) {
-        name = course.name;
-      }
-      return null;
-    });
-    return name;
-  };
-
-  renderFeeStructure = feeStructure => {
-    const feeString = feeStructure.map(fee => {
-      console.log(fee);
-      return (
-        <Col lg={6} sm={6} md={6}>
-          {fee.type} {fee.amount}
-        </Col>
-      );
-    });
-    return feeString;
-  };
   render() {
     const { toggleSelection, toggleAll, isSelected } = this;
     const { selectAll } = this.state;
@@ -174,7 +137,8 @@ class AdmissionsScreenInitialView extends React.Component {
         };
       }
     };
-    const { columns, selection } = this.state;
+    const { columns } = this.state;
+    const { admissions } = this.props;
     return (
       <Panel bsStyle="primary">
         <Panel.Heading>
@@ -193,20 +157,6 @@ class AdmissionsScreenInitialView extends React.Component {
                 title="Filter Table"
                 onClick={this.toggleTableFilter}
               />
-              {selection.length === 1 && (
-                <i
-                  className="fas fa-pencil-alt"
-                  title="Edit branch"
-                  onClick={this.openEditFeeStructure}
-                />
-              )}
-              {selection.length === 1 && (
-                <i
-                  className="fas fa-trash"
-                  title="Delete branch"
-                  onClick={this.deleteFeeStructure}
-                />
-              )}
             </div>
             <LargeModal
               show={this.state.show}
@@ -230,7 +180,7 @@ class AdmissionsScreenInitialView extends React.Component {
               ref={r => {
                 this.checkboxTable = r;
               }} // TABLE
-              data={this.props.feeStructure}
+              data={admissions}
               filterable={this.state.filterable}
               columns={columns}
               defaultPageSize={10}
@@ -245,10 +195,9 @@ class AdmissionsScreenInitialView extends React.Component {
 }
 function mapStateToProps(state) {
   return {
-    feeStructure: state.feeStructure.feeStructure,
-    course: state.course.course,
-    batch: state.batch.batch,
-    branches: state.branch.branches
+    admissions: state.admissions.admissions,
+    currentOrganisation: state.organisations.currentOrganisation,
+    currentAcademicYear: state.academicYears.currentAcademicYear
   };
 }
 export default connect(mapStateToProps)(AdmissionsScreenInitialView);

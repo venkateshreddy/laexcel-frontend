@@ -317,8 +317,8 @@ class BuildingForm extends Component {
                 />
               </li>
             ) : (
-                ''
-              )}
+              ''
+            )}
             {this.props.selectedOrganisations.length > 0 ? (
               <li
                 style={{
@@ -335,8 +335,8 @@ class BuildingForm extends Component {
                 />
               </li>
             ) : (
-                ''
-              )}
+              ''
+            )}
             <li
               style={{
                 display: 'inline',

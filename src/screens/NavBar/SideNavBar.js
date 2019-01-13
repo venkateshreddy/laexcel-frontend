@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 // import SideNav from 'react-simple-sidenav';
@@ -40,7 +40,11 @@ class SideNavBar extends Component {
   hideNave = () => this.setState({ showNav: false });
 
   render() {
-    const { currentOrganisation, loggedInUser } = this.props;
+    const {
+      currentOrganisation,
+      loggedInUser,
+      currentAcademicYear
+    } = this.props;
     const isAdmin = loggedInUser.roles[0] === 'Admin';
     return (
       <div className="navbar HeaderBar" style={{ backgroundColor: '#0073a8' }}>
@@ -63,22 +67,21 @@ class SideNavBar extends Component {
             </Col>
             <Col lg={2} md={2} sm={2} className="header-logo np-left">
               <Link className="sidebar-logo" to="/">
-                {
-                  this.state.image ?
-                    <img
-                      className="sidebar-logo-image"
-                      src={this.state.image}
-                      alt="Go to index"
-                      title="Go to index"
-                    />
-                    :
-                    <img
-                      className="sidebar-logo-image"
-                      src="../../assets/images/navbar/student-portal-logo.png"
-                      alt="Go to index"
-                      title="Go to index"
-                    />
-                }
+                {this.state.image ? (
+                  <img
+                    className="sidebar-logo-image"
+                    src={this.state.image}
+                    alt="Go to index"
+                    title="Go to index"
+                  />
+                ) : (
+                  <img
+                    className="sidebar-logo-image"
+                    src="../../assets/images/navbar/student-portal-logo.png"
+                    alt="Go to index"
+                    title="Go to index"
+                  />
+                )}
                 <span
                   style={{
                     color: 'white',
@@ -117,22 +120,32 @@ class SideNavBar extends Component {
               }}
             >
               {currentOrganisation.orgName ? (
-                <Fragment>
-                  <label>{currentOrganisation.orgName}</label>
-                  <Link
-                    to="/"
-                    style={{
-                      padding: '0px 5px',
-                      color: 'white'
-                    }}
-                  >
-                    <i className="fas fa-exchange-alt" />
-                  </Link>
-                </Fragment>
-              ) :
-                (
-                  <label>None</label>
-                )}
+                <label style={{ padding: '0px 5px', color: 'white' }}>
+                  {currentOrganisation.orgName}
+                </label>
+              ) : (
+                <Link
+                  to="/"
+                >
+                  <span style={{ padding: '0px 5px', color: 'white', cursor: 'pointer' }}>
+                    Choose Organisation
+                  </span>
+                </Link>
+              )}
+              <br />
+              {currentAcademicYear.academicYear ? (
+                <span style={{ padding: '0px 5px', color: 'white' }}>
+                  {currentAcademicYear.academicYear}
+                </span>
+              ) : (
+                <Link
+                  to="/"
+                >
+                  <span style={{ padding: '0px 5px', color: 'white', cursor: 'pointer' }}>
+                    Choose Academic Year
+                  </span>
+                </Link>
+              )}
             </Col>
             {/* <Col
               lg={2}
@@ -170,128 +183,128 @@ class SideNavBar extends Component {
               expanded={this.state.showNav}
               onSelect={this.hideNave}
               onToggle={this.onToggleNave}
-            // title="LaExcel Application"
-            // items={[
-            //   <Link
-            //     to={'student'}
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Student
-            //   </Link>,
-            //   <Link
-            //     to={'organisation'}
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Organisation
-            //   </Link>,
-            //   <Link
-            //     to={'stateandcity'}
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     State & City
-            //   </Link>,
-            //   <Link
-            //     to="branch"
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Branch
-            //   </Link>,
-            //   <Link
-            //     to="campus"
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Campus
-            //   </Link>,
-            //   <Link
-            //     to="room"
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Room
-            //   </Link>,
-            //   <Link
-            //     to="building"
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Building
-            //   </Link>,
-            //   <Link
-            //     to={'configuration'}
-            //     onClick={this.hideNave}
-            //     style={{
-            //       margin: '0px',
-            //       display: 'block',
-            //       width: '100%',
-            //       height: '100%',
-            //       padding: '22px'
-            //     }}
-            //   >
-            //     Admin Configuration
-            //   </Link>
-            // ]}
-            // navStyle={{
-            //   maxWidth: '300px'
-            // }}
-            // titleStyle={{
-            //   backgroundColor: '#0073a8',
-            //   padding: '10px',
-            //   fontSize: '30px',
-            //   lineHeight: '50px'
-            // }}
-            // itemStyle={{
-            //   backgroundColor: '#fff',
-            //   marginLeft: '-40px',
-            //   padding: '0px'
-            // }}
-            // itemHoverStyle={{ backgroundColor: '#ccd9ff' }}
+              // title="LaExcel Application"
+              // items={[
+              //   <Link
+              //     to={'student'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Student
+              //   </Link>,
+              //   <Link
+              //     to={'organisation'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Organisation
+              //   </Link>,
+              //   <Link
+              //     to={'stateandcity'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     State & City
+              //   </Link>,
+              //   <Link
+              //     to="branch"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Branch
+              //   </Link>,
+              //   <Link
+              //     to="campus"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Campus
+              //   </Link>,
+              //   <Link
+              //     to="room"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Room
+              //   </Link>,
+              //   <Link
+              //     to="building"
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Building
+              //   </Link>,
+              //   <Link
+              //     to={'configuration'}
+              //     onClick={this.hideNave}
+              //     style={{
+              //       margin: '0px',
+              //       display: 'block',
+              //       width: '100%',
+              //       height: '100%',
+              //       padding: '22px'
+              //     }}
+              //   >
+              //     Admin Configuration
+              //   </Link>
+              // ]}
+              // navStyle={{
+              //   maxWidth: '300px'
+              // }}
+              // titleStyle={{
+              //   backgroundColor: '#0073a8',
+              //   padding: '10px',
+              //   fontSize: '30px',
+              //   lineHeight: '50px'
+              // }}
+              // itemStyle={{
+              //   backgroundColor: '#fff',
+              //   marginLeft: '-40px',
+              //   padding: '0px'
+              // }}
+              // itemHoverStyle={{ backgroundColor: '#ccd9ff' }}
             >
               <SideNav.Toggle />
               {isAdmin ? (
@@ -308,29 +321,64 @@ class SideNavBar extends Component {
                       </Link>
                     </NavText>
                   </NavItem>
+                  <NavItem eventKey="assets">
+                    <NavIcon>
+                      <i className="fa fa-building" />
+                    </NavIcon>
+                    <NavText>
+                      Assets Management
+                      <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
+                      <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
+                    </NavText>
+                    <NavItem eventKey="assets">
+                      <NavText>
+                        <Link to={'organisation'} className="margin-left10">
+                          Organisation
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="branch">
+                      <NavText>
+                        <Link to={'branch'} className="margin-left10">
+                          Branch
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="campus">
+                      <NavText>
+                        <Link to={'campus'} className="margin-left10">
+                          Campus
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="room">
+                      <NavText>
+                        <Link to={'room'} className="margin-left10">
+                          Room
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="building">
+                      <NavText>
+                        <Link to={'building'} className="margin-left10">
+                          Building
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                  </NavItem>
                   <NavItem eventKey="masterDBMaintenance">
                     <NavIcon>
                       <i className="fa fa-database" />
                     </NavIcon>
                     <NavText>
-                      Master DB Maintenance
+                      Master Data Management
                       <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
                       <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
                     </NavText>
-                    <NavItem eventKey="EmployeeRegister">
+                    <NavItem eventKey="program">
                       <NavText>
-                        <Link
-                          to={'/EmployeeRegister'}
-                          className="margin-left10"
-                        >
-                          Employee
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="organisation">
-                      <NavText>
-                        <Link to={'organisation'} className="margin-left10">
-                          Organisation
+                        <Link to={'/academic-years'} className="margin-left10">
+                          Academic Years
                         </Link>
                       </NavText>
                     </NavItem>
@@ -365,21 +413,7 @@ class SideNavBar extends Component {
                     <NavItem eventKey="definefeecode">
                       <NavText>
                         <Link to={'/DefineFeeCode'} className="margin-left10">
-                          Define Fee Code
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="mastergstrates">
-                      <NavText>
-                        <Link to={'/gstRates'} className="margin-left10">
-                          GST Configurattion
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="gstrates">
-                      <NavText>
-                        <Link to={'/RnGstNumber'} className="margin-left10">
-                          Define Gst Registeration Number
+                          Fee Code
                         </Link>
                       </NavText>
                     </NavItem>
@@ -389,7 +423,7 @@ class SideNavBar extends Component {
                           to={'/DefineFeeStructure'}
                           className="margin-left10"
                         >
-                          Define Fee Structure
+                          Fee Structure
                         </Link>
                       </NavText>
                     </NavItem>
@@ -397,34 +431,6 @@ class SideNavBar extends Component {
                       <NavText>
                         <Link to={'stateandcity'} className="margin-left10">
                           State & City
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="branch">
-                      <NavText>
-                        <Link to={'branch'} className="margin-left10">
-                          Branch
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="campus">
-                      <NavText>
-                        <Link to={'campus'} className="margin-left10">
-                          Campus
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="room">
-                      <NavText>
-                        <Link to={'room'} className="margin-left10">
-                          Room
-                        </Link>
-                      </NavText>
-                    </NavItem>
-                    <NavItem eventKey="building">
-                      <NavText>
-                        <Link to={'building'} className="margin-left10">
-                          Building
                         </Link>
                       </NavText>
                     </NavItem>
@@ -436,19 +442,70 @@ class SideNavBar extends Component {
                       </NavText>
                     </NavItem>
                   </NavItem>
-                  <NavItem eventKey="configuration">
+                  <NavItem eventKey="gst">
                     <NavIcon>
-                      <i className="fa fa-lock" />
+                      <i className="fa fa-building" />
                     </NavIcon>
                     <NavText>
-                      <Link to={'configuration'} className="margin-left10">
-                        Admin Configuration
+                      GST Settings
+                      <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
+                      <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
+                    </NavText>
+                    <NavItem eventKey="mastergstrates">
+                      <NavText>
+                        <Link to={'/gstRates'} className="margin-left10">
+                          GST Configurattion
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="gstrates">
+                      <NavText>
+                        <Link to={'/RnGstNumber'} className="margin-left10">
+                          Gst Registerations
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                  </NavItem>
+                  <NavItem eventKey="configuration">
+                    <NavIcon>
+                      <i className="fas fa-user-tie" />
+                    </NavIcon>
+                    <NavText>
+                      <Link to={'EmployeeRegister'} className="margin-left10">
+                        Employees Management
                       </Link>
                     </NavText>
                   </NavItem>
+                  <NavItem eventKey="configuration">
+                    <NavIcon>
+                      <i className="fas fa-user" />
+                    </NavIcon>
+                    <NavText>
+                      <Link to={'admissions'} className="margin-left10">
+                        Admissions
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="config">
+                    <NavIcon>
+                      <i className="fas fa-cogs" />
+                    </NavIcon>
+                    <NavText>
+                      Configuration
+                      <i className="fas fa-sort-down dropdown-arrow cntrl-arrow" />
+                      <i className="fas fa-sort-up dropup-arrow cntrl-arrow" />
+                    </NavText>
+                    <NavItem eventKey="preAdmission">
+                      <NavText>
+                        <Link to={'configuration'} className="margin-left10">
+                          Logo Upload
+                        </Link>
+                      </NavText>
+                    </NavItem>
+                  </NavItem>
                   <NavItem eventKey="preAdmissions">
                     <NavIcon>
-                      <i className="fa fa-edit" />
+                      <i className="fas fa-headset" />
                     </NavIcon>
                     <NavText>
                       Pre Admissions
@@ -501,63 +558,62 @@ class SideNavBar extends Component {
                     </NavItem>
                   </NavItem>
                 </SideNav.Nav>
-              ) :
-                (
-                  <SideNav.Nav defaultSelected="home">
-                    <NavItem eventKey="home">
-                      <NavIcon>
-                        <Link to="/">
-                          <i className="fas fa-home fa-fw" />
-                        </Link>
-                      </NavIcon>
-                      <NavText>
-                        <Link to="/" className="margin-left10">
-                          Home
+              ) : (
+                <SideNav.Nav defaultSelected="home">
+                  <NavItem eventKey="home">
+                    <NavIcon>
+                      <Link to="/">
+                        <i className="fas fa-home fa-fw" />
                       </Link>
+                    </NavIcon>
+                    <NavText>
+                      <Link to="/" className="margin-left10">
+                        Home
+                      </Link>
+                    </NavText>
+                  </NavItem>
+                  <NavItem eventKey="telecallerAcceptance">
+                    <NavIcon>
+                      <i className="fas fa-user-check" />
+                    </NavIcon>
+                    <NavText>Telecalls</NavText>
+                    <NavItem eventKey="telecallerAcceptance">
+                      <NavText>
+                        <Link
+                          to={'telecallerAcceptance'}
+                          className="margin-left10"
+                        >
+                          Telecaller Acceptance
+                        </Link>
                       </NavText>
                     </NavItem>
-                    <NavItem eventKey="telecallerAcceptance">
-                      <NavIcon>
-                        <i className="fas fa-user-check" />
-                      </NavIcon>
-                      <NavText>Telecalls</NavText>
-                      <NavItem eventKey="telecallerAcceptance">
-                        <NavText>
-                          <Link
-                            to={'telecallerAcceptance'}
-                            className="margin-left10"
-                          >
-                            Telecaller Acceptance
+                    <NavItem eventKey="telecalling">
+                      <NavText>
+                        <Link to={'telecalling'} className="margin-left10">
+                          Telecalling
                         </Link>
-                        </NavText>
-                      </NavItem>
-                      <NavItem eventKey="telecalling">
-                        <NavText>
-                          <Link to={'telecalling'} className="margin-left10">
-                            Telecalling
+                      </NavText>
+                    </NavItem>
+                    <NavItem eventKey="telecallingFollowUp">
+                      <NavText>
+                        <Link
+                          to={'telecallingFollowUp'}
+                          className="margin-left10"
+                        >
+                          Telecalling Follow-up
                         </Link>
-                        </NavText>
-                      </NavItem>
-                      <NavItem eventKey="telecallingFollowUp">
-                        <NavText>
-                          <Link
-                            to={'telecallingFollowUp'}
-                            className="margin-left10"
-                          >
-                            Telecalling Follow-up
-                        </Link>
-                        </NavText>
-                      </NavItem>
-                      {/* <NavItem eventKey="counselling">
+                      </NavText>
+                    </NavItem>
+                    {/* <NavItem eventKey="counselling">
                       <NavText>
                         <Link to={'counselling'} className="margin-left10">
                           Counselling
                         </Link>
                       </NavText>
                     </NavItem> */}
-                    </NavItem>
-                  </SideNav.Nav>
-                )}
+                  </NavItem>
+                </SideNav.Nav>
+              )}
             </SideNav>
           </div>
         </div>
@@ -569,7 +625,8 @@ class SideNavBar extends Component {
 const mapStateToProps = state => ({
   loggedInUser: state.login.loggedInUser,
   currentOrganisation: state.organisations.currentOrganisation,
-  Logos: state.Logos.Logos
+  Logos: state.Logos.Logos,
+  currentAcademicYear: state.academicYears.currentAcademicYear
 });
 
 export default connect(mapStateToProps)(SideNavBar);

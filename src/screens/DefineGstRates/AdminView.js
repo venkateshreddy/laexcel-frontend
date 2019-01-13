@@ -16,9 +16,9 @@ class AdminView extends React.Component {
     this.state = {
       show: false,
       columns: [{ Header: 'Rate of Gst', accessor: 'rateOfGst' },
-      { Header: 'CGST', accessor: 'cgst' },
-      { Header: 'SGST', accessor: 'sgst' },
-      { Header: 'IGST', accessor: 'igst' }
+        { Header: 'CGST', accessor: 'cgst' },
+        { Header: 'SGST', accessor: 'sgst' },
+        { Header: 'IGST', accessor: 'igst' }
       ],
       form: {},
       formData: {},
