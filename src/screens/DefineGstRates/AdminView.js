@@ -33,7 +33,7 @@ class AdminView extends React.Component {
     this.props.dispatch(fetchOrganisations());
   }
   closeModal = () => {
-    this.setState({ show: false });
+    this.setState({ show: false, formData: {} });
   }
   openRegisterForm = () => {
     this.setState({ show: true });
@@ -52,6 +52,7 @@ class AdminView extends React.Component {
 
   deleteGstRates = () => {
     this.props.dispatch(deleteGstRates(this.state.selection[0]));
+    this.setState({ selection: [] });
   }
 
   toggleSelection = key => {
@@ -120,7 +121,7 @@ class AdminView extends React.Component {
             <div className="action-icons">
               <i
                 className="fas fa-plus"
-                title="Register Employee"
+                title="add gst rate"
                 onClick={this.openRegisterForm}
               />
               <i
@@ -131,14 +132,14 @@ class AdminView extends React.Component {
               {selection.length === 1 && (
                 <i
                   className="fas fa-pencil-alt"
-                  title="Edit branch"
+                  title="edit gst rate"
                   onClick={this.openMasterGstRates}
                 />
               )}
               {selection.length === 1 && (
                 <i
                   className="fas fa-trash"
-                  title="Delete branch"
+                  title="delete gst rate"
                   onClick={this.deleteGstRates}
                 />
               )}

@@ -135,7 +135,7 @@ class AdminView extends React.Component {
             <div className="action-icons">
               <i
                 className="fas fa-plus"
-                title="Register Employee"
+                title="add course"
                 onClick={this.openRegisterForm}
               />
               <i
@@ -146,14 +146,14 @@ class AdminView extends React.Component {
               {selection.length === 1 && (
                 <i
                   className="fas fa-pencil-alt"
-                  title="Edit branch"
+                  title="edit course"
                   onClick={this.openCourseEditForm}
                 />
               )}
               {selection.length === 1 && (
                 <i
                   className="fas fa-trash"
-                  title="Delete branch"
+                  title="delete course"
                   onClick={this.deleteCourse}
                 />
               )}

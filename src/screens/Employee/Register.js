@@ -82,7 +82,7 @@ class Register extends React.Component {
   getRoles() {
     return ['Teaching', 'Non teaching', 'Tele caller'].map((each) => <option value={each}>{each}</option>);
   }
-  resetRegisteration = () => {
+  resetRegisteration = (result) => {
     const initialForm = {
       name: '',
       email: '',
@@ -94,9 +94,9 @@ class Register extends React.Component {
     };
     this.setState({ errors: initialForm, form: initialForm });
     if (Object.keys(this.props.formData).length === 0) {
-      alert('Registeration successfull');
+      alert(result.message);
     } else {
-      alert('update successfull');
+      alert(result.message);
     }
   }
   validateInput = (name, value) =>
@@ -106,10 +106,22 @@ class Register extends React.Component {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
         const splCharsAllowed = ['email', 'address'];
+        const noLengthRestriction = ['name'];
         // eslint-disable-next-line
         const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
         if (!splCharsAllowed.includes(name) && format.test(value)) {
           errors[name] = 'Special characters are not allowed!';
+        } else if (!noLengthRestriction.includes(name) && value.length < 6) {
+          errors[name] = 'must be atleast 6 characters';
+        } else if (name === 'phonenumber') {
+          const phoneStartChar = ['9', '8', '7', '6'];
+          if (!phoneStartChar.includes(value.charAt(0))) {
+            errors[name] = 'phone number should start with 9,8,7 or 6';
+          } else if (value.length !== 10) {
+            errors[name] = 'phone number should be in 10 characters';
+          } else {
+            errors[name] = '';
+          }
         } else if (name === 'email') {
           // eslint-disable-next-line
           const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
@@ -124,6 +136,10 @@ class Register extends React.Component {
       }
       resolve(errors);
     });
+
+  clear = () => {
+    alert('hello');
+  }
 
   render() {
     const { form, errors } = this.state;
@@ -149,6 +165,7 @@ class Register extends React.Component {
             placeholder="Enter email"
             onChange={this.onChangeText('email')}
             value={form.email}
+            clear={this.clear}
             validationState={errors.email !== '' ? 'error' : null}
             help={errors.email !== '' ? errors.email : null}
           />
@@ -209,12 +226,12 @@ class Register extends React.Component {
             onChange={this.onChangeText('role')}
             value={form.role}
             validationState={errors.role !== '' ? 'error' : null}
-            help={errors.city !== '' ? errors.city : null}
+            help={errors.role !== '' ? errors.role : null}
             options={this.getRoles()}
           />
         </Col>
         <Col lg={12} md={12} sm={12} xs={12}>
-          <Button value="register" onClick={this.onSubmit} />
+          <Button value={Object.keys(this.props.formData).length === 0 ? 'Register' : 'Update'} onClick={this.onSubmit} />
         </Col>
       </Row>
     </div>);
