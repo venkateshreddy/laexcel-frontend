@@ -52,21 +52,15 @@ class Batch extends React.Component {
     const { form } = this.state;
     const errors = { ...this.state.errors };
     Object.keys(form).map(name => {
-      this.validateInput(name, form[name]);
-      return null;
+      if (form[name] === '') {
+        errors[name] = `${startCase(name)} cannot be empty!`;
+      } else {
+        errors[name] = '';
+      }
+      return name;
     });
     const hasNoErrors = Object.keys(errors).every(name => {
-      let flag = true;
-      if (form.courseDuration === 'In Months') {
-        if (name !== 'fromDate' && name !== 'toDate') {
-          flag = errors[name] === '';
-        }
-      }
-      if (form.courseDuration === 'Between Dates') {
-        if (name !== 'months') {
-          flag = errors[name] === '';
-        }
-      }
+      const flag = errors[name] === '';
       return flag;
     });
     if (!hasNoErrors) {
@@ -142,56 +136,27 @@ class Batch extends React.Component {
   validateInput = (name, value) =>
     new Promise(resolve => {
       const errors = { ...this.state.errors };
-      const { form } = this.state;
-      if (form.courseDuration === 'In Months') {
-        if (name !== 'fromDate' && name !== 'toDate') {
-          if (value === '') {
-            errors[name] = `${startCase(name)} cannot be empty!`;
-          } else if (value !== '') {
-            // const splCharsAllowed = ['email', 'address'];
-            // eslint-disable-next-line
-            // const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-            // if (!splCharsAllowed.includes(name) && format.test(value)) {
-            //   errors[name] = 'Special characters are not allowed!';
-            // } else if (name === 'email') {
-            //   // eslint-disable-next-line
-            //   const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            //   if (!emailFormat.test(value)) {
-            //     errors[name] = 'invalid email';
-            //   } else {
-            //     errors[name] = '';
-            //   }
-            // } else {
-            //   errors[name] = '';
-            // }
-            errors[name] = '';
-          }
-        }
-      }
-      if (form.courseDuration === 'Between Dates') {
-        if (name !== 'months') {
-          if (value === '') {
-            errors[name] = `${startCase(name)} cannot be empty!`;
-          } else if (value !== '') {
-            // const splCharsAllowed = ['email', 'address'];
-            // eslint-disable-next-line
-            // const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-            // if (!splCharsAllowed.includes(name) && format.test(value)) {
-            //   errors[name] = 'Special characters are not allowed!';
-            // } else if (name === 'email') {
-            //   // eslint-disable-next-line
-            //   const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
-            //   if (!emailFormat.test(value)) {
-            //     errors[name] = 'invalid email';
-            //   } else {
-            //     errors[name] = '';
-            //   }
-            // } else {
-            //   errors[name] = '';
-            // }
-            errors[name] = '';
-          }
-        }
+      // const { form } = this.state;
+      if (value === '') {
+        errors[name] = `${startCase(name)} cannot be empty!`;
+      } else if (value !== '') {
+        errors[name] = '';
+        // const splCharsAllowed = ['email', 'address'];
+        // eslint-disable-next-line
+        // const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        // if (!splCharsAllowed.includes(name) && format.test(value)) {
+        //   errors[name] = 'Special characters are not allowed!';
+        // } else if (name === 'email') {
+        //   // eslint-disable-next-line
+        //   const emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
+        //   if (!emailFormat.test(value)) {
+        //     errors[name] = 'invalid email';
+        //   } else {
+        //     errors[name] = '';
+        //   }
+        // } else {
+        //   errors[name] = '';
+        // }
       }
       resolve(errors);
     });

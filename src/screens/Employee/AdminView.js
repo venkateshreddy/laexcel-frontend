@@ -53,6 +53,7 @@ class AdminView extends React.Component {
 
   deleteEmployee = () => {
     this.props.dispatch(deleteEmployee(this.state.selection[0]));
+    this.setState({ selection: [] });
   }
 
   toggleSelection = key => {
@@ -131,14 +132,14 @@ class AdminView extends React.Component {
             {selection.length === 1 && (
               <i
                 className="fas fa-pencil-alt"
-                title="Edit branch"
+                title="Edit employee"
                 onClick={this.openEditRegistertion}
               />
             )}
             {selection.length === 1 && (
               <i
                 className="fas fa-trash"
-                title="Delete branch"
+                title="Delete Employee"
                 onClick={this.deleteEmployee}
               />
             )}
@@ -163,6 +164,9 @@ class AdminView extends React.Component {
                 this.checkboxTable = r;
               }} // TABLE
               data={this.props.employees}
+              defaultFilterMethod={(filter, row) =>
+                (row[filter.id]).toLowerCase().includes(filter.value.toLowerCase())
+              }
               filterable={this.state.filterable}
               columns={columns}
               defaultPageSize={10}

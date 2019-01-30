@@ -62,8 +62,18 @@ class Batch extends React.Component {
     const { form } = this.state;
     const errors = { ...this.state.errors };
     Object.keys(form).map(name => {
-      this.validateInput(name, form[name]);
-      return null;
+      if (form[name] === '') {
+        errors[name] = `${startCase(name)} cannot be empty!`;
+      } else if (form[name] !== '') {
+        if (name === 'months') {
+          if (form[name] < 1) {
+            errors[name] = 'invalid month value';
+          } else {
+            errors[name] = '';
+          }
+        }
+      }
+      return name;
     });
     const hasNoErrors = Object.keys(errors).every(name => {
       let flag = true;
@@ -140,6 +150,7 @@ class Batch extends React.Component {
     new Promise(resolve => {
       const errors = { ...this.state.errors };
       const { form } = this.state;
+      console.log(form.courseDuration, 'course duration');
       if (form.courseDuration === 'In Months') {
         if (name !== 'fromDate' && name !== 'toDate') {
           if (value === '') {

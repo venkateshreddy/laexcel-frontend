@@ -40,6 +40,12 @@ class Program extends React.Component {
     const form = { ...this.state.form };
     const errors = { ...this.state.errors };
     form[name] = value;
+    console.log(name, 'on change');
+    if (name === 'gstApplicable') {
+      if (value === 'No' || value === '' || value === 'select') {
+        errors.rateOfGst = '';
+      }
+    }
     this.validateInput(name, value).then(newErrors =>
       this.setState({ errors: newErrors })
     );
@@ -50,17 +56,26 @@ class Program extends React.Component {
     const errors = { ...this.state.errors };
     Object.keys(form).map(name => {
       if (form[name] === '') {
-        errors[name] = `${startCase(name)} cannot be empty!`;
+        if (name === 'rateOfGst') {
+          if (form.gstApplicable === 'Yes') {
+            errors[name] = `${startCase(name)} cannot be empty!`;
+          } else {
+            errors[name] = '';
+          }
+        } else {
+          errors[name] = `${startCase(name)} cannot be empty!`;
+        }
       }
       return name;
     });
     const hasNoErrors = Object.keys(errors).every(name => errors[name] === '');
-    if (!hasNoErrors) {
-      this.setState({ errors });
-    }
-    console.log(form);
+    this.setState({ errors });
+    console.log(form, errors, hasNoErrors);
     if (hasNoErrors) {
       const key = '_id';
+      if (form.rateOfGst === '') {
+        form.rateOfGst = null;
+      }
       if (Object.keys(this.props.formData).length === 0) {
         this.props.dispatch(createProgram(form, this.resetRegisteration));
       } else {
@@ -94,8 +109,21 @@ class Program extends React.Component {
   validateInput = (name, value) =>
     new Promise(resolve => {
       const errors = { ...this.state.errors };
+      const form = { ...this.state.form };
       if (value === '') {
-        errors[name] = `${startCase(name)} cannot be empty!`;
+        if (name === 'rateOfGst') {
+          if (form.gstApplicable === 'Yes') {
+            errors[name] = `${startCase(name)} cannot be empty!`;
+          } else {
+            errors[name] = '';
+          }
+        } else if (name === 'gstApplicable') {
+          if (value === 'No' || value === '' || value === 'select') {
+            errors.rateOfGst = '';
+          }
+        } else {
+          errors[name] = `${startCase(name)} cannot be empty!`;
+        }
       } else if (value !== '') {
         const splCharsAllowed = ['email', 'address'];
         // eslint-disable-next-line
