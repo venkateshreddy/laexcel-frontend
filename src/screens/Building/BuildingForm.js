@@ -234,9 +234,16 @@ class BuildingForm extends Component {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
         const splCharsAllowed = ['line1', 'line2', 'line3', 'orgPan'];
-        const zeroValidation = ['totalArea', 'floorArea', 'floorsQty', 'carpetArea'];
+        const zeroValidation = [
+          'totalArea',
+          'floorArea',
+          'floorsQty',
+          'carpetArea'
+        ];
         // eslint-disable-next-line
         const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        const noSpaceFormat = /[/\s/]/;
+
         if (!splCharsAllowed.includes(name) && format.test(value)) {
           errors[name] = 'Special characters are not allowed!';
         } else if (zeroValidation.includes(name) && value === '0') {
@@ -245,6 +252,10 @@ class BuildingForm extends Component {
           errors[name] = 'Pincode must be 6 digits long!';
         } else if (name === 'orgPan' && value.length !== 10) {
           errors[name] = 'PAN must be 10 digits long!';
+        } else if (name === 'name' && noSpaceFormat.test(value)) {
+          errors[name] = 'Spaces are not allowed';
+        } else if (name === 'code' && noSpaceFormat.test(value)) {
+          errors[name] = 'Spaces are not allowed';
         } else {
           errors[name] = '';
         }

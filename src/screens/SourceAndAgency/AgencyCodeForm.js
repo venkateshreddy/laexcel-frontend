@@ -105,8 +105,13 @@ class CityForm extends Component {
       if (value === '') {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
+        const noSpaceFormat = /[/\s/]/;
         if (name === 'code' && !(value.length >= 3 && value.length <= 4)) {
           errors[name] = 'Branch code must be 3-4 digits!';
+        } else if (name === 'name' && noSpaceFormat.test(value)) {
+          errors[name] = 'Spaces are not allowed';
+        } else if (name === 'code' && noSpaceFormat.test(value)) {
+          errors[name] = 'Spaces are not allowed';
         } else {
           errors[name] = '';
         }

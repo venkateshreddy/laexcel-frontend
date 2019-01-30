@@ -95,7 +95,14 @@ class StateForm extends Component {
       if (value === '') {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
-        errors[name] = '';
+        const noSpaceFormat = /[/\s/]/;
+        if (name === 'name' && noSpaceFormat.test(value)) {
+          errors[name] = 'Spaces are not allowed';
+        } else if (name === 'code' && noSpaceFormat.test(value)) {
+          errors[name] = 'Spaces are not allowed';
+        } else {
+          errors[name] = '';
+        }
       }
       resolve(errors);
     });

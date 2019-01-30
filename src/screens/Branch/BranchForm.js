@@ -162,12 +162,17 @@ class BranchForm extends Component {
         const splCharsAllowed = ['line1', 'line2', 'line3'];
         // eslint-disable-next-line
         const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
+        const noSpaceFormat = /[/\s/]/;
         if (name === 'code' && !(value.length >= 3 && value.length <= 4)) {
           errors[name] = 'Branch code must be 3-4 digits!';
         } else if (!splCharsAllowed.includes(name) && format.test(value)) {
           errors[name] = 'Special characters are not allowed!';
         } else if (name === 'pincode' && value.length !== 6) {
           errors[name] = 'Pincode must be 6 digits long!';
+        } else if (name === 'name' && noSpaceFormat.test(value)) {
+          errors[name] = 'Spaces are not allowed';
+        } else if (name === 'code' && noSpaceFormat.test(value)) {
+          errors[name] = 'Spaces are not allowed';
         } else {
           errors[name] = '';
         }
