@@ -234,10 +234,13 @@ class BuildingForm extends Component {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
         const splCharsAllowed = ['line1', 'line2', 'line3', 'orgPan'];
+        const zeroValidation = ['totalArea', 'floorArea', 'floorsQty', 'carpetArea'];
         // eslint-disable-next-line
         const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
         if (!splCharsAllowed.includes(name) && format.test(value)) {
           errors[name] = 'Special characters are not allowed!';
+        } else if (zeroValidation.includes(name) && value === '0') {
+          errors[name] = '0 is not a valid value';
         } else if (name === 'pincode' && value.length !== 6) {
           errors[name] = 'Pincode must be 6 digits long!';
         } else if (name === 'orgPan' && value.length !== 10) {
@@ -408,6 +411,7 @@ class BuildingForm extends Component {
                 <Col lg={6} md={6} sm={6}>
                   <FieldRadio
                     id="rented"
+                    label="is Rented?"
                     checked={form.rented}
                     values={['Yes', 'No']}
                     onChange={this.onRadioSelect('rented')}

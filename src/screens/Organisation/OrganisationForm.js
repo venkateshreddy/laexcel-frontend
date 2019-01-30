@@ -139,7 +139,8 @@ class OrganisationForm extends Component {
   validateInput = (name, value) =>
     new Promise(resolve => {
       const errors = { ...this.state.errors };
-      if (value === '') {
+      console.log(value);
+      if (value === '' || value === 'select') {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
         const splCharsAllowed = ['line1', 'line2', 'line3', 'orgPan'];
@@ -179,7 +180,10 @@ class OrganisationForm extends Component {
     }
   };
 
-  closeModal = () => this.setState({ type: '', showModal: false });
+  closeModal = () => {
+    this.setState({ type: '', showModal: false });
+    this.resetForm();
+  }
 
   deleteOrganisations = () => {
     this.props.dispatch(

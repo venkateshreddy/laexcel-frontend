@@ -7,7 +7,7 @@ import {
 } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 
-const FieldGroup = ({ id, label, help, validationState, ...props }) => (
+const FieldGroup = ({ id, label, help, validationState, clear, ...props }) => (
   <FormGroup controlId={id} validationState={validationState}>
     <ControlLabel>{label}</ControlLabel>
     <FormControl {...props} />
