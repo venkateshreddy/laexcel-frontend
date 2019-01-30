@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { startCase, findIndex } from 'lodash';
+import { startCase, findIndex, reduce, map, split, capitalize } from 'lodash';
 import { connect } from 'react-redux';
 import { Row, Col, Button } from 'react-bootstrap';
 // import { DayPickerInput } from '../../components/DatePicker';
@@ -51,6 +51,9 @@ const ProgramOptions = [
   { name: 'Program 3', id: 'Program 3' }
 ];
 
+const getTitleCase = string =>
+  reduce(map(split(string, ' '), capitalize), (a, b) => `${a} ${b}`);
+
 class PreAdmissionsForm extends Component {
   state = {
     type: ADD,
@@ -101,10 +104,14 @@ class PreAdmissionsForm extends Component {
   onChangeText = name => ({ target: { value } }) => {
     const form = { ...this.state.form };
     const errors = { ...this.state.errors };
-    form[name] = value;
-    // this.validateInput(name, value).then(newErrors =>
-    //   this.setState({ errors: newErrors })
-    // );
+    if (name === 'StudentName') {
+      form[name] = getTitleCase(value);
+    } else {
+      form[name] = value;
+    }
+    this.validateInput(name, value).then(newErrors =>
+      this.setState({ errors: newErrors })
+    );
     this.setState({ form, errors });
   };
 
@@ -234,15 +241,18 @@ class PreAdmissionsForm extends Component {
       if (value === '') {
         errors[name] = `${startCase(name)} cannot be empty!`;
       } else if (value !== '') {
-        const splCharsAllowed = ['line1', 'line2', 'line3'];
+        const splCharsAllowed = ['line1', 'line2', 'line3', 'Email'];
         // eslint-disable-next-line
         const format = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/;
-        if (name === 'code' && !(value.length >= 3 && value.length <= 4)) {
-          errors[name] = 'Branch code must be 3-4 digits!';
-        } else if (!splCharsAllowed.includes(name) && format.test(value)) {
+        const emailFormat = /\S+@\S+\.\S+/;
+        if (!splCharsAllowed.includes(name) && format.test(value)) {
           errors[name] = 'Special characters are not allowed!';
         } else if (name === 'pincode' && value.length !== 6) {
           errors[name] = 'Pincode must be 6 digits long!';
+        } else if (name === 'Email' && !emailFormat.test(value)) {
+          errors[name] = 'Invalid Email Format';
+        } else if (name === 'ContactNumber' && value.length > 10) {
+          errors[name] = 'Contact Number should not exceed 10 digits';
         } else {
           errors[name] = '';
         }
@@ -442,7 +452,7 @@ class PreAdmissionsForm extends Component {
                   />
                   <FieldRadio
                     id="wetherInEmployment"
-                    label="Wether In Employment"
+                    label="Whether In Employment"
                     checked={form.wetherInEmployment}
                     values={['Yes', 'No']}
                     onChange={this.onRadioSelect('wetherInEmployment')}
