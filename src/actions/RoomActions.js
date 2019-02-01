@@ -1,6 +1,6 @@
 import { API_POST, API_GET, API_PUT } from './APIMethods';
 import { Room, ErrorType } from './ActionType';
-import { RoomURL } from './ActionURL';
+import { RoomURL, BuildingURL } from './ActionURL';
 
 export const createRoom = data => {
   const url = `${RoomURL.CREATE_ROOM}`;
@@ -84,6 +84,23 @@ export const deleteRooms = data => {
         networkError: true,
         message: 'Internal server error!'
       };
+    }
+  };
+};
+
+export const getFloorsNumbersBasedOnSelectedBuilding = id => {
+  const url = `${BuildingURL.FLOORS_BY_BUILDING}/${id}`;
+  return async dispatch => {
+    try {
+      const result = await API_GET(url);
+      if (result.error !== undefined && !result.error) {
+        dispatch({
+          type: Room.FLOORS_BY_BUILDING,
+          payload: result.payload
+        });
+      }
+    } catch (error) {
+      dispatch({ type: ErrorType.ERROR_LOG, message: error.message });
     }
   };
 };

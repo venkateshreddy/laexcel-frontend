@@ -230,7 +230,8 @@ export const BuildingURL = {
   CREATE_BUILDING: `${AppConfig.API_BASE_URL}buildings`,
   FETCH_BUILDINGS: `${AppConfig.API_BASE_URL}buildings`,
   UPDATE_BUILDING: `${AppConfig.API_BASE_URL}buildings`,
-  DELETE_BUILDING: `${AppConfig.API_BASE_URL}buildings/delete`
+  DELETE_BUILDING: `${AppConfig.API_BASE_URL}buildings/delete`,
+  FLOORS_BY_BUILDING: `${AppConfig.API_BASE_URL}buildings/floorsByBuilding`
 };
 
 export const CitiesURL = {

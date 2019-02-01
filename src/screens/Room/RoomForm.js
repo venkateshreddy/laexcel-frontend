@@ -6,7 +6,12 @@ import { SnackBar } from '../../components/SnackBar';
 import { FieldGroup, FieldSelect } from '../../components/Form';
 import { LargeModal } from '../../components/Modals';
 import './Room.scss';
-import { createRoom, deleteRooms, updateRoom } from '../../actions/RoomActions';
+import {
+  createRoom,
+  deleteRooms,
+  updateRoom,
+  getFloorsNumbersBasedOnSelectedBuilding
+} from '../../actions/RoomActions';
 import { fetchBuildingss } from '../../actions/BuildingActions';
 
 const initialForm = {
@@ -34,17 +39,17 @@ const roomUsageOptions = [
   </option>
 ];
 
-const floorNumberOptions = [
-  <option key="1" value="1">
-    1
-  </option>,
-  <option key="2" value="2">
-    2
-  </option>,
-  <option key="3" value="3">
-    3
-  </option>
-];
+// const floorNumberOptions = [
+//   <option key="1" value="1">
+//     1
+//   </option>,
+//   <option key="2" value="2">
+//     2
+//   </option>,
+//   <option key="3" value="3">
+//     3
+//   </option>
+// ];
 
 class RoomForm extends Component {
   state = {
@@ -83,6 +88,10 @@ class RoomForm extends Component {
       this.setState({ errors: newErrors })
     );
     this.setState({ form, errors });
+    // get floor numbers based on selected building
+    if (name === 'buildingName') {
+      this.props.dispatch(getFloorsNumbersBasedOnSelectedBuilding(value));
+    }
   };
 
   getOptions = (array, label, value) =>
@@ -212,7 +221,7 @@ class RoomForm extends Component {
       showFeedback,
       feedback
     } = this.state;
-    const { branches, buildings, selection } = this.props;
+    const { branches, buildings, selection, reducerForm } = this.props;
     return (
       <div>
         <div className="action-icons">
@@ -276,7 +285,11 @@ class RoomForm extends Component {
                 value={form.floorNumber}
                 validationState={errors.floorNumber !== '' ? 'error' : null}
                 help={errors.floorNumber !== '' ? errors.floorNumber : null}
-                options={floorNumberOptions}
+                options={this.getOptions(
+                  reducerForm.floorNumberOptions,
+                  'floorNo',
+                  '_id'
+                )}
               />
               <FieldGroup
                 id="roomNumber"
@@ -331,7 +344,8 @@ const mapStateToProps = state => ({
   branches: state.branch.branches,
   buildings: state.building.buildings,
   rooms: state.room.rooms,
-  currentOrganisation: state.organisations.currentOrganisation
+  currentOrganisation: state.organisations.currentOrganisation,
+  reducerForm: state.room.form
 });
 
 export default connect(mapStateToProps)(RoomForm);
